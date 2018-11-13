@@ -1,7 +1,22 @@
 <resources>
     <string name="app_name">My Application</string>
+
     <string name="action_settings">Settings</string>
     <string name="textview">TextView</string>
     <string name="dzien_miesiac">Dzień, Miesiąc</string>
     <string name="rok">Rok</string>
+
+    <string name="button_submit">DODAJ</string>
+    <string name="task_type_label">Wybierz rodzaj zadania:</string>
+    <string name="temperature_button">pomiar temperatury</string>
+    <string name="pressure_button">pomiar ciśnienia</string>
+    <string name="drug_button">lek</string>
+    <string name="task_hour_label">Godzina:</string>
+    <string name="timer_description">Zegar</string>
+    <string name="task_date_label">Data:</string>
+    <string name="date_description">Data</string>
+    <string name="task_cycle_label">ustaw zadanie cykliczne</string>
+
+
+
 </resources>

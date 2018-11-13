@@ -1,6 +1,7 @@
-package com.example.adam.myapplication;
+package com.example.adam.myapplication.mainwindow;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 
 public class MainActivity extends AppCompatActivity {
     //ZMIENNE
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                runAddTaskActivity();
             }
         });
 
@@ -117,5 +123,10 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog dialog = builder.create();
         return dialog;
+    }
+
+    private void runAddTaskActivity(){
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        startActivity(intent);
     }
 }

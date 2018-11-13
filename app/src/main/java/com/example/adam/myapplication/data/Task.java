@@ -2,15 +2,6 @@ package com.example.adam.myapplication.data;
 
 public class Task {
     private String date;
-
-    public String getHour() {
-        return hour;
-    }
-
-    public void setHour(String hour) {
-        this.hour = hour;
-    }
-
     private String hour;
     private String type;
     private boolean status;
@@ -23,6 +14,14 @@ public class Task {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
     }
 
     public String getType() {
@@ -57,8 +56,7 @@ public class Task {
         this.dose = dose;
     }
 
-    public Task(String type, String date)
-    {
+    public Task(String type, String date) {
         this.type = type;
         this.date = date;
         this.status = false;
