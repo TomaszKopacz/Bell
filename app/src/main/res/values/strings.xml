@@ -7,6 +7,7 @@
     <string name="rok">Rok</string>
 
     <string name="button_submit">DODAJ</string>
+    <string name="add_task_icon_description">Add task icon</string>
     <string name="task_type_label">Wybierz rodzaj zadania:</string>
     <string name="temperature_button">pomiar temperatury</string>
     <string name="pressure_button">pomiar ciśnienia</string>
@@ -15,8 +16,8 @@
     <string name="timer_description">Zegar</string>
     <string name="task_date_label">Data:</string>
     <string name="date_description">Data</string>
+    <string name="task_date_end_label">Data zakończenia:</string>
+    <string name="date_end_description">Data zakończenia</string>
     <string name="task_cycle_label">ustaw zadanie cykliczne</string>
-
-
 
 </resources>
