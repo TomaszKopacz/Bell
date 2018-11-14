@@ -20,4 +20,10 @@
     <string name="date_end_description">Data zakończenia</string>
     <string name="task_cycle_label">ustaw zadanie cykliczne</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="measurement">POMIAR</string>
+    <string name="pills">LEKI</string>
+    <string name="examination">WIZYTA</string>
+
 </resources>

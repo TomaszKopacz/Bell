@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".newtaskwindow.TaskTypeFragment"
+    android:orientation="vertical"
+    android:weightSum="3">
+
+    <RelativeLayout
+        android:id="@+id/measurement_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/measurement"
+            android:contentDescription="@string/measurement" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/measurement"
+            android:textColor="@android:color/white"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:background="@android:color/black"
+            android:alpha="0.6"
+            android:padding="@dimen/text_padding"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pills_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/pills"
+            android:contentDescription="@string/pills" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pills"
+            android:textColor="@android:color/white"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:background="@android:color/black"
+            android:alpha="0.6"
+            android:padding="@dimen/text_padding"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/examination_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/examination"
+            android:contentDescription="@string/examination" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/examination"
+            android:textColor="@android:color/white"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:background="@android:color/black"
+            android:alpha="0.6"
+            android:padding="@dimen/text_padding"/>
+
+    </RelativeLayout>
+</LinearLayout>
