@@ -19,7 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".newtaskwindow.AddTaskActivity"></activity>
+        <activity
+            android:name=".newtaskwindow.AddTaskActivity"
+            android:parentActivityName=".mainwindow.MainActivity">
+
+        </activity>
     </application>
 
 </manifest>

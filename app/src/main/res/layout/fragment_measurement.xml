@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/group_margin"
         android:contentDescription="@string/add_task_icon_description"
-        android:src="@mipmap/ic_task" />
+        android:src="@drawable/temperature" />
 
     <ScrollView
         android:layout_width="match_parent"

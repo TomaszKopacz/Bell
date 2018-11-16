@@ -1,11 +1,11 @@
 package com.example.adam.myapplication.newtaskwindow;
 
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -42,25 +42,47 @@ public class TaskTypeFragment extends Fragment {
     }
 
     private void setListeners() {
-        measurementView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((AddTaskActivity)getActivity()).changeFragment(new MeasurementFragment());
-            }
-        });
 
-        pillsView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((AddTaskActivity)getActivity()).changeFragment(new DrugFragment());
-            }
-        });
+        measurementView.setOnTouchListener(touchListener);
+        pillsView.setOnTouchListener(touchListener);
+        examinationView.setOnTouchListener(touchListener);
 
-        examinationView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((AddTaskActivity)getActivity()).changeFragment(new ExaminationFragment());
-            }
-        });
+        measurementView.setOnClickListener(onClickListener);
+        pillsView.setOnClickListener(onClickListener);
+        examinationView.setOnClickListener(onClickListener);
     }
+
+    private View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+
+            shadowView(view, motionEvent);
+            view.performClick();
+            return false;
+        }
+    };
+
+    private void shadowView(View view, MotionEvent motionEvent) {
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                view.setAlpha(0.9f);
+                break;
+            case MotionEvent.ACTION_UP:
+                view.setAlpha(1f);
+        }
+    }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (view == measurementView)
+                ((AddTaskActivity) getActivity()).changeFragment(new MeasurementFragment());
+
+            else if (view == pillsView)
+                ((AddTaskActivity) getActivity()).changeFragment(new DrugFragment());
+
+            else if (view == examinationView)
+                ((AddTaskActivity) getActivity()).changeFragment(new ExaminationFragment());
+        }
+    };
 }
