@@ -7,6 +7,10 @@
     <dimen name="radio_margin">8dp</dimen>
     <dimen name="box_margin">8dp</dimen>
     <dimen name="icon_margin">8dp</dimen>
+    <dimen name="input_margin">8dp</dimen>
+    <dimen name="input_little_margin">0dp</dimen>
 
     <dimen name="text_padding">6dp</dimen>
+
+    <dimen name="input_size">160dp</dimen>
 </resources>

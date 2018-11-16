@@ -1,8 +1,7 @@
 package com.example.adam.myapplication.newtaskwindow;
 
+
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,27 +15,21 @@ import com.example.adam.myapplication.R;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-public class AddTaskFragment extends Fragment {
+public class DrugTaskFragment extends Fragment {
 
     private CheckBox box;
     private ExpandableLayout expandableDateLayout;
 
-
-    public AddTaskFragment() {
+    public DrugTaskFragment() {
 
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_add_task, container, false);
+        View view = inflater.inflate(R.layout.fragment_drug_task, container, false);
 
         box = view.findViewById(R.id.cycle_check_box);
         expandableDateLayout = view.findViewById(R.id.date_expandable);
