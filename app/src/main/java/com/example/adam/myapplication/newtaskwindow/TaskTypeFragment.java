@@ -45,21 +45,21 @@ public class TaskTypeFragment extends Fragment {
         measurementView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((AddTaskActivity)getActivity()).changeFragment(new MeasurementTaskFragment());
+                ((AddTaskActivity)getActivity()).changeFragment(new MeasurementFragment());
             }
         });
 
         pillsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((AddTaskActivity)getActivity()).changeFragment(new DrugTaskFragment());
+                ((AddTaskActivity)getActivity()).changeFragment(new DrugFragment());
             }
         });
 
         examinationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("TELM", "examination");
+                ((AddTaskActivity)getActivity()).changeFragment(new ExaminationFragment());
             }
         });
     }

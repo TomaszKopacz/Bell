@@ -12,5 +12,6 @@
 
     <dimen name="text_padding">6dp</dimen>
 
-    <dimen name="input_size">160dp</dimen>
+    <dimen name="input_width">160dp</dimen>
+    <dimen name="input_height">32dp</dimen>
 </resources>
