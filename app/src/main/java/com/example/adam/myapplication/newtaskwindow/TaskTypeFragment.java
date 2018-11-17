@@ -1,6 +1,7 @@
 package com.example.adam.myapplication.newtaskwindow;
 
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -53,11 +54,12 @@ public class TaskTypeFragment extends Fragment {
     }
 
     private View.OnTouchListener touchListener = new View.OnTouchListener() {
+
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
 
             shadowView(view, motionEvent);
-            view.performClick();
             return false;
         }
     };
@@ -75,14 +77,15 @@ public class TaskTypeFragment extends Fragment {
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (view == measurementView)
+            if (view == measurementView) {
                 ((AddTaskActivity) getActivity()).changeFragment(new MeasurementFragment());
 
-            else if (view == pillsView)
+            } else if (view == pillsView) {
                 ((AddTaskActivity) getActivity()).changeFragment(new DrugFragment());
 
-            else if (view == examinationView)
+            }else if (view == examinationView) {
                 ((AddTaskActivity) getActivity()).changeFragment(new ExaminationFragment());
+            }
         }
     };
 }
