@@ -13,20 +13,29 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.data.Task;
+import com.example.adam.myapplication.data.TaskArrayAdapter;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     //ZMIENNE
     double input_value = 0;
-    ListView lista;
+    ListView list;
     TextView d_m;
-    TextView rok;
+    TextView year;
     FloatingActionButton plus;
+    ArrayList <Task> tasks;
+    private static TaskArrayAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Próbny widok");
         //VARIABLES
-        lista = (ListView) findViewById(R.id.lista);
+        list = (ListView) findViewById(R.id.lista);
         d_m = (TextView) findViewById(R.id.d_m);
-        rok = (TextView) findViewById(R.id.rok);
+        year = (TextView) findViewById(R.id.rok);
         plus = (FloatingActionButton) findViewById(R.id.fab);
-
+        tasks = new ArrayList<>();
         //ON CLICK LISTENERS
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                runAddTaskActivity();
+                startAddTaskActivity();
             }
         });
 
@@ -58,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
                 inputDialog().show();
             }
         });
+    }
+
+    private void startAddTaskActivity(){
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -83,8 +97,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
+        Task task1 = new Task("Badanie", "11:00");
+        Log.d("input_value", task1.getType());
+        tasks.add(task1);
+        createList(tasks);
     }
 
     public AlertDialog inputDialog() {
@@ -125,8 +144,10 @@ public class MainActivity extends AppCompatActivity {
         return dialog;
     }
 
-    private void runAddTaskActivity(){
-        Intent intent = new Intent(this, AddTaskActivity.class);
-        startActivity(intent);
+    public void createList (ArrayList<Task> tasks)
+    {
+        adapter= new TaskArrayAdapter(getApplicationContext(), tasks);
+        list.setAdapter(adapter);
+
     }
 }
