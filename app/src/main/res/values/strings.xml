@@ -1,7 +1,45 @@
 <resources>
     <string name="app_name">My Application</string>
+
+    <!-- MAIN ACTIVITY -->
     <string name="action_settings">Settings</string>
     <string name="textview">TextView</string>
     <string name="dzien_miesiac">Dzień, Miesiąc</string>
     <string name="rok">Rok</string>
+
+    <!-- MENUS -->
+    <string name="button_submit">DODAJ</string>
+
+    <!-- TASK TYPE FRAGMENT-->
+    <string name="measurement">POMIAR</string>
+    <string name="pills">LEKI</string>
+    <string name="examination">WIZYTA</string>
+
+    <!-- TASK GENERALS -->
+    <string name="add_task_icon_description">Add task icon</string>
+    <string name="timer_description">Zegar</string>
+    <string name="date_description">Data</string>
+    <string name="task_hour_label">Godzina:</string>
+    <string name="hr_min">%1s:%2s</string>
+    <string name="task_date_label">Data:</string>
+    <string name="task_date_end_label">Data zakończenia:</string>
+    <string name="mm_dd_yyyy">%1s-%2s-%3s</string>
+    <string name="task_cycle_label">ustaw zadanie cykliczne</string>
+
+    <!-- MEASUREMENT FRAGMENT -->
+    <string name="task_type_label">Wybierz rodzaj zadania:</string>
+    <string name="temperature_button">pomiar temperatury</string>
+    <string name="pressure_button">pomiar ciśnienia</string>
+    <string name="task_unit">Jednostka:</string>
+    <string name="unit_celsius">C</string>
+
+    <!-- DRUG FRAGMENT -->
+    <string name="drug_name_label">Podaj nazwę leku:</string>
+    <string name="drug_dose_label">Wprowadź dawkę:</string>
+
+    <!-- EXAMINATION FRAGMENT -->
+    <string name="doctor_name_label">Podaj imię i nazwisko lekarza:</string>
+    <string name="doctor_location_label">Lokalizacja:</string>
+    <string name="examination_info_label">Dodatkowe informacje:</string>
+
 </resources>

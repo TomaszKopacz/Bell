@@ -1,3 +1,17 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="group_margin">16dp</dimen>
+    <dimen name="card_margin">16dp</dimen>
+    <dimen name="label_margin">8dp</dimen>
+    <dimen name="radio_margin">8dp</dimen>
+    <dimen name="box_margin">8dp</dimen>
+    <dimen name="icon_margin">8dp</dimen>
+    <dimen name="input_margin">8dp</dimen>
+    <dimen name="input_little_margin">0dp</dimen>
+
+    <dimen name="text_padding">6dp</dimen>
+
+    <dimen name="input_width">160dp</dimen>
+    <dimen name="input_height">32dp</dimen>
 </resources>
