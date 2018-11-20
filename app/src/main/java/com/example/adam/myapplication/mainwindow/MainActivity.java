@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton plus;
     ArrayList <Task> tasks;
     private static TaskArrayAdapter adapter;
+    final Task task1 = new Task("Badanie", "11:00");
 
 
     @Override
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         year = (TextView) findViewById(R.id.rok);
         plus = (FloatingActionButton) findViewById(R.id.fab);
         tasks = new ArrayList<>();
+
         //ON CLICK LISTENERS
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +70,24 @@ public class MainActivity extends AppCompatActivity {
                 inputDialog().show();
             }
         });
+        year.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tasks.add(task1);
+                createList(tasks);
+
+            }
+        });
+        list.setLongClickable(true);
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                inputDialog().show();
+                return true;
+            }
+        });
+
     }
 
     private void startAddTaskActivity(){
@@ -100,8 +121,6 @@ public class MainActivity extends AppCompatActivity {
     public void onStart()
     {
         super.onStart();
-        Task task1 = new Task("Badanie", "11:00");
-        Log.d("input_value", task1.getType());
         tasks.add(task1);
         createList(tasks);
     }
