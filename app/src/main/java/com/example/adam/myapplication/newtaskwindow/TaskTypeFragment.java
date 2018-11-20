@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.newtaskwindow.drug.DrugFragment;
+import com.example.adam.myapplication.newtaskwindow.examination.ExaminationFragment;
+import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementFragment;
+import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementPresenterImpl;
 
 
 public class TaskTypeFragment extends Fragment {

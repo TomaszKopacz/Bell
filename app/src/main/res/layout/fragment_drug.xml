@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".newtaskwindow.DrugFragment">
+    tools:context=".newtaskwindow.drug.DrugFragment">
 
     <ImageView
         android:layout_width="wrap_content"
