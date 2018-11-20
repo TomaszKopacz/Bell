@@ -10,7 +10,7 @@ public class MeasurementPresenterImpl implements MeasurementPresenter {
     private MeasurementView view;
     private TaskRepository repository;
 
-    MeasurementPresenterImpl(MeasurementView view, TaskRepository repository){
+    public MeasurementPresenterImpl(MeasurementView view, TaskRepository repository){
         this.view = view;
         this.repository = repository;
     }
