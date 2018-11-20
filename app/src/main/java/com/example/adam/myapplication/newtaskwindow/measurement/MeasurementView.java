@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.newtaskwindow;
+package com.example.adam.myapplication.newtaskwindow.measurement;
 
 public interface MeasurementView {
 
@@ -8,10 +8,13 @@ public interface MeasurementView {
     String UNIT_mmHg = "mmHg";
 
     void setPresenter(MeasurementPresenter presenter);
+
     String getType();
     String getUnit();
     String getHour();
     String getDate();
     String getEndDate();
     boolean isCycle();
+
+    void navigateToParentView();
 }

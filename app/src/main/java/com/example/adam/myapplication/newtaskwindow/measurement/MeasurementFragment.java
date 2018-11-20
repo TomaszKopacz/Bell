@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.newtaskwindow;
+package com.example.adam.myapplication.newtaskwindow.measurement;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -110,14 +111,8 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
             if (b && compoundButton == temperatureButton) {
                 unitText.setText(MeasurementView.UNIT_C);
 
-                if (presenter != null)
-                    presenter.onMeasurementTypeChosen(MeasurementView.TYPE_TEMPERATURE);
-
             } else if (b && compoundButton == pressureButton) {
                 unitText.setText(MeasurementView.UNIT_mmHg);
-
-                if (presenter != null)
-                    presenter.onMeasurementTypeChosen(MeasurementView.TYPE_PRESSURE);
             }
         }
     };
@@ -138,7 +133,7 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
         }
     };
 
-    private void showTimePicker(){
+    private void showTimePicker() {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
@@ -172,7 +167,7 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
         }
     };
 
-    private void showDatePicker(DatePickerDialog.OnDateSetListener listener){
+    private void showDatePicker(DatePickerDialog.OnDateSetListener listener) {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
@@ -216,6 +211,15 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_submit) {
+            presenter.onSubmitButtonClicked();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void setPresenter(MeasurementPresenter presenter) {
         this.presenter = presenter;
     }
@@ -255,5 +259,10 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
     @Override
     public boolean isCycle() {
         return box.isChecked();
+    }
+
+    @Override
+    public void navigateToParentView() {
+        getActivity().finish();
     }
 }

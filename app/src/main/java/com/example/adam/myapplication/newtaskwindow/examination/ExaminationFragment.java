@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.newtaskwindow;
+package com.example.adam.myapplication.newtaskwindow.examination;
 
 
 import android.os.Bundle;
