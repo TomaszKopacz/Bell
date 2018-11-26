@@ -11,8 +11,7 @@ public class App extends Application {
     public TaskRepository getTaskRepository(){
         TaskDatabase db = TaskDatabase.getInstance(getApplicationContext());
         TaskDao dao = db.getTaskDao();
-        TaskRepository taskRepository = new TaskRepository(dao);
 
-        return taskRepository;
+        return new TaskRepository(dao);
     }
 }
