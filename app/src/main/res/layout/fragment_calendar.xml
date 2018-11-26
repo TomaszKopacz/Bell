@@ -7,6 +7,7 @@
     tools:context=".mainwindow.CalendarFragment">
 
     <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/calendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:headerColor="@color/colorPrimaryDark">
