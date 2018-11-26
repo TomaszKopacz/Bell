@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.mainwindow.CalendarFragment;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -18,12 +17,14 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     private void setDefaultFragment() {
-        changeFragment(new CalendarFragment());
+        changeFragment(new TaskTypeFragment());
     }
 
     public void changeFragment(Fragment fragment){
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
+
+        fragment.onAttach(this);
     }
 }

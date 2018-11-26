@@ -39,6 +39,6 @@ dependencies {
 
     //calendar
     def calendarVersion = "1.0.1"
+    //noinspection GradleDependency
     implementation "com.applandeo:material-calendar-view:$calendarVersion"
-
 }

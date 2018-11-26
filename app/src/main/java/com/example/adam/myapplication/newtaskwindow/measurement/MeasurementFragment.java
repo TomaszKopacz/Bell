@@ -21,6 +21,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.mainwindow.calendar.CalendarFragment;
+import com.example.adam.myapplication.mainwindow.calendar.DatePickerPresenterImpl;
+import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -264,5 +269,15 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
     @Override
     public void navigateToParentView() {
         getActivity().finish();
+    }
+
+    @Override
+    public void goToCalendar() {
+        createCalendarContract();
+    }
+
+    private void createCalendarContract() {
+        CalendarFragment fragment = new CalendarFragment();
+        ((AddTaskActivity) getActivity()).changeFragment(fragment);
     }
 }
