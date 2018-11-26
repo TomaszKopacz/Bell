@@ -9,17 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 
 import java.util.List;
 
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends Fragment implements CalendarView {
 
     private Activity activity;
-    private CalendarView calendarView;
+    private com.applandeo.materialcalendarview.CalendarView calendarView;
 
     public CalendarFragment() {
 
@@ -38,16 +37,11 @@ public class CalendarFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendarView = view.findViewById(R.id.calendar);
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        DatePickerPresenterImpl presenter = new DatePickerPresenterImpl(this,
+        CalendarPresenterImpl presenter = new CalendarPresenterImpl(this,
                 ((App)activity.getApplication()).getTaskRepository());
-        presenter.initializeTasks();
+        presenter.presentTasks();
+
+        return view;
     }
 
     @Override
@@ -55,6 +49,7 @@ public class CalendarFragment extends Fragment {
         return activity;
     }
 
+    @Override
     public void displayTasks(List<EventDay> tasks){
         calendarView.setEvents(tasks);
     }

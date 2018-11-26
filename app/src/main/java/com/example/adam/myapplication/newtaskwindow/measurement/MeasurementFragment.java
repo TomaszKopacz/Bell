@@ -21,10 +21,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.mainwindow.calendar.CalendarFragment;
-import com.example.adam.myapplication.mainwindow.calendar.DatePickerPresenterImpl;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
