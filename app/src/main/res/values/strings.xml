@@ -7,7 +7,7 @@
     <string name="dzien_miesiac">Dzień, Miesiąc</string>
     <string name="rok">Rok</string>
 
-    <!-- MENUS -->
+    <!-- MENU -->
     <string name="button_submit">DODAJ</string>
 
     <!-- TASK TYPE FRAGMENT-->
@@ -15,15 +15,13 @@
     <string name="pills">LEKI</string>
     <string name="examination">WIZYTA</string>
 
-    <!-- TASK GENERALS -->
+    <!-- TASK FRAGMENTS - GENERAL -->
     <string name="add_task_icon_description">Add task icon</string>
-    <string name="timer_description">Zegar</string>
     <string name="date_description">Data</string>
+    <string name="timer_description">Zegar</string>
     <string name="task_hour_label">Godzina:</string>
-    <string name="hr_min">%1s:%2s</string>
     <string name="task_date_label">Data:</string>
     <string name="task_date_end_label">Data zakończenia:</string>
-    <string name="mm_dd_yyyy">%1s-%2s-%3s</string>
     <string name="task_cycle_label">ustaw zadanie cykliczne</string>
 
     <!-- MEASUREMENT FRAGMENT -->
@@ -41,5 +39,4 @@
     <string name="doctor_name_label">Podaj imię i nazwisko lekarza:</string>
     <string name="doctor_location_label">Lokalizacja:</string>
     <string name="examination_info_label">Dodatkowe informacje:</string>
-
 </resources>

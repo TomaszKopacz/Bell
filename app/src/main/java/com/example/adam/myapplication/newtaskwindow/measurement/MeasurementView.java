@@ -17,4 +17,7 @@ public interface MeasurementView {
     boolean isCycle();
 
     void navigateToParentView();
+
+    // TEST - to remove
+    void goToCalendar();
 }

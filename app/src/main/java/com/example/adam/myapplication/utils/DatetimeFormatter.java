@@ -1,7 +1,5 @@
 package com.example.adam.myapplication.utils;
 
-import com.example.adam.myapplication.R;
-
 public class DatetimeFormatter {
 
     public static String getDateFormatted(int year, int month, int day) {
@@ -13,7 +11,7 @@ public class DatetimeFormatter {
         String dayString = (day < 10) ?
                 "0" + day : Integer.toString(day);
 
-        return dayString + "-" + monthString + ":" + yearString;
+        return dayString + "-" + monthString + "-" + yearString;
     }
 
     public static String getTimeFormatted(int hour, int minute){

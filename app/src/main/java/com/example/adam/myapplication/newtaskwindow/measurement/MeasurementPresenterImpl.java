@@ -20,7 +20,8 @@ public class MeasurementPresenterImpl implements MeasurementPresenter {
         Task task = createTask();
         repository.insert(task);
 
-        view.navigateToParentView();
+//        view.navigateToParentView();
+        view.goToCalendar();
     }
 
     @NonNull

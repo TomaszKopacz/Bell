@@ -36,4 +36,9 @@ dependencies {
     def roomVersion = "1.1.1"
     implementation "android.arch.persistence.room:runtime:$roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
+
+    //calendar
+    def calendarVersion = "1.0.1"
+    //noinspection GradleDependency
+    implementation "com.applandeo:material-calendar-view:$calendarVersion"
 }
