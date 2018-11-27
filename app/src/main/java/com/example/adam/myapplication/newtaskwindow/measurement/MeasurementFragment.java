@@ -215,7 +215,8 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_submit) {
-            presenter.onSubmitButtonClicked();
+            if (presenter != null)
+                presenter.onSubmitButtonClicked();
         }
 
         return super.onOptionsItemSelected(item);

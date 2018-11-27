@@ -15,6 +15,7 @@ import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.drug.DrugFragment;
 import com.example.adam.myapplication.newtaskwindow.examination.ExaminationFragment;
+import com.example.adam.myapplication.newtaskwindow.examination.ExaminationPresenterImpl;
 import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementFragment;
 import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementPresenterImpl;
 
@@ -90,7 +91,7 @@ public class TaskTypeFragment extends Fragment {
                 ((AddTaskActivity) getActivity()).changeFragment(new DrugFragment());
 
             }else if (view == examinationView) {
-                ((AddTaskActivity) getActivity()).changeFragment(new ExaminationFragment());
+                createExaminationContract();
             }
         }
     };
@@ -99,6 +100,15 @@ public class TaskTypeFragment extends Fragment {
         MeasurementFragment fragment = new MeasurementFragment();
         TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
         MeasurementPresenterImpl presenter = new MeasurementPresenterImpl(fragment, repository);
+
+        fragment.setPresenter(presenter);
+        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+    }
+
+    private void createExaminationContract() {
+        ExaminationFragment fragment = new ExaminationFragment();
+        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+        ExaminationPresenterImpl presenter = new ExaminationPresenterImpl(fragment, repository);
 
         fragment.setPresenter(presenter);
         ((AddTaskActivity) getActivity()).changeFragment(fragment);

@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton plus;
     ArrayList <Task> tasks;
     private static TaskArrayAdapter adapter;
-    final Task task1 = new Task("Badanie", "11:00");
+    final Task task1 = new Task("Badanie", "11:00", "12-12-18");
 
 
     @Override
