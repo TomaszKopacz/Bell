@@ -39,4 +39,6 @@
     <string name="doctor_name_label">Podaj imię i nazwisko lekarza:</string>
     <string name="doctor_location_label">Lokalizacja:</string>
     <string name="examination_info_label">Dodatkowe informacje:</string>
+    <string name="unit_mg">mg</string>
+    <string name="unit_description">unit_icon_description</string>
 </resources>
