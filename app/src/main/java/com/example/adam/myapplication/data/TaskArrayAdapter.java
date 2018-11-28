@@ -14,9 +14,9 @@ import java.util.List;
 
 public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClickListener{
     private final Context context;
-    private ArrayList<Task> tasks;
+    private List<Task> tasks;
 
-    public TaskArrayAdapter(Context context, ArrayList <Task> tasks) {
+    public TaskArrayAdapter(Context context, List <Task> tasks) {
         super(context, R.layout.list_view_line, tasks);
         this.context = context;
         this.tasks = tasks;

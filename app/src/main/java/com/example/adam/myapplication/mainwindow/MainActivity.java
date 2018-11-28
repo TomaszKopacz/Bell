@@ -1,8 +1,12 @@
 package com.example.adam.myapplication.mainwindow;
 
+import android.annotation.TargetApi;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -20,13 +24,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskArrayAdapter;
+import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
-
+@TargetApi(24)
 public class MainActivity extends AppCompatActivity {
     //ZMIENNE
     double input_value = 0;
@@ -34,32 +43,28 @@ public class MainActivity extends AppCompatActivity {
     TextView d_m;
     TextView year;
     FloatingActionButton plus;
-    ArrayList <Task> tasks;
     private static TaskArrayAdapter adapter;
-    final Task task1 = new Task("Badanie", "11:00");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //  SET VIEW
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Próbny widok");
-        //VARIABLES
+
+        //  VARIABLES
         list = (ListView) findViewById(R.id.lista);
         d_m = (TextView) findViewById(R.id.d_m);
         year = (TextView) findViewById(R.id.rok);
         plus = (FloatingActionButton) findViewById(R.id.fab);
-        tasks = new ArrayList<>();
 
-        //ON CLICK LISTENERS
+        //  ON CLICK LISTENERS
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
                 startAddTaskActivity();
             }
         });
@@ -73,22 +78,21 @@ public class MainActivity extends AppCompatActivity {
         year.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tasks.add(task1);
-                createList(tasks);
-
+                //tasks.add(task1);
+                //createList(tasks);
             }
         });
+
         list.setLongClickable(true);
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 inputDialog().show();
                 return true;
             }
         });
-
     }
+
 
     private void startAddTaskActivity(){
         Intent intent = new Intent(this, AddTaskActivity.class);
@@ -100,6 +104,28 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        downloadTasks();
+        setCurrentDate();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        downloadTasks();
+        setCurrentDate();
+    }
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        downloadTasks();
+        setCurrentDate();
     }
 
     @Override
@@ -117,14 +143,39 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        tasks.add(task1);
-        createList(tasks);
+    public void downloadTasks(){
+        TaskRepository repository = ((App)getApplication()).getTaskRepository();
+        repository.gatAll().observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(@Nullable List<Task> tasks) {
+                createList(tasks);
+            }
+        });
     }
 
+    public void createList(List<Task> tasks)
+    {
+        //sortTasks(tasks);
+        adapter = new TaskArrayAdapter(getApplicationContext(), tasks);
+        list.setAdapter(adapter);
+
+    }
+
+    public void sortTasks( ArrayList <Task> tasks)
+    {
+        tasks.sort(tasksComparator);
+    }
+    public static Comparator<Task> tasksComparator = new Comparator<Task>() {
+
+        public int compare(Task task1, Task task2) {
+           // String StudentName1 = s1.getStudentname().toUpperCase();
+            //String StudentName2 = s2.getStudentname().toUpperCase();
+            String task1Hour = task1.getHour().toUpperCase();
+            String task2Hour = task2.getHour().toUpperCase();
+            //ascending order
+            return task1Hour.compareTo(task2Hour);
+
+        }};
     public AlertDialog inputDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Wprowadź wartość");
@@ -162,11 +213,13 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         return dialog;
     }
-
-    public void createList (ArrayList<Task> tasks)
-    {
-        adapter= new TaskArrayAdapter(getApplicationContext(), tasks);
-        list.setAdapter(adapter);
-
+    private void setCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        String currentYear = currentDate.substring(currentDate.length()-4, currentDate.length());
+        currentDate = currentDate.substring(0, currentDate.length()-6);
+        d_m.setText(currentDate);
+        year.setText(currentYear);
     }
+
 }
