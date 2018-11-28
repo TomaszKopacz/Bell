@@ -66,9 +66,10 @@ public class Task {
 
     }
 
-    public Task(String type, String date) {
+    public Task(String type, String date, String hour) {
         this.type = type;
         this.date = date;
+        this.hour = hour;
     }
 
     public int getId() {

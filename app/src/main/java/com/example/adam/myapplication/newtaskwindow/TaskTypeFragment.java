@@ -1,6 +1,5 @@
 package com.example.adam.myapplication.newtaskwindow;
 
-
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -15,10 +14,11 @@ import com.example.adam.myapplication.app.App;
 
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.drug.DrugFragment;
+import com.example.adam.myapplication.newtaskwindow.drug.DrugPresenterImpl;
 import com.example.adam.myapplication.newtaskwindow.examination.ExaminationFragment;
+import com.example.adam.myapplication.newtaskwindow.examination.ExaminationPresenterImpl;
 import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementFragment;
 import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementPresenterImpl;
-
 
 public class TaskTypeFragment extends Fragment {
 
@@ -29,7 +29,6 @@ public class TaskTypeFragment extends Fragment {
     public TaskTypeFragment() {
 
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -50,7 +49,6 @@ public class TaskTypeFragment extends Fragment {
     }
 
     private void setListeners() {
-
         measurementView.setOnTouchListener(touchListener);
         pillsView.setOnTouchListener(touchListener);
         examinationView.setOnTouchListener(touchListener);
@@ -65,7 +63,6 @@ public class TaskTypeFragment extends Fragment {
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-
             shadowView(view, motionEvent);
             return false;
         }
@@ -88,18 +85,36 @@ public class TaskTypeFragment extends Fragment {
                 createMeasurementContract();
 
             } else if (view == pillsView) {
-                ((AddTaskActivity) getActivity()).changeFragment(new DrugFragment());
+                createDrugContract();
 
-            }else if (view == examinationView) {
-                ((AddTaskActivity) getActivity()).changeFragment(new ExaminationFragment());
+            } else if (view == examinationView) {
+                createExaminationContract();
             }
         }
     };
 
     private void createMeasurementContract() {
         MeasurementFragment fragment = new MeasurementFragment();
-        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
         MeasurementPresenterImpl presenter = new MeasurementPresenterImpl(fragment, repository);
+
+        fragment.setPresenter(presenter);
+        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+    }
+
+    private void createDrugContract() {
+        DrugFragment fragment = new DrugFragment();
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+        DrugPresenterImpl presenter = new DrugPresenterImpl(fragment, repository);
+
+        fragment.setPresenter(presenter);
+        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+    }
+
+    private void createExaminationContract() {
+        ExaminationFragment fragment = new ExaminationFragment();
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+        ExaminationPresenterImpl presenter = new ExaminationPresenterImpl(fragment, repository);
 
         fragment.setPresenter(presenter);
         ((AddTaskActivity) getActivity()).changeFragment(fragment);

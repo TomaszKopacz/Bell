@@ -1,16 +1,16 @@
-package com.example.adam.myapplication.newtaskwindow.measurement;
+package com.example.adam.myapplication.newtaskwindow.drug;
 
 import android.support.annotation.NonNull;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 
-public class MeasurementPresenterImpl implements MeasurementPresenter {
+public class DrugPresenterImpl implements DrugPresenter{
 
-    private MeasurementView view;
+    private DrugView view;
     private TaskRepository repository;
 
-    public MeasurementPresenterImpl(MeasurementView view, TaskRepository repository){
+    public DrugPresenterImpl(DrugView view, TaskRepository repository){
         this.view = view;
         this.repository = repository;
     }
@@ -26,13 +26,15 @@ public class MeasurementPresenterImpl implements MeasurementPresenter {
 
     @NonNull
     private Task createTask() {
-        String type = view.getType();
-        String hour = view.getHour();
+        String type = Task.DRUG;
+        String hour = view.getTime();
         String date = view.getDate();
-        String unit = view.getUnit();
+        String drug = view.getDrug();
+        String dose = view.getDose();
 
         Task task = new Task(type, date, hour);
-        task.setUnit(unit);
+        task.setDrugName(drug);
+        task.setDose(Double.parseDouble(dose));
 
         return task;
     }

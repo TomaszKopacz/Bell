@@ -37,6 +37,7 @@
                     android:text="@string/drug_name_label" />
 
                 <EditText
+                    android:id="@+id/drug"
                     android:layout_width="@dimen/input_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -56,6 +57,7 @@
                     android:text="@string/drug_dose_label" />
 
                 <EditText
+                    android:id="@+id/dose"
                     android:layout_width="@dimen/input_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -82,7 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/icon_margin"
-                        android:contentDescription="@string/timer_description"
+                        android:contentDescription="@string/unit_description"
                         android:src="@drawable/ic_unit" />
 
                     <TextView
@@ -97,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin"
-                        android:text="@string/unit_celsius" />
+                        android:text="@string/unit_mg" />
 
                 </LinearLayout>
 
