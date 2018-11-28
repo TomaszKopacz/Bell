@@ -1,9 +1,12 @@
 package com.example.adam.myapplication.mainwindow;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -21,8 +24,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskArrayAdapter;
+import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 
 import java.text.DateFormat;
@@ -38,10 +43,7 @@ public class MainActivity extends AppCompatActivity {
     TextView d_m;
     TextView year;
     FloatingActionButton plus;
-    ArrayList <Task> tasks;
     private static TaskArrayAdapter adapter;
-    final Task task1 = new Task("Badanie1", "12:00");
-    final Task task2 = new Task("Badanie2", "11:00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         d_m = (TextView) findViewById(R.id.d_m);
         year = (TextView) findViewById(R.id.rok);
         plus = (FloatingActionButton) findViewById(R.id.fab);
-        tasks = new ArrayList<>();
 
         //  ON CLICK LISTENERS
         plus.setOnClickListener(new View.OnClickListener() {
@@ -110,22 +111,20 @@ public class MainActivity extends AppCompatActivity {
     public void onStart()
     {
         super.onStart();
-        tasks.add(task1);
-        tasks.add(task2);
-        createList(tasks);
+        downloadTasks();
         setCurrentDate();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        createList(tasks);
+        downloadTasks();
         setCurrentDate();
     }
     @Override
     public void onRestart() {
         super.onRestart();
-        createList(tasks);
+        downloadTasks();
         setCurrentDate();
     }
 
@@ -144,10 +143,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void createList (ArrayList<Task> tasks)
+    public void downloadTasks(){
+        TaskRepository repository = ((App)getApplication()).getTaskRepository();
+        repository.gatAll().observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(@Nullable List<Task> tasks) {
+                createList(tasks);
+            }
+        });
+    }
+
+    public void createList(List<Task> tasks)
     {
         //sortTasks(tasks);
-        adapter= new TaskArrayAdapter(getApplicationContext(), tasks);
+        adapter = new TaskArrayAdapter(getApplicationContext(), tasks);
         list.setAdapter(adapter);
 
     }
