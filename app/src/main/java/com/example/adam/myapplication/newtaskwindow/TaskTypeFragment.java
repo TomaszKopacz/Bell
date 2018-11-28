@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.Task;
+import com.example.adam.myapplication.data.TaskRepository;
 
 
 public class TaskTypeFragment extends Fragment {
@@ -78,7 +81,7 @@ public class TaskTypeFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if (view == measurementView) {
-                ((AddTaskActivity) getActivity()).changeFragment(new MeasurementFragment());
+                createMeasurementContract();
 
             } else if (view == pillsView) {
                 ((AddTaskActivity) getActivity()).changeFragment(new DrugFragment());
@@ -88,4 +91,13 @@ public class TaskTypeFragment extends Fragment {
             }
         }
     };
+
+    private void createMeasurementContract() {
+        MeasurementFragment fragment = new MeasurementFragment();
+        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+        MeasurementPresenterImpl presenter = new MeasurementPresenterImpl(fragment, repository);
+
+        fragment.setPresenter(presenter);
+        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+    }
 }

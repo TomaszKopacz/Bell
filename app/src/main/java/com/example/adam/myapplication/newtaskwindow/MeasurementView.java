@@ -8,10 +8,13 @@ public interface MeasurementView {
     String UNIT_mmHg = "mmHg";
 
     void setPresenter(MeasurementPresenter presenter);
+
     String getType();
     String getUnit();
     String getHour();
     String getDate();
     String getEndDate();
     boolean isCycle();
+
+    void navigateToParentView();
 }
