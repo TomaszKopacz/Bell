@@ -48,7 +48,6 @@ public class TaskTypeFragment extends Fragment {
     }
 
     private void setListeners() {
-
         measurementView.setOnTouchListener(touchListener);
         pillsView.setOnTouchListener(touchListener);
         examinationView.setOnTouchListener(touchListener);
@@ -63,7 +62,6 @@ public class TaskTypeFragment extends Fragment {
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-
             shadowView(view, motionEvent);
             return false;
         }
