@@ -2,11 +2,11 @@ package com.example.adam.myapplication.newtaskwindow.examination;
 
 
 import android.app.DatePickerDialog;
+import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,31 +22,32 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.mainwindow.calendar.CalendarFragment;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
+import com.example.adam.myapplication.utils.DatetimePicker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import java.util.Calendar;
+public class ExaminationFragment extends Fragment implements ExaminationContract.ExaminationView {
 
-public class ExaminationFragment extends Fragment implements ExaminationView {
+    private ExaminationContract.ExaminationPresenter presenter;
 
-    private ExaminationPresenter presenter;
-
-    private EditText doctorView;
-    private EditText locationView;
-    private EditText infoView;
+    private EditText doctorText;
+    private EditText locationText;
+    private EditText infoText;
 
     private ImageView timeIcon;
-    private TextView timeView;
+    private TextView timeText;
 
     private ImageView dateIcon;
-    private TextView dateView;
+    private TextView dateText;
 
     private ExpandableLayout expandableDateLayout;
     private ImageView endDateIcon;
-    private TextView endDateView;
+    private TextView endDateText;
 
     private CheckBox isCycleCheckBox;
 
@@ -66,27 +67,33 @@ public class ExaminationFragment extends Fragment implements ExaminationView {
         View view = inflater.inflate(R.layout.fragment_examination, container, false);
 
         getComponents(view);
+        setPresenter();
         setListeners();
 
         return view;
     }
 
     private void getComponents(View view) {
-        doctorView = view.findViewById(R.id.doctor);
-        locationView = view.findViewById(R.id.location);
-        infoView = view.findViewById(R.id.info);
+        doctorText = view.findViewById(R.id.doctor);
+        locationText = view.findViewById(R.id.location);
+        infoText = view.findViewById(R.id.info);
 
         timeIcon = view.findViewById(R.id.time_icon);
-        timeView = view.findViewById(R.id.time);
+        timeText = view.findViewById(R.id.time);
 
         dateIcon = view.findViewById(R.id.date_icon);
-        dateView = view.findViewById(R.id.date);
+        dateText = view.findViewById(R.id.date);
 
         expandableDateLayout = view.findViewById(R.id.date_expandable);
         endDateIcon = view.findViewById(R.id.date_end_icon);
-        endDateView = view.findViewById(R.id.date_end);
+        endDateText = view.findViewById(R.id.date_end);
 
         isCycleCheckBox = view.findViewById(R.id.cycle_check_box);
+    }
+
+    public void setPresenter() {
+        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+        this.presenter = new ExaminationPresenter(this, repository);
     }
 
     private void setListeners() {
@@ -100,25 +107,15 @@ public class ExaminationFragment extends Fragment implements ExaminationView {
             = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            showTimePicker();
+            DatetimePicker.showTimePicker(getActivity(), timeSetListener);
         }
     };
-
-    private void showTimePicker() {
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-
-        TimePickerDialog dialog = new TimePickerDialog(getActivity(),
-                timeSetListener, hour, minute, true);
-        dialog.show();
-    }
 
     private TimePickerDialog.OnTimeSetListener timeSetListener
             = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-            timeView.setText(DatetimeFormatter.getTimeFormatted(hour, minute));
+            timeText.setText(DatetimeFormatter.getTimeFormatted(hour, minute));
         }
     };
 
@@ -126,7 +123,15 @@ public class ExaminationFragment extends Fragment implements ExaminationView {
             = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            showDatePicker(dateSetListener);
+            DatetimePicker.showDatePicker(getActivity(), dateSetListener);
+        }
+    };
+
+    private DatePickerDialog.OnDateSetListener dateSetListener
+            = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+            dateText.setText(DatetimeFormatter.getDateFormatted(year, month, day));
         }
     };
 
@@ -134,25 +139,7 @@ public class ExaminationFragment extends Fragment implements ExaminationView {
             = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            showDatePicker(endDateSetListener);
-        }
-    };
-
-    private void showDatePicker(DatePickerDialog.OnDateSetListener listener) {
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-        DatePickerDialog dialog = new DatePickerDialog(getActivity(), listener, year, month, day);
-        dialog.show();
-    }
-
-    private DatePickerDialog.OnDateSetListener dateSetListener
-            = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            dateView.setText(DatetimeFormatter.getDateFormatted(year, month, day));
+            DatetimePicker.showDatePicker(getActivity(), endDateSetListener);
         }
     };
 
@@ -160,7 +147,7 @@ public class ExaminationFragment extends Fragment implements ExaminationView {
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            endDateView.setText(DatetimeFormatter.getDateFormatted(year, month, day));
+            endDateText.setText(DatetimeFormatter.getDateFormatted(year, month, day));
         }
     };
 
@@ -183,50 +170,76 @@ public class ExaminationFragment extends Fragment implements ExaminationView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_submit) {
-            if (presenter != null)
+            if (presenter != null) {
                 presenter.onSubmitButtonClicked();
+                goToCalendar();
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void setPresenter(ExaminationPresenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public String getDoctor() {
-        return doctorView.getText().toString();
+        return doctorText.getText().toString();
     }
 
     @Override
     public String getLocation() {
-        return locationView.getText().toString();
+        return locationText.getText().toString();
     }
 
     @Override
     public String getInfo() {
-        return infoView.getText().toString();
+        return infoText.getText().toString();
     }
 
     @Override
     public String getTime() {
-        return timeView.getText().toString();
+        return timeText.getText().toString();
     }
 
     @Override
     public String getDate() {
-        return dateView.getText().toString();
+        return dateText.getText().toString();
     }
 
     @Override
     public String getEndDate() {
-        return endDateView.getText().toString();
+        return endDateText.getText().toString();
     }
 
     @Override
-    public void goToCalendar() {
+    public void setDoctor(String doctor) {
+        doctorText.setText(doctor);
+    }
+
+    @Override
+    public void setLocation(String location) {
+        locationText.setText(location);
+    }
+
+    @Override
+    public void setInfo(String info) {
+        infoText.setText(info);
+    }
+
+    @Override
+    public void setTime(String time) {
+        timeText.setText(time);
+    }
+
+    @Override
+    public void setDate(String date) {
+        dateText.setText(date);
+    }
+
+    @Override
+    public void setEndDate(String endDate) {
+        endDateText.setText(endDate);
+    }
+
+    private void goToCalendar() {
         createCalendarContract();
     }
 

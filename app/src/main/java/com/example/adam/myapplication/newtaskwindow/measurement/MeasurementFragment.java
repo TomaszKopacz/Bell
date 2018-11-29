@@ -21,17 +21,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.Task;
+import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.mainwindow.calendar.CalendarFragment;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
+import com.example.adam.myapplication.utils.DatetimePicker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import java.util.Calendar;
+public class MeasurementFragment extends Fragment implements MeasurementContract.MeasurementView {
 
-public class MeasurementFragment extends Fragment implements MeasurementView {
-
-    private MeasurementPresenter presenter;
+    private MeasurementContract.MeasurementPresenter presenter;
 
     private RadioButton temperatureButton;
     private RadioButton pressureButton;
@@ -69,6 +71,7 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
         View view = inflater.inflate(R.layout.fragment_measurement, container, false);
 
         getComponents(view);
+        setPresenter();
         setListeners();
 
         return view;
@@ -94,6 +97,12 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
         box = view.findViewById(R.id.cycle_check_box);
     }
 
+    public void setPresenter() {
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+        this.presenter = new MeasurementPresenter(this, repository);
+    }
+
+
     private void setListeners() {
         temperatureButton.setOnCheckedChangeListener(radioListener);
         pressureButton.setOnCheckedChangeListener(radioListener);
@@ -111,10 +120,10 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if (b && compoundButton == temperatureButton) {
-                unitText.setText(MeasurementView.UNIT_C);
+                setUnit(MeasurementContract.MeasurementView.UNIT_C);
 
             } else if (b && compoundButton == pressureButton) {
-                unitText.setText(MeasurementView.UNIT_mmHg);
+                setUnit(MeasurementContract.MeasurementView.UNIT_mmHg);
             }
         }
     };
@@ -131,25 +140,15 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
             = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            showTimePicker();
+            DatetimePicker.showTimePicker(getActivity(), timeSetListener);
         }
     };
-
-    private void showTimePicker() {
-        Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-
-        TimePickerDialog dialog = new TimePickerDialog(getActivity(),
-                timeSetListener, hour, minute, true);
-        dialog.show();
-    }
 
     private TimePickerDialog.OnTimeSetListener timeSetListener
             = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-            hourText.setText(DatetimeFormatter.getTimeFormatted(hour, minute));
+            setHour(DatetimeFormatter.getTimeFormatted(hour, minute));
         }
     };
 
@@ -157,7 +156,15 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
             = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            showDatePicker(dateSetListener);
+            DatetimePicker.showDatePicker(getActivity(), dateSetListener);
+        }
+    };
+
+    private DatePickerDialog.OnDateSetListener dateSetListener
+            = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+            setDate(DatetimeFormatter.getDateFormatted(year, month, day));
         }
     };
 
@@ -165,25 +172,7 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
             = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            showDatePicker(endDateSetListener);
-        }
-    };
-
-    private void showDatePicker(DatePickerDialog.OnDateSetListener listener) {
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-        DatePickerDialog dialog = new DatePickerDialog(getActivity(), listener, year, month, day);
-        dialog.show();
-    }
-
-    private DatePickerDialog.OnDateSetListener dateSetListener
-            = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            dateText.setText(DatetimeFormatter.getDateFormatted(year, month, day));
+            DatetimePicker.showDatePicker(getActivity(), endDateSetListener);
         }
     };
 
@@ -191,7 +180,7 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            endDateText.setText(DatetimeFormatter.getDateFormatted(year, month, day));
+            setEndDate(DatetimeFormatter.getDateFormatted(year, month, day));
         }
     };
 
@@ -215,25 +204,22 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_submit) {
-            if (presenter != null)
+            if (presenter != null) {
                 presenter.onSubmitButtonClicked();
+                goToCalendar();
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void setPresenter(MeasurementPresenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public String getType() {
         if (temperatureButton.isChecked())
-            return MeasurementView.TYPE_TEMPERATURE;
+            return Task.MEASUREMENT_TEMPERATURE;
 
         else if (pressureButton.isChecked())
-            return MeasurementView.TYPE_PRESSURE;
+            return Task.MEASUREMENT_PRESSURE;
 
         else
             return null;
@@ -265,12 +251,48 @@ public class MeasurementFragment extends Fragment implements MeasurementView {
     }
 
     @Override
-    public void navigateToParentView() {
-        getActivity().finish();
+    public void setType(String type) {
+        switch (type) {
+            case Task.MEASUREMENT_TEMPERATURE:
+                temperatureButton.setChecked(true);
+                break;
+
+            case Task.MEASUREMENT_PRESSURE:
+                pressureButton.setChecked(true);
+                break;
+        }
     }
 
     @Override
-    public void goToCalendar() {
+    public void setUnit(String unit) {
+        unitText.setText(unit);
+    }
+
+    @Override
+    public void setHour(String hour) {
+        hourText.setText(hour);
+    }
+
+    @Override
+    public void setDate(String date) {
+        dateText.setText(date);
+    }
+
+    @Override
+    public void setEndDate(String endDate) {
+        endDateText.setText(endDate);
+    }
+
+    @Override
+    public void setIsCycle(boolean b) {
+        box.setChecked(b);
+    }
+
+    private void navigateToParentView() {
+        getActivity().finish();
+    }
+
+    private void goToCalendar() {
         createCalendarContract();
     }
 

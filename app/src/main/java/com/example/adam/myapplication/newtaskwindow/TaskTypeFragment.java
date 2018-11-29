@@ -10,20 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.app.App;
 
-import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.drug.DrugFragment;
-import com.example.adam.myapplication.newtaskwindow.drug.DrugPresenterImpl;
 import com.example.adam.myapplication.newtaskwindow.examination.ExaminationFragment;
-import com.example.adam.myapplication.newtaskwindow.examination.ExaminationPresenterImpl;
 import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementFragment;
-import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementPresenterImpl;
 
 public class TaskTypeFragment extends Fragment {
 
     private View measurementView;
-    private View pillsView;
+    private View drugView;
     private View examinationView;
 
     public TaskTypeFragment() {
@@ -44,17 +39,17 @@ public class TaskTypeFragment extends Fragment {
 
     private void getLayoutViews(View view) {
         measurementView = view.findViewById(R.id.measurement_view);
-        pillsView = view.findViewById(R.id.pills_view);
+        drugView = view.findViewById(R.id.pills_view);
         examinationView = view.findViewById(R.id.examination_view);
     }
 
     private void setListeners() {
         measurementView.setOnTouchListener(touchListener);
-        pillsView.setOnTouchListener(touchListener);
+        drugView.setOnTouchListener(touchListener);
         examinationView.setOnTouchListener(touchListener);
 
         measurementView.setOnClickListener(onClickListener);
-        pillsView.setOnClickListener(onClickListener);
+        drugView.setOnClickListener(onClickListener);
         examinationView.setOnClickListener(onClickListener);
     }
 
@@ -82,41 +77,29 @@ public class TaskTypeFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if (view == measurementView) {
-                createMeasurementContract();
+                showMeasurementView();
 
-            } else if (view == pillsView) {
-                createDrugContract();
+            } else if (view == drugView) {
+                showDrugView();
 
             } else if (view == examinationView) {
-                createExaminationContract();
+                showExaminationView();
             }
         }
     };
 
-    private void createMeasurementContract() {
+    private void showMeasurementView() {
         MeasurementFragment fragment = new MeasurementFragment();
-        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        MeasurementPresenterImpl presenter = new MeasurementPresenterImpl(fragment, repository);
-
-        fragment.setPresenter(presenter);
         ((AddTaskActivity) getActivity()).changeFragment(fragment);
     }
 
-    private void createDrugContract() {
+    private void showDrugView() {
         DrugFragment fragment = new DrugFragment();
-        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        DrugPresenterImpl presenter = new DrugPresenterImpl(fragment, repository);
-
-        fragment.setPresenter(presenter);
         ((AddTaskActivity) getActivity()).changeFragment(fragment);
     }
 
-    private void createExaminationContract() {
+    private void showExaminationView() {
         ExaminationFragment fragment = new ExaminationFragment();
-        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        ExaminationPresenterImpl presenter = new ExaminationPresenterImpl(fragment, repository);
-
-        fragment.setPresenter(presenter);
         ((AddTaskActivity) getActivity()).changeFragment(fragment);
     }
 }
