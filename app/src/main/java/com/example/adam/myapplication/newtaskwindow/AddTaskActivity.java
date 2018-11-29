@@ -24,5 +24,7 @@ public class AddTaskActivity extends AppCompatActivity {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
+
+        fragment.onAttach(this);
     }
 }

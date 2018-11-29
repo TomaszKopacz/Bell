@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".newtaskwindow.ExaminationFragment">
+    tools:context=".newtaskwindow.examination.ExaminationFragment">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -37,6 +37,7 @@
                     android:text="@string/doctor_name_label" />
 
                 <EditText
+                    android:id="@+id/doctor"
                     android:layout_width="@dimen/input_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -56,6 +57,7 @@
                     android:text="@string/doctor_location_label" />
 
                 <EditText
+                    android:id="@+id/location"
                     android:layout_width="@dimen/input_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -75,6 +77,7 @@
                     android:text="@string/examination_info_label" />
 
                 <EditText
+                    android:id="@+id/info"
                     android:layout_width="@dimen/input_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -102,7 +105,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/icon_margin"
                         android:contentDescription="@string/timer_description"
-                        android:src="@drawable/ic_clock" />
+                        android:src="@drawable/ic_clock"
+                        android:clickable="true"
+                        android:focusable="true" />
 
                     <TextView
                         android:id="@+id/time"
@@ -129,7 +134,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/icon_margin"
                         android:contentDescription="@string/date_description"
-                        android:src="@drawable/ic_calendar" />
+                        android:src="@drawable/ic_calendar"
+                        android:clickable="true"
+                        android:focusable="true" />
 
                     <TextView
                         android:id="@+id/date"
@@ -156,7 +163,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/icon_margin"
                                 android:contentDescription="@string/date_description"
-                                android:src="@drawable/ic_calendar" />
+                                android:src="@drawable/ic_calendar"
+                                android:clickable="true"
+                                android:focusable="true" />
 
                             <TextView
                                 android:id="@+id/date_end"

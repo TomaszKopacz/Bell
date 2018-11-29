@@ -1,6 +1,5 @@
 package com.example.adam.myapplication.newtaskwindow;
 
-
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,21 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskRepository;
 
+import com.example.adam.myapplication.newtaskwindow.drug.DrugFragment;
+import com.example.adam.myapplication.newtaskwindow.examination.ExaminationFragment;
+import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementFragment;
 
 public class TaskTypeFragment extends Fragment {
 
     private View measurementView;
-    private View pillsView;
+    private View drugView;
     private View examinationView;
 
     public TaskTypeFragment() {
 
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -41,18 +39,17 @@ public class TaskTypeFragment extends Fragment {
 
     private void getLayoutViews(View view) {
         measurementView = view.findViewById(R.id.measurement_view);
-        pillsView = view.findViewById(R.id.pills_view);
+        drugView = view.findViewById(R.id.pills_view);
         examinationView = view.findViewById(R.id.examination_view);
     }
 
     private void setListeners() {
-
         measurementView.setOnTouchListener(touchListener);
-        pillsView.setOnTouchListener(touchListener);
+        drugView.setOnTouchListener(touchListener);
         examinationView.setOnTouchListener(touchListener);
 
         measurementView.setOnClickListener(onClickListener);
-        pillsView.setOnClickListener(onClickListener);
+        drugView.setOnClickListener(onClickListener);
         examinationView.setOnClickListener(onClickListener);
     }
 
@@ -61,7 +58,6 @@ public class TaskTypeFragment extends Fragment {
         @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-
             shadowView(view, motionEvent);
             return false;
         }
@@ -81,23 +77,29 @@ public class TaskTypeFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if (view == measurementView) {
-                createMeasurementContract();
+                showMeasurementView();
 
-            } else if (view == pillsView) {
-                ((AddTaskActivity) getActivity()).changeFragment(new DrugFragment());
+            } else if (view == drugView) {
+                showDrugView();
 
-            }else if (view == examinationView) {
-                ((AddTaskActivity) getActivity()).changeFragment(new ExaminationFragment());
+            } else if (view == examinationView) {
+                showExaminationView();
             }
         }
     };
 
-    private void createMeasurementContract() {
+    private void showMeasurementView() {
         MeasurementFragment fragment = new MeasurementFragment();
-        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
-        MeasurementPresenterImpl presenter = new MeasurementPresenterImpl(fragment, repository);
+        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+    }
 
-        fragment.setPresenter(presenter);
+    private void showDrugView() {
+        DrugFragment fragment = new DrugFragment();
+        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+    }
+
+    private void showExaminationView() {
+        ExaminationFragment fragment = new ExaminationFragment();
         ((AddTaskActivity) getActivity()).changeFragment(fragment);
     }
 }
