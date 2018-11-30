@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
@@ -59,7 +59,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFragAct = getActivity();
+        mFragAct = (FragmentActivity) getActivity();
         mIntent = mFragAct.getIntent();
     }
 
@@ -102,7 +102,7 @@ public class MainFragment extends Fragment {
     }
         public void downloadTasks(){
             TaskRepository repository = ((App)mFragAct.getApplication()).getTaskRepository();
-            repository.gatAll().observe(this, new Observer<List<Task>>() {
+            repository.gatAll().observe(mFragAct, new Observer<List<Task>>() {
                 @Override
                 public void onChanged(@Nullable List<Task> tasks) {
                     createList(tasks);
