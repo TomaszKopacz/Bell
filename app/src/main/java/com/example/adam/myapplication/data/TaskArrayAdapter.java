@@ -9,12 +9,11 @@ import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClickListener{
+public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClickListener {
     private final Context context;
     private List<Task> tasks;
 
@@ -25,14 +24,14 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClick
             String task2Hour = task2.getHour().toUpperCase();
             return task1Hour.compareTo(task2Hour);
 
-        }};
+        }
+    };
 
-    private void sortTasks( List <Task> tasks)
-    {
-        Collections.sort( tasks, tasksComparator);
+    private void sortTasks(List<Task> tasks) {
+        Collections.sort(tasks, tasksComparator);
     }
 
-    public TaskArrayAdapter(Context context, List <Task> tasks) {
+    public TaskArrayAdapter(Context context, List<Task> tasks) {
         super(context, R.layout.list_view_line, tasks);
         this.context = context;
         this.tasks = tasks;

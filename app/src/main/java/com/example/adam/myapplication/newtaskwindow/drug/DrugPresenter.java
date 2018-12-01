@@ -10,7 +10,7 @@ public class DrugPresenter implements DrugContract.DrugPresenter {
     private DrugContract.DrugView view;
     private TaskRepository repository;
 
-    DrugPresenter(DrugContract.DrugView view, TaskRepository repository){
+    DrugPresenter(DrugContract.DrugView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
     }

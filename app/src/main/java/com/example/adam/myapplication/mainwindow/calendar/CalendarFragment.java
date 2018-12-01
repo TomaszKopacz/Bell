@@ -48,8 +48,8 @@ public class CalendarFragment extends Fragment implements CalendarContract.Calen
         calendarView = view.findViewById(R.id.calendar);
     }
 
-    private void setPresenter(){
-        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+    private void setPresenter() {
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
         this.presenter = new CalendarPresenter(this, repository);
     }
 

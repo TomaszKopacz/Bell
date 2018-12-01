@@ -10,7 +10,7 @@ public class ExaminationPresenter implements ExaminationContract.ExaminationPres
     private ExaminationContract.ExaminationView view;
     private TaskRepository repository;
 
-    ExaminationPresenter(ExaminationContract.ExaminationView view, TaskRepository repository){
+    ExaminationPresenter(ExaminationContract.ExaminationView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
     }

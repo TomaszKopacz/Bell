@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.adam.myapplication.R;
-
 import com.example.adam.myapplication.newtaskwindow.drug.DrugFragment;
 import com.example.adam.myapplication.newtaskwindow.examination.ExaminationFragment;
 import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementFragment;

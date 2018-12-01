@@ -206,6 +206,7 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
         if (item.getItemId() == R.id.menu_submit) {
             if (presenter != null) {
                 presenter.onSubmitButtonClicked();
+                //CZEMU?
                 goToCalendar();
             }
         }
