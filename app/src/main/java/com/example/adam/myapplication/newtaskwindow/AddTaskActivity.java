@@ -2,8 +2,8 @@ package com.example.adam.myapplication.newtaskwindow;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.adam.myapplication.R;
 
@@ -20,11 +20,9 @@ public class AddTaskActivity extends AppCompatActivity {
         changeFragment(new TaskTypeFragment());
     }
 
-    public void changeFragment(Fragment fragment){
+    public void changeFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
-
-        fragment.onAttach(this);
     }
 }

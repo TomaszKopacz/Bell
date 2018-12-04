@@ -14,7 +14,7 @@ public class DatetimeFormatter {
         return dayString + "-" + monthString + "-" + yearString;
     }
 
-    public static String getTimeFormatted(int hour, int minute){
+    public static String getTimeFormatted(int hour, int minute) {
         String hourString = (hour < 10) ?
                 ("0" + hour) : Integer.toString(hour);
 

@@ -24,7 +24,6 @@ import android.widget.TimePicker;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.mainwindow.calendar.CalendarFragment;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
@@ -92,7 +91,7 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
     }
 
     public void setPresenter() {
-        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
         this.presenter = new ExaminationPresenter(this, repository);
     }
 
@@ -244,7 +243,7 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
     }
 
     private void createCalendarContract() {
-        CalendarFragment fragment = new CalendarFragment();
-        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+//        CalendarFragment fragment = new CalendarFragment();
+//        ((AddTaskActivity) getActivity()).changeFragment(fragment);
     }
 }

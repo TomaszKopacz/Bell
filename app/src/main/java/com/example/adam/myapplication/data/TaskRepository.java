@@ -9,15 +9,15 @@ public class TaskRepository {
 
     private TaskDao dao;
 
-    public TaskRepository(TaskDao dao){
+    public TaskRepository(TaskDao dao) {
         this.dao = dao;
     }
 
-    public LiveData<List<Task>> gatAll(){
+    public LiveData<List<Task>> gatAll() {
         return dao.getAll();
     }
 
-    public void insert(final Task task){
+    public void insert(final Task task) {
         new InsertAsyncTask(dao).execute(task);
     }
 
@@ -25,7 +25,7 @@ public class TaskRepository {
 
         private TaskDao dao;
 
-        public InsertAsyncTask(TaskDao dao){
+        public InsertAsyncTask(TaskDao dao) {
             this.dao = dao;
         }
 

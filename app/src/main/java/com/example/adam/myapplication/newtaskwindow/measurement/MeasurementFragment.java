@@ -24,8 +24,6 @@ import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.mainwindow.calendar.CalendarFragment;
-import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
@@ -206,6 +204,8 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
         if (item.getItemId() == R.id.menu_submit) {
             if (presenter != null) {
                 presenter.onSubmitButtonClicked();
+
+                //CZEMU?
                 goToCalendar();
             }
         }
@@ -297,7 +297,7 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
     }
 
     private void createCalendarContract() {
-        CalendarFragment fragment = new CalendarFragment();
-        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+//        CalendarFragment fragment = new CalendarFragment();
+//        ((AddTaskActivity) getActivity()).changeFragment(fragment);
     }
 }
