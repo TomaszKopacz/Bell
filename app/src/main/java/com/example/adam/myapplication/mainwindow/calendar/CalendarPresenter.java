@@ -14,6 +14,6 @@ public class CalendarPresenter implements CalendarContract.CalendarPresenter {
 
     @Override
     public void onViewAttached() {
-        fragment.setTasks(repository.gatAll());
+        //fragment.setTasks(repository.gatAll());
     }
 }

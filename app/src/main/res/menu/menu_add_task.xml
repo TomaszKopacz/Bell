@@ -7,5 +7,5 @@
     <item
         android:id="@+id/menu_submit"
         android:title="@string/button_submit"
-        app:showAsAction="always|withText"/>
+        app:showAsAction="always|withText" />
 </menu>

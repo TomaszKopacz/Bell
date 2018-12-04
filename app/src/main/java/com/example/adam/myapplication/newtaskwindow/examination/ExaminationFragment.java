@@ -92,7 +92,7 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
     }
 
     public void setPresenter() {
-        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
         this.presenter = new ExaminationPresenter(this, repository);
     }
 

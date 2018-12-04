@@ -8,7 +8,7 @@ import com.example.adam.myapplication.data.TaskRepository;
 
 public class App extends Application {
 
-    public TaskRepository getTaskRepository(){
+    public TaskRepository getTaskRepository() {
         TaskDatabase db = TaskDatabase.getInstance(getApplicationContext());
         TaskDao dao = db.getTaskDao();
 

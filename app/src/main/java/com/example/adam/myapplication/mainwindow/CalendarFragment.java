@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.mainwindow.calendar;
+package com.example.adam.myapplication.mainwindow;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
