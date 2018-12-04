@@ -13,6 +13,6 @@ public class MainPresenter {
     }
 
     public void onViewAttached(){
-
+        view.setTasks(repository.gatAll());
     }
 }

@@ -3,6 +3,7 @@ package com.example.adam.myapplication.mainwindow;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Build;
@@ -55,12 +56,6 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        downloadTasks();
-    }
-
     private void getLayoutViews(View view) {
         list = view.findViewById(R.id.lista);
         d_m = view.findViewById(R.id.d_m);
@@ -99,7 +94,6 @@ public class MainFragment extends Fragment {
 
         list.setLongClickable(true);
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 new InputDialog(getActivity()).inputDialog().show();
@@ -113,9 +107,8 @@ public class MainFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void downloadTasks() {
-        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        repository.gatAll().observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
+    public void setTasks(LiveData<List<Task>> tasks) {
+        tasks.observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
             @Override
             public void onChanged(@Nullable List<Task> tasks) {
                 createList(tasks);
