@@ -14,6 +14,9 @@ public interface TaskDao {
     @Query("SELECT * FROM Task")
     LiveData<List<Task>> getAll();
 
+    @Query("SELECT * FROM Task WHERE date LIKE :date")
+    LiveData<List<Task>> getAllFromDate(String date);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Task task);
 }

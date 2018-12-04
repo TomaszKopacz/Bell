@@ -24,11 +24,12 @@ import android.widget.TimePicker;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
+
+import java.util.Calendar;
 
 public class ExaminationFragment extends Fragment implements ExaminationContract.ExaminationView {
 
@@ -130,7 +131,11 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            dateText.setText(DatetimeFormatter.getDateFormatted(year, month, day));
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            dateText.setText(DatetimeFormatter.getDateFormatted(calendar));
         }
     };
 
@@ -146,7 +151,11 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            endDateText.setText(DatetimeFormatter.getDateFormatted(year, month, day));
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            endDateText.setText(DatetimeFormatter.getDateFormatted(calendar));
         }
     };
 
@@ -171,7 +180,7 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
         if (item.getItemId() == R.id.menu_submit) {
             if (presenter != null) {
                 presenter.onSubmitButtonClicked();
-                goToCalendar();
+                navigateToParentView();
             }
         }
 
@@ -238,12 +247,7 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
         endDateText.setText(endDate);
     }
 
-    private void goToCalendar() {
-        createCalendarContract();
-    }
-
-    private void createCalendarContract() {
-//        CalendarFragment fragment = new CalendarFragment();
-//        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+    private void navigateToParentView() {
+        getActivity().finish();
     }
 }

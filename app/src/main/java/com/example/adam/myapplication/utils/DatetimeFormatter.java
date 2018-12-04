@@ -1,8 +1,14 @@
 package com.example.adam.myapplication.utils;
 
+import java.util.Calendar;
+
 public class DatetimeFormatter {
 
-    public static String getDateFormatted(int year, int month, int day) {
+    public static String getDateFormatted(Calendar calendar) {
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
         String yearString = Integer.toString(year);
 
         String monthString = (month < 10) ?

@@ -23,6 +23,7 @@ import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskArrayAdapter;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
+import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
 import java.text.DateFormat;
@@ -48,7 +49,6 @@ public class MainFragment extends Fragment {
 
         getLayoutViews(view);
         setListeners();
-        setCurrentDate();
 
         return view;
     }
@@ -56,7 +56,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        downloadTasks();
+        displayCurrentDay();
     }
 
     private void getLayoutViews(View view) {
@@ -77,7 +77,11 @@ public class MainFragment extends Fragment {
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                //dateText.setText(DatetimeFormatter.getDateFormatted(year, month, day));
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                displayDay(calendar);
             }
         };
 
@@ -105,13 +109,27 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void setCurrentDate() {
+    private void displayCurrentDay() {
         Calendar calendar = Calendar.getInstance();
+        displayDay(calendar);
+    }
+
+    private void displayDay(Calendar calendar) {
+        displayDayText(calendar);
+        displayDayTasks(calendar);
+    }
+
+    private void displayDayText(Calendar calendar) {
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
         String currentYear = currentDate.substring(currentDate.length() - 4, currentDate.length());
-        currentDate = currentDate.substring(0, currentDate.length() - 6);
-        d_m.setText(currentDate);
+        String currentDayOfMonth = currentDate.substring(0, currentDate.length() - 5);
+
+        d_m.setText(currentDayOfMonth);
         year.setText(currentYear);
+    }
+
+    private void displayDayTasks(Calendar calendar) {
+        downloadTasks(DatetimeFormatter.getDateFormatted(calendar));
     }
 
     private void startAddTaskActivity() {
@@ -119,9 +137,9 @@ public class MainFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void downloadTasks() {
+    public void downloadTasks(String date) {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        repository.gatAll().observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
+        repository.getAllFromDate(date).observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
             @Override
             public void onChanged(@Nullable List<Task> tasks) {
                 createList(tasks);

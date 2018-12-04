@@ -29,6 +29,8 @@ import com.example.adam.myapplication.utils.DatetimePicker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import java.util.Calendar;
+
 public class MeasurementFragment extends Fragment implements MeasurementContract.MeasurementView {
 
     private MeasurementContract.MeasurementPresenter presenter;
@@ -162,7 +164,11 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            setDate(DatetimeFormatter.getDateFormatted(year, month, day));
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            setDate(DatetimeFormatter.getDateFormatted(calendar));
         }
     };
 
@@ -178,7 +184,11 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            setEndDate(DatetimeFormatter.getDateFormatted(year, month, day));
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            setEndDate(DatetimeFormatter.getDateFormatted(calendar));
         }
     };
 
@@ -204,9 +214,7 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
         if (item.getItemId() == R.id.menu_submit) {
             if (presenter != null) {
                 presenter.onSubmitButtonClicked();
-
-                //CZEMU?
-                goToCalendar();
+                navigateToParentView();
             }
         }
 
@@ -290,14 +298,5 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
 
     private void navigateToParentView() {
         getActivity().finish();
-    }
-
-    private void goToCalendar() {
-        createCalendarContract();
-    }
-
-    private void createCalendarContract() {
-//        CalendarFragment fragment = new CalendarFragment();
-//        ((AddTaskActivity) getActivity()).changeFragment(fragment);
     }
 }

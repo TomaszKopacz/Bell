@@ -13,8 +13,12 @@ public class TaskRepository {
         this.dao = dao;
     }
 
-    public LiveData<List<Task>> gatAll() {
+    public LiveData<List<Task>> getAll() {
         return dao.getAll();
+    }
+
+    public LiveData<List<Task>> getAllFromDate(String date){
+        return dao.getAllFromDate(date);
     }
 
     public void insert(final Task task) {
@@ -25,7 +29,7 @@ public class TaskRepository {
 
         private TaskDao dao;
 
-        public InsertAsyncTask(TaskDao dao) {
+        InsertAsyncTask(TaskDao dao) {
             this.dao = dao;
         }
 
