@@ -34,6 +34,8 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
+    private MainPresenter presenter;
+
     private ListView list;
     private TextView d_m;
     private TextView year;
@@ -52,6 +54,7 @@ public class MainFragment extends Fragment {
         getLayoutViews(view);
         setListeners();
         setCurrentDate();
+        setPresenter();
 
         return view;
     }
@@ -102,6 +105,21 @@ public class MainFragment extends Fragment {
         });
     }
 
+
+    private void setCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        String currentYear = currentDate.substring(currentDate.length() - 4, currentDate.length());
+        currentDate = currentDate.substring(0, currentDate.length() - 6);
+        d_m.setText(currentDate);
+        year.setText(currentYear);
+    }
+
+    private void setPresenter(){
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+        presenter = new MainPresenter(this, repository);
+    }
+
     private void startAddTaskActivity() {
         Intent intent = new Intent(getActivity(), AddTaskActivity.class);
         startActivity(intent);
@@ -119,14 +137,5 @@ public class MainFragment extends Fragment {
     public void createList(List<Task> tasks) {
         TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity(), tasks);
         list.setAdapter(adapter);
-    }
-
-    private void setCurrentDate() {
-        Calendar calendar = Calendar.getInstance();
-        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-        String currentYear = currentDate.substring(currentDate.length() - 4, currentDate.length());
-        currentDate = currentDate.substring(0, currentDate.length() - 6);
-        d_m.setText(currentDate);
-        year.setText(currentYear);
     }
 }

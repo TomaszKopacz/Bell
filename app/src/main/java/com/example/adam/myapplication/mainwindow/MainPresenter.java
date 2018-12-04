@@ -7,7 +7,7 @@ public class MainPresenter {
     private MainFragment view;
     private TaskRepository repository;
 
-    public MainPresenter(TaskRepository repository, MainFragment fragment){
+    public MainPresenter( MainFragment fragment, TaskRepository repository){
         this.view = fragment;
         this.repository = repository;
     }
