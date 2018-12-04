@@ -13,8 +13,8 @@ public abstract class TaskDatabase extends RoomDatabase {
 
     public abstract TaskDao getTaskDao();
 
-    public static TaskDatabase getInstance(Context context){
-        if (INSTANCE == null){
+    public static TaskDatabase getInstance(Context context) {
+        if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context, TaskDatabase.class, DATABASE_NAME).build();
         }
 

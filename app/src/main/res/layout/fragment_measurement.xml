@@ -109,7 +109,7 @@
                         android:contentDescription="@string/timer_description"
                         android:src="@drawable/ic_clock"
                         android:clickable="true"
-                        android:focusable="true"/>
+                        android:focusable="true" />
 
                     <TextView
                         android:id="@+id/time"
@@ -142,7 +142,7 @@
                         android:contentDescription="@string/date_description"
                         android:src="@drawable/ic_calendar"
                         android:clickable="true"
-                        android:focusable="true"/>
+                        android:focusable="true" />
 
                     <TextView
                         android:id="@+id/date"
@@ -155,7 +155,7 @@
                         android:id="@+id/date_value_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/label_margin"/>
+                        android:layout_margin="@dimen/label_margin" />
 
                 </LinearLayout>
 
@@ -178,7 +178,7 @@
                             android:contentDescription="@string/date_description"
                             android:src="@drawable/ic_calendar"
                             android:clickable="true"
-                            android:focusable="true"/>
+                            android:focusable="true" />
 
                         <TextView
                             android:id="@+id/date_end"
@@ -191,7 +191,7 @@
                             android:id="@+id/end_date_value_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/label_margin"/>
+                            android:layout_margin="@dimen/label_margin" />
 
                     </LinearLayout>
 
