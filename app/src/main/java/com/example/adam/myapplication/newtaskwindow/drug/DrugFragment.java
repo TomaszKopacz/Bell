@@ -28,6 +28,8 @@ import com.example.adam.myapplication.utils.DatetimePicker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import java.util.Calendar;
+
 public class DrugFragment extends Fragment implements DrugContract.DrugView {
 
     private DrugContract.DrugPresenter presenter;
@@ -142,7 +144,11 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            setDate(DatetimeFormatter.getDateFormatted(year, month, day));
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            setDate(DatetimeFormatter.getDateFormatted(calendar));
         }
     };
 
@@ -158,7 +164,11 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            setEndDate(DatetimeFormatter.getDateFormatted(year, month, day));
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            setEndDate(DatetimeFormatter.getDateFormatted(calendar));
         }
     };
 
@@ -183,7 +193,7 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
         if (item.getItemId() == R.id.menu_submit) {
             if (presenter != null) {
                 presenter.onSubmitButtonClicked();
-                goToCalendar();
+                navigateToParentView();
             }
         }
 
@@ -240,8 +250,7 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
         endDateText.setText(endDate);
     }
 
-    private void goToCalendar() {
-//        CalendarFragment fragment = new CalendarFragment();
-//        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+    private void navigateToParentView() {
+        getActivity().finish();
     }
 }
