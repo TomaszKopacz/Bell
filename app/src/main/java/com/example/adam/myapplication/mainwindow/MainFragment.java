@@ -89,6 +89,7 @@ public class MainFragment extends Fragment {
                 DatetimePicker.showDatePicker(getActivity(), dateSetListener);
             }
         });
+
         year.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
