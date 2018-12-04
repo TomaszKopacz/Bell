@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,24 +33,15 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
-    private Context activity;
-
     private ListView list;
     private TextView d_m;
     private TextView year;
     private FloatingActionButton plus;
-    private TaskArrayAdapter adapter;
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     public MainFragment() {
 
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.activity = context;
     }
 
     @Override
@@ -96,13 +86,13 @@ public class MainFragment extends Fragment {
         d_m.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatetimePicker.showDatePicker(activity, dateSetListener);
+                DatetimePicker.showDatePicker(getActivity(), dateSetListener);
             }
         });
         year.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatetimePicker.showDatePicker(activity, dateSetListener);
+                DatetimePicker.showDatePicker(getActivity(), dateSetListener);
             }
         });
 
@@ -111,20 +101,20 @@ public class MainFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                new InputDialog(activity).inputDialog().show();
+                new InputDialog(getActivity()).inputDialog().show();
                 return true;
             }
         });
     }
 
     private void startAddTaskActivity() {
-        Intent intent = new Intent(activity, AddTaskActivity.class);
+        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
         startActivity(intent);
     }
 
     public void downloadTasks() {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        repository.gatAll().observe((LifecycleOwner)getActivity(), new Observer<List<Task>>() {
+        repository.gatAll().observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
             @Override
             public void onChanged(@Nullable List<Task> tasks) {
                 createList(tasks);
@@ -133,7 +123,7 @@ public class MainFragment extends Fragment {
     }
 
     public void createList(List<Task> tasks) {
-        adapter = new TaskArrayAdapter(getActivity(), tasks);
+        TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity(), tasks);
         list.setAdapter(adapter);
     }
 

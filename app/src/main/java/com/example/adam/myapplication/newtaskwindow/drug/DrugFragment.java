@@ -23,8 +23,6 @@ import android.widget.TimePicker;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.mainwindow.calendar.CalendarFragment;
-import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
@@ -243,7 +241,7 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
     }
 
     private void goToCalendar() {
-        CalendarFragment fragment = new CalendarFragment();
-        ((AddTaskActivity) getActivity()).changeFragment(fragment);
+//        CalendarFragment fragment = new CalendarFragment();
+//        ((AddTaskActivity) getActivity()).changeFragment(fragment);
     }
 }

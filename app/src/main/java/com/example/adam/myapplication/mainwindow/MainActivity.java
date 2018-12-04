@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         //  SET VIEW
         setContentView(R.layout.activity_main_cointainer);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Próbny widok");
         setDefaultFragment();
@@ -30,11 +30,10 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new MainFragment());
     }
 
-    public void changeFragment(Fragment fragment) {
+    public void changeFragment(Fragment fragment){
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
-        fragment.onAttach(this);
     }
 
     @Override
