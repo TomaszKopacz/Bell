@@ -52,11 +52,14 @@ public class MainFragment extends Fragment {
         setListeners();
         setCurrentDate();
 
-        downloadTasks();
-
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        downloadTasks();
+    }
 
     private void getLayoutViews(View view) {
         list = view.findViewById(R.id.lista);

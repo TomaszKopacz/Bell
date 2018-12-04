@@ -1,6 +1,5 @@
 package com.example.adam.myapplication.mainwindow;
 
-import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.MenuItem;
 
 import com.example.adam.myapplication.R;
 
-@TargetApi(24)
 public class MainActivity extends AppCompatActivity {
 
     @Override
