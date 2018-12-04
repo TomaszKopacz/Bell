@@ -15,9 +15,6 @@ import com.example.adam.myapplication.R;
 
 public class CalendarFragment extends Fragment {
 
-    private FragmentActivity mFragAct;
-    private Intent mIntent;
-
     public CalendarFragment() {
 
     }

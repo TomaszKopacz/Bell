@@ -2,7 +2,9 @@ package com.example.adam.myapplication.mainwindow;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,24 +34,24 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
-    //ZMIENNE
-    double input_value = 0;
+    private Context activity;
+
     private ListView list;
     private TextView d_m;
     private TextView year;
     private FloatingActionButton plus;
-    private static TaskArrayAdapter adapter;
+    private TaskArrayAdapter adapter;
 
-    public MainActivity getmFragAct() {
-        return mFragAct;
-    }
-
-    private MainActivity mFragAct;
-    private Intent mIntent;
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     public MainFragment() {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.activity = context;
     }
 
     @Override
@@ -59,22 +61,21 @@ public class MainFragment extends Fragment {
         getLayoutViews(view);
         setListeners();
         setCurrentDate();
+
         return view;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mFragAct = (MainActivity) getActivity();
-        mIntent = mFragAct.getIntent();
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         downloadTasks();
     }
 
     private void getLayoutViews(View view) {
-        list = (ListView) view.findViewById(R.id.lista);
-        d_m = (TextView) view.findViewById(R.id.d_m);
-        year = (TextView) view.findViewById(R.id.rok);
-        plus = (FloatingActionButton) view.findViewById(R.id.fab);
+        list = view.findViewById(R.id.lista);
+        d_m = view.findViewById(R.id.d_m);
+        year = view.findViewById(R.id.rok);
+        plus = view.findViewById(R.id.fab);
     }
 
     private void setListeners() {
@@ -95,13 +96,13 @@ public class MainFragment extends Fragment {
         d_m.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatetimePicker.showDatePicker(mFragAct, dateSetListener);
+                DatetimePicker.showDatePicker(activity, dateSetListener);
             }
         });
         year.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatetimePicker.showDatePicker(mFragAct, dateSetListener);
+                DatetimePicker.showDatePicker(activity, dateSetListener);
             }
         });
 
@@ -110,20 +111,20 @@ public class MainFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                new InputDialog(mFragAct.getMainFragment()).inputDialog().show();
+                new InputDialog(activity).inputDialog().show();
                 return true;
             }
         });
     }
 
     private void startAddTaskActivity() {
-        Intent intent = new Intent(mFragAct, AddTaskActivity.class);
+        Intent intent = new Intent(activity, AddTaskActivity.class);
         startActivity(intent);
     }
 
     public void downloadTasks() {
-        TaskRepository repository = ((App) mFragAct.getApplication()).getTaskRepository();
-        repository.gatAll().observe(mFragAct, new Observer<List<Task>>() {
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+        repository.gatAll().observe((LifecycleOwner)getActivity(), new Observer<List<Task>>() {
             @Override
             public void onChanged(@Nullable List<Task> tasks) {
                 createList(tasks);
@@ -132,7 +133,7 @@ public class MainFragment extends Fragment {
     }
 
     public void createList(List<Task> tasks) {
-        adapter = new TaskArrayAdapter(mFragAct.getApplicationContext(), tasks);
+        adapter = new TaskArrayAdapter(getActivity(), tasks);
         list.setAdapter(adapter);
     }
 

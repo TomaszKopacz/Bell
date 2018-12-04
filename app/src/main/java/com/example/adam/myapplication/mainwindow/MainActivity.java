@@ -14,12 +14,6 @@ import com.example.adam.myapplication.R;
 @TargetApi(24)
 public class MainActivity extends AppCompatActivity {
 
-    public MainFragment getMainFragment() {
-        return mainFragment;
-    }
-
-    private MainFragment mainFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDefaultFragment() {
-        changeFragment(mainFragment = new MainFragment());
+        changeFragment(new MainFragment());
     }
 
     public void changeFragment(Fragment fragment) {
