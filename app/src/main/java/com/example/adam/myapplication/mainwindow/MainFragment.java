@@ -3,14 +3,11 @@ package com.example.adam.myapplication.mainwindow;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +31,6 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
-    private MainPresenter presenter;
-
     private ListView list;
     private TextView d_m;
     private TextView year;
@@ -54,9 +49,14 @@ public class MainFragment extends Fragment {
         getLayoutViews(view);
         setListeners();
         setCurrentDate();
-        setPresenter();
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        downloadTasks();
     }
 
     private void getLayoutViews(View view) {
@@ -105,7 +105,6 @@ public class MainFragment extends Fragment {
         });
     }
 
-
     private void setCurrentDate() {
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
@@ -115,18 +114,14 @@ public class MainFragment extends Fragment {
         year.setText(currentYear);
     }
 
-    private void setPresenter(){
-        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        presenter = new MainPresenter(this, repository);
-    }
-
     private void startAddTaskActivity() {
         Intent intent = new Intent(getActivity(), AddTaskActivity.class);
         startActivity(intent);
     }
 
-    public void setTasks(LiveData<List<Task>> tasks) {
-        tasks.observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
+    public void downloadTasks() {
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+        repository.gatAll().observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
             @Override
             public void onChanged(@Nullable List<Task> tasks) {
                 createList(tasks);

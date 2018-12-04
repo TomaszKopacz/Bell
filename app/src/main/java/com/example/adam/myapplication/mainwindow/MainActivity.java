@@ -42,24 +42,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        setDefaultFragment();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setDefaultFragment();
-    }
-
-    @Override
-    public void onRestart() {
-        super.onRestart();
-        setDefaultFragment();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
