@@ -14,7 +14,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClickListener {
-    private final Context context;
     private List<Task> tasks;
 
     private static Comparator<Task> tasksComparator = new Comparator<Task>() {
@@ -33,7 +32,6 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClick
 
     public TaskArrayAdapter(Context context, List<Task> tasks) {
         super(context, R.layout.list_view_line, tasks);
-        this.context = context;
         this.tasks = tasks;
         sortTasks(tasks);
     }
