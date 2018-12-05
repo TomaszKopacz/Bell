@@ -144,11 +144,7 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, day);
-            setDate(DatetimeFormatter.getDateFormatted(calendar));
+            setDate(DatetimeFormatter.getDateFormatted(day, month, year));
         }
     };
 
@@ -164,11 +160,7 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, day);
-            setEndDate(DatetimeFormatter.getDateFormatted(calendar));
+            setEndDate(DatetimeFormatter.getDateFormatted(day, month, year));
         }
     };
 

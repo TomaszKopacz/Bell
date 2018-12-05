@@ -110,8 +110,6 @@ public class MainFragment extends Fragment {
 
     private void displayCurrentDay() {
         Calendar calendar = Calendar.getInstance();
-        //calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1);
-
         displayDay(calendar);
     }
 
