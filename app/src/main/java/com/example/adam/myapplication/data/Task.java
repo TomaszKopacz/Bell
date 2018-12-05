@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity
 public class Task {
 
@@ -13,8 +15,7 @@ public class Task {
     public static final String EXAMINATION = "EXAMINATION";
 
     private static final String TYPE = "type";
-    private static final String HOUR = "hour";
-    private static final String DATE = "date";
+    private static final String TIMESTAMP = "timestamp";
     private static final String STATUS = "status";
     private static final String RESULT = "result";
 
@@ -32,11 +33,8 @@ public class Task {
     @ColumnInfo(name = TYPE)
     private String type;
 
-    @ColumnInfo(name = HOUR)
-    private String hour;
-
-    @ColumnInfo(name = DATE)
-    private String date;
+    @ColumnInfo(name = TIMESTAMP)
+    private Date timestamp;
 
     @ColumnInfo(name = STATUS)
     private boolean status;
@@ -66,10 +64,9 @@ public class Task {
 
     }
 
-    public Task(String type, String date, String hour) {
+    public Task(String type, Date timestamp) {
         this.type = type;
-        this.date = date;
-        this.hour = hour;
+        this.timestamp = timestamp;
     }
 
     public int getId() {
@@ -88,20 +85,12 @@ public class Task {
         this.type = type;
     }
 
-    public String getHour() {
-        return hour;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setHour(String hour) {
-        this.hour = hour;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public boolean isStatus() {

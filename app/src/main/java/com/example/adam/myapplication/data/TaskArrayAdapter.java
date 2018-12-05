@@ -16,24 +16,24 @@ import java.util.List;
 public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClickListener {
     private List<Task> tasks;
 
-    private static Comparator<Task> tasksComparator = new Comparator<Task>() {
+//    private static Comparator<Task> tasksComparator = new Comparator<Task>() {
+//
+//        public int compare(Task task1, Task task2) {
+//            String task1Hour = task1.getHour().toUpperCase();
+//            String task2Hour = task2.getHour().toUpperCase();
+//            return task1Hour.compareTo(task2Hour);
+//
+//        }
+//    };
 
-        public int compare(Task task1, Task task2) {
-            String task1Hour = task1.getHour().toUpperCase();
-            String task2Hour = task2.getHour().toUpperCase();
-            return task1Hour.compareTo(task2Hour);
-
-        }
-    };
-
-    private void sortTasks(List<Task> tasks) {
-        Collections.sort(tasks, tasksComparator);
-    }
+//    private void sortTasks(List<Task> tasks) {
+//        Collections.sort(tasks, tasksComparator);
+//    }
 
     public TaskArrayAdapter(Context context, List<Task> tasks) {
         super(context, R.layout.list_view_line, tasks);
         this.tasks = tasks;
-        sortTasks(tasks);
+//        sortTasks(tasks);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClick
         View rowView = inflater.inflate(R.layout.list_view_line, parent, false);
         TextView taskTime = (TextView) rowView.findViewById(R.id.task_time);
         TextView taskName = (TextView) rowView.findViewById(R.id.task_name);
-        taskTime.setText(tasks.get(position).getHour());
+        taskTime.setText(tasks.get(position).getTimestamp().toString().substring(11, 16));
         taskName.setText(tasks.get(position).getType());
         return rowView;
     }

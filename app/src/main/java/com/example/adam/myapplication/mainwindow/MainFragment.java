@@ -7,7 +7,6 @@ import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +22,11 @@ import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskArrayAdapter;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
-import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainFragment extends Fragment {
@@ -111,6 +110,8 @@ public class MainFragment extends Fragment {
 
     private void displayCurrentDay() {
         Calendar calendar = Calendar.getInstance();
+        //calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1);
+
         displayDay(calendar);
     }
 
@@ -129,7 +130,7 @@ public class MainFragment extends Fragment {
     }
 
     private void displayDayTasks(Calendar calendar) {
-        downloadTasks(DatetimeFormatter.getDateFormatted(calendar));
+        downloadTasks(calendar.getTime());
     }
 
     private void startAddTaskActivity() {
@@ -137,11 +138,11 @@ public class MainFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void downloadTasks(String date) {
+    public void downloadTasks(Date date) {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
         repository.getAllFromDate(date).observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
             @Override
-            public void onChanged(@Nullable List<Task> tasks) {
+            public void onChanged(List<Task> tasks) {
                 createList(tasks);
             }
         });
