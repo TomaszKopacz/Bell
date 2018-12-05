@@ -1,9 +1,16 @@
 package com.example.adam.myapplication.newtaskwindow.measurement;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.utils.DatetimeFormatter;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MeasurementPresenter implements MeasurementContract.MeasurementPresenter {
 
@@ -17,18 +24,27 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
 
     @Override
     public void onSubmitButtonClicked() {
-        Task task = createTask();
-        repository.insert(task);
+        Task task;
+
+        try {
+            task = createTask();
+            repository.insert(task);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @NonNull
-    private Task createTask() {
+    private Task createTask() throws ParseException {
         String type = view.getType();
-        String hour = view.getHour();
+        String time = view.getHour();
         String date = view.getDate();
         String unit = view.getUnit();
 
-        Task task = new Task(type, date, hour);
+        Date timestamp = DatetimeFormatter.getTimestamp(date, time);
+
+        Task task = new Task(type, timestamp);
         task.setUnit(unit);
 
         return task;

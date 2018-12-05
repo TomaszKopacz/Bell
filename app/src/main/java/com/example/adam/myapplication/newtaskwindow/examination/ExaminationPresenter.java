@@ -4,6 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.utils.DatetimeFormatter;
+
+import java.text.ParseException;
+import java.util.Date;
 
 public class ExaminationPresenter implements ExaminationContract.ExaminationPresenter {
 
@@ -17,20 +21,29 @@ public class ExaminationPresenter implements ExaminationContract.ExaminationPres
 
     @Override
     public void onSubmitButtonClicked() {
-        Task task = createTask();
-        repository.insert(task);
+        Task task;
+
+        try {
+            task = createTask();
+            repository.insert(task);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @NonNull
-    private Task createTask() {
+    private Task createTask() throws ParseException {
         String type = Task.EXAMINATION;
-        String hour = view.getTime();
+        String time = view.getTime();
         String date = view.getDate();
         String doctor = view.getDoctor();
         String location = view.getLocation();
         String info = view.getInfo();
 
-        Task task = new Task(type, date, hour);
+        Date timestamp = DatetimeFormatter.getTimestamp(date, time);
+
+        Task task = new Task(type, timestamp);
         task.setDoctor(doctor);
         task.setLocation(location);
         task.setInfo(info);

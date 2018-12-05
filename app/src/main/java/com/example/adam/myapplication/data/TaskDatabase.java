@@ -3,12 +3,14 @@ package com.example.adam.myapplication.data;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 @Database(entities = Task.class, version = 1)
+@TypeConverters(Converters.class)
 public abstract class TaskDatabase extends RoomDatabase {
 
-    public static final String DATABASE_NAME = "tasks_db";
+    private static final String DATABASE_NAME = "tasks_db";
     private static TaskDatabase INSTANCE;
 
     public abstract TaskDao getTaskDao();
