@@ -15,7 +15,7 @@ public interface TaskDao {
     @Query("SELECT * FROM Task")
     LiveData<List<Task>> getAll();
 
-    @Query("SELECT * FROM Task WHERE timestamp BETWEEN :start AND :end")
+    @Query("SELECT * FROM Task WHERE timestamp BETWEEN :start AND :end ORDER BY timestamp ASC")
     LiveData<List<Task>> getAllFromTimeWindow(Date start, Date end);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

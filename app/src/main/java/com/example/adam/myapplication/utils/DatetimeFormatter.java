@@ -2,7 +2,6 @@ package com.example.adam.myapplication.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -15,10 +14,10 @@ public class DatetimeFormatter {
         return formatter.parse(date + " " + time);
     }
 
-    public static String getDateFormatted(Calendar calendar) {
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+    public static String getDateFormatted(int day, int month, int year){
+
+        // month is count from 0
+        month++;
 
         String yearString = Integer.toString(year);
 
@@ -39,12 +38,5 @@ public class DatetimeFormatter {
                 ("0" + minute) : Integer.toString(minute);
 
         return hourString + ":" + minuteString;
-    }
-
-    public static String getTimeFormatted(Calendar calendar) {
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-
-        return getTimeFormatted(hour, minute);
     }
 }

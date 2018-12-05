@@ -131,11 +131,7 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, day);
-            dateText.setText(DatetimeFormatter.getDateFormatted(calendar));
+            dateText.setText(DatetimeFormatter.getDateFormatted(day, month, year));
         }
     };
 
@@ -151,11 +147,7 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, day);
-            endDateText.setText(DatetimeFormatter.getDateFormatted(calendar));
+            endDateText.setText(DatetimeFormatter.getDateFormatted(day, month, year));
         }
     };
 
