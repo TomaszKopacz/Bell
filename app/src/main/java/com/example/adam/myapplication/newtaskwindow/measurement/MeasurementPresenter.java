@@ -29,6 +29,7 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
         try {
             task = createTask();
             repository.insert(task);
+            view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
 
         } catch (ParseException e) {
             e.printStackTrace();
