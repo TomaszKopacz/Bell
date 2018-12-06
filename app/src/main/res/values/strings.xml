@@ -41,4 +41,10 @@
     <string name="examination_info_label">Dodatkowe informacje:</string>
     <string name="unit_mg">mg</string>
     <string name="unit_description">unit_icon_description</string>
+
+    <!-- TASK NOTIFICATION -->
+    <string name="temperature_reminder">Pamiętaj o pomiarze temperatury!</string>
+    <string name="pressure_reminder">Pamiętaj o pomiarze ciśnienia!</string>
+    <string name="drug_reminder">Pamiętaj o leku!</string>
+    <string name="examination_reminder">Pamiętaj o wizycie u lekarza!</string>
 </resources>

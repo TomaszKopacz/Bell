@@ -24,12 +24,11 @@ import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
-
-import java.util.Calendar;
 
 public class MeasurementFragment extends Fragment implements MeasurementContract.MeasurementView {
 
@@ -52,7 +51,6 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
 
     private CheckBox box;
     private ExpandableLayout expandableDateLayout;
-
 
     public MeasurementFragment() {
 
@@ -206,7 +204,6 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
         if (item.getItemId() == R.id.menu_submit) {
             if (presenter != null) {
                 presenter.onSubmitButtonClicked();
-                navigateToParentView();
             }
         }
 
@@ -286,6 +283,18 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
     @Override
     public void setIsCycle(boolean b) {
         box.setChecked(b);
+    }
+
+    @Override
+    public void onTaskCreated(String status, @Nullable Task task) {
+        if (status.equals(SUCCESS)  && task != null){
+            setNotification(task);
+            navigateToParentView();
+        }
+    }
+
+    private void setNotification(Task task){
+        TaskAlarm.setAlarm(getActivity(), task);
     }
 
     private void navigateToParentView() {

@@ -26,6 +26,7 @@ public class DrugPresenter implements DrugContract.DrugPresenter {
         try {
             task = createTask();
             repository.insert(task);
+            view.onTaskCreated(DrugContract.DrugView.SUCCESS, task);
 
         } catch (ParseException e) {
             e.printStackTrace();
