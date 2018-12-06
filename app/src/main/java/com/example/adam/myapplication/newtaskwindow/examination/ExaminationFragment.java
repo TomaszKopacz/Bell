@@ -23,13 +23,13 @@ import android.widget.TimePicker;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
-
-import java.util.Calendar;
 
 public class ExaminationFragment extends Fragment implements ExaminationContract.ExaminationView {
 
@@ -170,10 +170,8 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_submit) {
-            if (presenter != null) {
+            if (presenter != null)
                 presenter.onSubmitButtonClicked();
-                navigateToParentView();
-            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -237,6 +235,18 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
     @Override
     public void setEndDate(String endDate) {
         endDateText.setText(endDate);
+    }
+
+    @Override
+    public void onTaskCreated(String status, Task task) {
+        if (status.equals(SUCCESS)  && task != null){
+            setNotification(task);
+            navigateToParentView();
+        }
+    }
+
+    private void setNotification(Task task){
+        TaskAlarm.setAlarm(getActivity(), task);
     }
 
     private void navigateToParentView() {

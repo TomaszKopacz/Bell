@@ -64,7 +64,7 @@
                     android:layout_marginTop="@dimen/input_little_margin"
                     android:layout_marginBottom="@dimen/input_margin"
                     android:importantForAutofill="no"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
                     tools:ignore="LabelFor"
                     tools:targetApi="o" />
 

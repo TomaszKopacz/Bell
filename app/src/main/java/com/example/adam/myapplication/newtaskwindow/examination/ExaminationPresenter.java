@@ -26,6 +26,7 @@ public class ExaminationPresenter implements ExaminationContract.ExaminationPres
         try {
             task = createTask();
             repository.insert(task);
+            view.onTaskCreated(ExaminationContract.ExaminationView.SUCCESS, task);
 
         } catch (ParseException e) {
             e.printStackTrace();

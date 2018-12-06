@@ -1,12 +1,8 @@
 package com.example.adam.myapplication.newtaskwindow.measurement;
 
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +24,7 @@ import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.notification.AlarmReceiver;
+import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
@@ -291,43 +287,14 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
 
     @Override
     public void onTaskCreated(String status, @Nullable Task task) {
-        if (status.equals(SUCCESS)){
+        if (status.equals(SUCCESS)  && task != null){
             setNotification(task);
             navigateToParentView();
         }
     }
 
     private void setNotification(Task task){
-        long when = task.getTimestamp().getTime();
-
-        AlarmManager manager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        Intent receiverIntent = new Intent(getActivity(), AlarmReceiver.class);
-        receiverIntent.putExtra(AlarmReceiver.ACTION, AlarmReceiver.NOTIFICATION);
-        receiverIntent.putExtra(AlarmReceiver.TITLE, task.getType());
-
-        switch (task.getType()){
-            case Task.MEASUREMENT_PRESSURE:
-                receiverIntent.putExtra(AlarmReceiver.MESSAGE, "Pamiętaj o pomiarze ciśnienia!");
-                break;
-
-            case Task.MEASUREMENT_TEMPERATURE:
-                receiverIntent.putExtra(AlarmReceiver.MESSAGE, "Pamiętaj o pomiarze temperatury!");
-                break;
-
-            case Task.DRUG:
-                receiverIntent.putExtra(AlarmReceiver.MESSAGE, "Pamiętaj o leku!");
-                break;
-
-            case Task.EXAMINATION:
-                receiverIntent.putExtra(AlarmReceiver.MESSAGE, "Pamiętaj o wizycie u lekarza!");
-                break;
-        }
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0,
-                receiverIntent, 0);
-
-        manager.set(AlarmManager.RTC_WAKEUP, when, pendingIntent);
+        TaskAlarm.setAlarm(getActivity(), task);
     }
 
     private void navigateToParentView() {

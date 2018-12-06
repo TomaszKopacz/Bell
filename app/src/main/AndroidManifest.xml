@@ -28,7 +28,7 @@
             android:parentActivityName=".mainwindow.MainActivity">
 
         </activity>
-        <receiver android:name=".notification.AlarmReceiver"/>
+        <receiver android:name=".notification.TaskAlarmReceiver"/>
     </application>
 
 </manifest>

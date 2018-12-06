@@ -1,16 +1,13 @@
 package com.example.adam.myapplication.newtaskwindow.measurement;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class MeasurementPresenter implements MeasurementContract.MeasurementPresenter {
 
