@@ -30,6 +30,20 @@ public class Task {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    public Task(Task task) {
+        this.id = task.id;
+        this.type = task.type;
+        this.timestamp = task.timestamp;
+        this.status = task.status;
+        this.result = task.result;
+        this.drugName = task.drugName;
+        this.dose = task.dose;
+        this.unit = task.unit;
+        this.doctor = task.doctor;
+        this.location = task.location;
+        this.info = task.info;
+    }
+
     @ColumnInfo(name = TYPE)
     private String type;
 

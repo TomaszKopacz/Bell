@@ -7,7 +7,9 @@ import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MeasurementPresenter implements MeasurementContract.MeasurementPresenter {
 
@@ -26,19 +28,23 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
 
     private void insertTasks() {
         try {
-            Task task = getTaskFromLayout();
+            if (!view.isCycle()) {
+                Task task = getTaskFromLayout();
+                view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+                repository.insert(task);
 
-            if (!view.isCycle())
-                makeOneTask(task);
-            else
-                makeManyTasks(task);
+            } else {
+                List<Task> tasks = getCyclicTasks();
+
+                for (Task task : tasks)
+                    view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+
+                repository.insert(tasks);
+            }
 
             view.navigateToParentView();
 
         } catch (ParseException e) {
-            e.printStackTrace();
-
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -58,24 +64,25 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
         return task;
     }
 
-    private void makeOneTask(Task task) {
-        repository.insert(task);
-        view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
-    }
-
-    private void makeManyTasks(Task task) throws ParseException, InterruptedException {
+    private List<Task> getCyclicTasks() throws ParseException {
         Date currentDate = getCurrentDate();
         Date endDate = getEndDate(currentDate);
 
+        List<Task> tasks = new ArrayList<>();
+
         for (; currentDate.before(endDate) || currentDate.equals(endDate); ) {
-            Thread.sleep(100);
+            Task task = getTaskFromLayout();
 
-            task.setTimestamp(currentDate);
+            Date timestamp = new Date();
+            timestamp.setTime(currentDate.getTime());
+            task.setTimestamp(timestamp);
 
-            makeOneTask(task);
+            tasks.add(task);
 
             incrementDay(currentDate);
         }
+
+        return tasks;
     }
 
     private Date getCurrentDate() throws ParseException {

@@ -287,9 +287,9 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
 
     @Override
     public void onTaskCreated(String status, @Nullable Task task) {
-        if (status.equals(SUCCESS)  && task != null){
+        if (status.equals(SUCCESS)  && task != null)
             setNotification(task);
-        }
+
     }
 
     private void setNotification(Task task){
