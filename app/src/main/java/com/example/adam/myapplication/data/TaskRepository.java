@@ -1,8 +1,6 @@
 package com.example.adam.myapplication.data;
 
 import android.arch.lifecycle.LiveData;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +17,7 @@ public class TaskRepository {
         return dao.getAll();
     }
 
-    public LiveData<List<Task>> getAllFromDate(Date date){
+    public LiveData<List<Task>> getAllFromDate(Date date) {
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
@@ -34,22 +32,23 @@ public class TaskRepository {
     }
 
     public void insert(final Task task) {
-        new InsertAsyncTask(dao).execute(task);
+        InsertThread insertThread = new InsertThread(task, dao);
+        insertThread.start();
     }
 
-    private static class InsertAsyncTask extends AsyncTask<Task, Void, Void> {
-
+    private class InsertThread extends Thread {
+        private Task task;
         private TaskDao dao;
 
-        InsertAsyncTask(TaskDao dao) {
+        InsertThread(Task task, TaskDao dao) {
+            this.task = task;
             this.dao = dao;
         }
 
         @Override
-        protected Void doInBackground(Task... tasks) {
-
-            dao.insert(tasks[0]);
-            return null;
+        public void run() {
+            if (task != null)
+                dao.insert(task);
         }
     }
 }

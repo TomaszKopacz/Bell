@@ -28,6 +28,7 @@ public interface MeasurementContract {
         void setIsCycle(boolean b);
 
         void onTaskCreated(String status, @Nullable Task task);
+        void navigateToParentView();
     }
 
     interface MeasurementPresenter {

@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -289,7 +290,6 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
     public void onTaskCreated(String status, @Nullable Task task) {
         if (status.equals(SUCCESS)  && task != null){
             setNotification(task);
-            navigateToParentView();
         }
     }
 
@@ -297,7 +297,8 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
         TaskAlarm.setAlarm(getActivity(), task);
     }
 
-    private void navigateToParentView() {
+    @Override
+    public void navigateToParentView() {
         getActivity().finish();
     }
 }

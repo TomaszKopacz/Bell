@@ -21,20 +21,30 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
 
     @Override
     public void onSubmitButtonClicked() {
-        Task task;
+        insertTasks();
+    }
 
+    private void insertTasks() {
         try {
-            task = createTask();
-            repository.insert(task);
-            view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+            Task task = getTaskFromLayout();
+
+            if (!view.isCycle())
+                makeOneTask(task);
+            else
+                makeManyTasks(task);
+
+            view.navigateToParentView();
 
         } catch (ParseException e) {
+            e.printStackTrace();
+
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     @NonNull
-    private Task createTask() throws ParseException {
+    private Task getTaskFromLayout() throws ParseException {
         String type = view.getType();
         String time = view.getHour();
         String date = view.getDate();
@@ -46,5 +56,38 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
         task.setUnit(unit);
 
         return task;
+    }
+
+    private void makeOneTask(Task task) {
+        repository.insert(task);
+        view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+    }
+
+    private void makeManyTasks(Task task) throws ParseException, InterruptedException {
+        Date currentDate = getCurrentDate();
+        Date endDate = getEndDate(currentDate);
+
+        for (; currentDate.before(endDate) || currentDate.equals(endDate); ) {
+            Thread.sleep(100);
+
+            task.setTimestamp(currentDate);
+
+            makeOneTask(task);
+
+            incrementDay(currentDate);
+        }
+    }
+
+    private Date getCurrentDate() throws ParseException {
+        return DatetimeFormatter.getTimestamp(view.getDate(), view.getHour());
+    }
+
+    private Date getEndDate(Date startDate) throws ParseException {
+        return view.isCycle() ?
+                DatetimeFormatter.getTimestamp(view.getEndDate(), view.getHour()) : startDate;
+    }
+
+    private void incrementDay(Date date){
+        date.setTime(date.getTime() + (1000 * 60 * 60 * 24));
     }
 }
