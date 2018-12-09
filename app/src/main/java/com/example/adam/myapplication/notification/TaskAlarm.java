@@ -10,7 +10,11 @@ import android.util.Log;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.data.Task;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+
 public class TaskAlarm {
+
+    private static int REQUEST_CODE = 0;
 
     public static void setAlarm(Context context, Task task){
         AlarmManager manager
@@ -20,7 +24,7 @@ public class TaskAlarm {
                 = getAlarmReceiverIntent(context, task);
 
         PendingIntent pendingIntent
-                = PendingIntent.getBroadcast(context, 0, receiverIntent, 0);
+                = PendingIntent.getBroadcast(context, ++REQUEST_CODE, receiverIntent, FLAG_UPDATE_CURRENT);
 
         long alarmTime = task.getTimestamp().getTime();
 
@@ -33,6 +37,7 @@ public class TaskAlarm {
 
         receiverIntent.putExtra(TaskAlarmReceiver.ACTION, TaskAlarmReceiver.NOTIFICATION);
         receiverIntent.putExtra(TaskAlarmReceiver.TITLE, task.getType());
+        Log.i("TELM", "get receiver intent: " + task.getType());
 
         switch (task.getType()){
             case Task.MEASUREMENT_PRESSURE:

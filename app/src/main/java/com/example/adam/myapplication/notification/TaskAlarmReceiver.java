@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.mainwindow.MainActivity;
@@ -20,7 +21,7 @@ public class TaskAlarmReceiver extends BroadcastReceiver {
     public static final String TITLE = "title";
     public static final String MESSAGE = "message";
 
-    private static final int NOTIFICATION_ID = 123;
+    private static int NOTIFICATION_ID = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -33,6 +34,10 @@ public class TaskAlarmReceiver extends BroadcastReceiver {
     private void sendNotification(Context context, Intent intent) {
         String title = intent.getStringExtra(TITLE);
         String message = intent.getStringExtra(MESSAGE);
+
+        Log.i("TELM", "on receive title: " + title);
+        Log.i("TELM", "on receive message: " + message);
+
 
         NotificationManager manager
                 = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
