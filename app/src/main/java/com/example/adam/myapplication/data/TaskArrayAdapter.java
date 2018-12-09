@@ -35,4 +35,5 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClick
     public void onClick(View v) {
 
     }
+
 }

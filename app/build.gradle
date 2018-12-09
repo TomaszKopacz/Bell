@@ -41,4 +41,7 @@ dependencies {
     def calendarVersion = "1.0.1"
     //noinspection GradleDependency
     implementation "com.applandeo:material-calendar-view:$calendarVersion"
-}
+
+    //swipeMenuListView
+        implementation 'com.baoyz.swipemenulistview:library:1.3.0'
+    }
