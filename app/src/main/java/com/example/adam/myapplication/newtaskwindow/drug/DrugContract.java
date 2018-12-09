@@ -15,6 +15,8 @@ public interface DrugContract {
         String getDate();
         String getEndDate();
 
+        boolean isCycle();
+
         void setDrug(String drug);
         void setDose(String dose);
         void setTime(String time);
@@ -22,6 +24,7 @@ public interface DrugContract {
         void setEndDate(String endDate);
 
         void onTaskCreated(String status, Task task);
+        void navigateToParentView();
     }
 
     interface DrugPresenter {

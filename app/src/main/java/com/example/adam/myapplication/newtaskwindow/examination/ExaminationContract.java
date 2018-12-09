@@ -17,6 +17,8 @@ public interface ExaminationContract {
         String getDate();
         String getEndDate();
 
+        boolean isCycle();
+
         void setDoctor(String doctor);
         void setLocation(String location);
         void setInfo(String info);
@@ -25,6 +27,7 @@ public interface ExaminationContract {
         void setEndDate(String endDate);
 
         void onTaskCreated(String status, Task task);
+        void navigateToParentView();
     }
 
     interface ExaminationPresenter {

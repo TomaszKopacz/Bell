@@ -208,6 +208,11 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
     }
 
     @Override
+    public boolean isCycle() {
+        return isCycleCheckBox.isChecked();
+    }
+
+    @Override
     public void setDoctor(String doctor) {
         doctorText.setText(doctor);
     }
@@ -238,10 +243,9 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
     }
 
     @Override
-    public void onTaskCreated(String status, Task task) {
+    public void onTaskCreated(String status, @Nullable Task task) {
         if (status.equals(SUCCESS)  && task != null){
             setNotification(task);
-            navigateToParentView();
         }
     }
 
@@ -249,7 +253,8 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
         TaskAlarm.setAlarm(getActivity(), task);
     }
 
-    private void navigateToParentView() {
+    @Override
+    public void navigateToParentView() {
         getActivity().finish();
     }
 }
