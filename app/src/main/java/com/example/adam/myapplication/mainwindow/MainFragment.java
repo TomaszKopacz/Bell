@@ -38,6 +38,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.adam.myapplication.data.Task.MEASUREMENT_PRESSURE;
+import static com.example.adam.myapplication.data.Task.MEASUREMENT_TEMPERATURE;
+
 public class MainFragment extends Fragment {
 
     private SwipeMenuListView list;
@@ -57,7 +60,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         getLayoutViews(view);
-        swipelist();
+        createSwipeList();
         setListeners();
 
         return view;
@@ -113,8 +116,26 @@ public class MainFragment extends Fragment {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                new InputDialog(getActivity()).inputDialog().show();
-                return true;
+                Task t = (Task) list.getAdapter().getItem(position);
+                if(t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
+                    new InputDialog(getActivity()).inputDialog().show();
+                    return true;
+                }
+                else
+                    return false;
+            }
+        });
+        list.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        // delete
+                        // TUTAJ USUWANIE
+                        break;
+                }
+                // false : close the menu; true : not close the menu
+                return false;
             }
         });
     }
@@ -162,29 +183,13 @@ public class MainFragment extends Fragment {
         list.setAdapter(adapter);
     }
 
-    public void swipelist()
+    public void createSwipeList()
     {
          creator = new SwipeMenuCreator() {
 
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void create(SwipeMenu menu) {
-                // create "open" item
-                SwipeMenuItem openItem = new SwipeMenuItem(
-                        getContext());
-                // set item background
-                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                        0xCE)));
-                // set item width
-                openItem.setWidth(170);
-                // set item title
-                openItem.setTitle("Open");
-                // set item title fontsize
-                openItem.setTitleSize(18);
-                // set item title font color
-                openItem.setTitleColor(Color.WHITE);
-                // add to menu
-                menu.addMenuItem(openItem);
 
                 // create "delete" item
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
@@ -204,21 +209,7 @@ public class MainFragment extends Fragment {
         // set creator
         list.setMenuCreator(creator);
 
-        list.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
-                    case 0:
-                        // open
-                        break;
-                    case 1:
-                        // delete
-                        break;
-                }
-                // false : close the menu; true : not close the menu
-                return false;
-            }
-        });
+
     }
 }
 
