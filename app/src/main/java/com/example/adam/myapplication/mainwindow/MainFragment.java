@@ -12,13 +12,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -28,7 +26,6 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskArrayAdapter;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimePicker;
@@ -37,9 +34,6 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import static com.example.adam.myapplication.data.Task.MEASUREMENT_PRESSURE;
-import static com.example.adam.myapplication.data.Task.MEASUREMENT_TEMPERATURE;
 
 public class MainFragment extends Fragment {
 
@@ -60,7 +54,6 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         getLayoutViews(view);
-        createSwipeList();
         setListeners();
 
         return view;
@@ -70,6 +63,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         displayCurrentDay();
+        createSwipeList();
     }
 
     private void getLayoutViews(View view) {
@@ -125,16 +119,19 @@ public class MainFragment extends Fragment {
                     return false;
             }
         });
+
         list.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        // delete
-                        // TUTAJ USUWANIE
+                        Task taskToDelete = (Task) list.getAdapter().getItem(position);
+                        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+
+                        repository.delete(taskToDelete);
                         break;
                 }
-                // false : close the menu; true : not close the menu
+
                 return false;
             }
         });
@@ -193,7 +190,7 @@ public class MainFragment extends Fragment {
 
                 // create "delete" item
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        getContext());
+                        getActivity());
                 // set item background
                 deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
                         0x3F, 0x25)));
@@ -208,8 +205,6 @@ public class MainFragment extends Fragment {
 
         // set creator
         list.setMenuCreator(creator);
-
-
     }
 }
 
