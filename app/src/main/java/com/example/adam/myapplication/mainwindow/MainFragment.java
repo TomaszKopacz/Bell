@@ -5,8 +5,12 @@ import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +21,10 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
@@ -30,9 +38,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.adam.myapplication.data.Task.MEASUREMENT_PRESSURE;
+import static com.example.adam.myapplication.data.Task.MEASUREMENT_TEMPERATURE;
+
 public class MainFragment extends Fragment {
 
-    private ListView list;
+    private SwipeMenuListView list;
+    private SwipeMenuCreator creator;
     private TextView d_m;
     private TextView year;
     private FloatingActionButton plus;
@@ -48,6 +60,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         getLayoutViews(view);
+        createSwipeList();
         setListeners();
 
         return view;
@@ -60,7 +73,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getLayoutViews(View view) {
-        list = view.findViewById(R.id.lista);
+        list = (SwipeMenuListView) view.findViewById(R.id.lista);
         d_m = view.findViewById(R.id.d_m);
         year = view.findViewById(R.id.rok);
         plus = view.findViewById(R.id.fab);
@@ -103,8 +116,26 @@ public class MainFragment extends Fragment {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                new InputDialog(getActivity()).inputDialog().show();
-                return true;
+                Task t = (Task) list.getAdapter().getItem(position);
+                if(t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
+                    new InputDialog(getActivity()).inputDialog().show();
+                    return true;
+                }
+                else
+                    return false;
+            }
+        });
+        list.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        // delete
+                        // TUTAJ USUWANIE
+                        break;
+                }
+                // false : close the menu; true : not close the menu
+                return false;
             }
         });
     }
@@ -151,4 +182,34 @@ public class MainFragment extends Fragment {
         TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity(), tasks);
         list.setAdapter(adapter);
     }
+
+    public void createSwipeList()
+    {
+         creator = new SwipeMenuCreator() {
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void create(SwipeMenu menu) {
+
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                // set item width
+                deleteItem.setWidth(170);
+                // set a icon
+                deleteItem.setIcon(R.drawable.ic_delete);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        // set creator
+        list.setMenuCreator(creator);
+
+
+    }
 }
+
