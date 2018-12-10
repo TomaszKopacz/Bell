@@ -30,6 +30,8 @@ import com.example.adam.myapplication.utils.DatetimePicker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import java.util.Date;
+
 public class DrugFragment extends Fragment implements DrugContract.DrugView {
 
     private DrugContract.DrugPresenter presenter;
@@ -247,12 +249,14 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
 
     @Override
     public void onTaskCreated(String status, @Nullable Task task) {
-        if (status.equals(SUCCESS)  && task != null){
-            setNotification(task);
+        if (status.equals(SUCCESS) && task != null) {
+            Date currentDate = new Date();
+            if (!task.getTimestamp().before(currentDate))
+                setNotification(task);
         }
     }
 
-    private void setNotification(Task task){
+    private void setNotification(Task task) {
         TaskAlarm.setAlarm(getActivity(), task);
     }
 
