@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.data;
+package com.example.adam.myapplication.mainwindow;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.data.Task;
 
 import java.util.List;
 
