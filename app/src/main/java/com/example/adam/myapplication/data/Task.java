@@ -17,6 +17,8 @@ public class Task {
     private static final String TYPE = "type";
     private static final String TIMESTAMP = "timestamp";
     private static final String STATUS = "status";
+    private static final String STATUS_DONE = "done";
+    private static final String STATUS_NOT_DONE = "not_done";
     private static final String RESULT = "result";
 
     private static final String DRUG_NAME = "drug_name";
