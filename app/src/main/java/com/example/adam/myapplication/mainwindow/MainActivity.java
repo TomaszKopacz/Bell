@@ -2,6 +2,7 @@ package com.example.adam.myapplication.mainwindow;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.chartwindow.ChartActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
 
         } else if (id == R.id.action_chart){
-            Log.i("TELM", "CHART");
+            startChartActivity();
             return true;
 
         } else if (id == R.id.action_info){
@@ -60,5 +62,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startChartActivity() {
+        Intent intent = new Intent(this, ChartActivity.class);
+        startActivity(intent);
     }
 }
