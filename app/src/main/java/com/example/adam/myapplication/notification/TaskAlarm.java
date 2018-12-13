@@ -16,7 +16,7 @@ public class TaskAlarm {
 
     private static int REQUEST_CODE = 0;
 
-    public static void setAlarm(Context context, Task task){
+    public static void setAlarm(Context context, Task task) {
         AlarmManager manager
                 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -39,7 +39,7 @@ public class TaskAlarm {
         receiverIntent.putExtra(TaskAlarmReceiver.TITLE, task.getType());
         Log.i("TELM", "get receiver intent: " + task.getType());
 
-        switch (task.getType()){
+        switch (task.getType()) {
             case Task.MEASUREMENT_PRESSURE:
                 receiverIntent.putExtra(TaskAlarmReceiver.MESSAGE,
                         context.getString(R.string.pressure_reminder));

@@ -58,7 +58,7 @@ public class TaskAlarmReceiver extends BroadcastReceiver {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setLights(context.getResources().getColor(R.color.colorPrimary), 500, 500)
-                .setVibrate(new long[] {200, 200, 200, 200})
+                .setVibrate(new long[]{200, 200, 200, 200})
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);

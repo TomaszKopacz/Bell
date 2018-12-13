@@ -94,7 +94,7 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
                 DatetimeFormatter.getTimestamp(view.getEndDate(), view.getHour()) : startDate;
     }
 
-    private void incrementDay(Date date){
+    private void incrementDay(Date date) {
         date.setTime(date.getTime() + (1000 * 60 * 60 * 24));
     }
 }

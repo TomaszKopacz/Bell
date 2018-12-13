@@ -94,7 +94,7 @@ public class DrugPresenter implements DrugContract.DrugPresenter {
                 DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime()) : startDate;
     }
 
-    private void incrementDay(Date date){
+    private void incrementDay(Date date) {
         date.setTime(date.getTime() + (1000 * 60 * 60 * 24));
     }
 }

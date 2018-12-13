@@ -1,5 +1,6 @@
 package com.example.adam.myapplication.mainwindow;
 
+import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -11,9 +12,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.adam.myapplication.R;
+import com.example.adam.myapplication.utils.DatetimePicker;
 import com.example.adam.myapplication.chartwindow.ChartActivity;
 
+
 public class MainActivity extends AppCompatActivity {
+
+    private DatePickerDialog.OnDateSetListener dateSetListener;
+
+    public MainFragment getMainFragment() {
+        return mainFragment;
+    }
+
+    private MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDefaultFragment() {
-        changeFragment(new MainFragment());
+        changeFragment(mainFragment = new MainFragment());
     }
 
-    public void changeFragment(Fragment fragment){
+    public void changeFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
@@ -49,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_calendar) {
-            Log.i("TELM", "CALENDAR");
+            DatetimePicker.showDatePicker(this, mainFragment.getDateSetListener());
             return true;
 
         } else if (id == R.id.action_chart){

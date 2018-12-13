@@ -14,7 +14,7 @@ public class DatetimeFormatter {
         return formatter.parse(date + " " + time);
     }
 
-    public static String getDateFormatted(int day, int month, int year){
+    public static String getDateFormatted(int day, int month, int year) {
 
         // month is count from 0
         month++;

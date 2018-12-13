@@ -1,8 +1,7 @@
 package com.example.adam.myapplication.data;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Dao;
-import android.util.Log;
+import android.arch.persistence.room.Update;
 
 import java.util.Date;
 import java.util.List;
@@ -28,12 +27,17 @@ public class TaskRepository {
         insertThread.start();
     }
 
-    public void insert(List<Task> tasks){
+    public void insert(List<Task> tasks) {
         InsertManyThread insertManyThread = new InsertManyThread(tasks, dao);
         insertManyThread.start();
     }
 
-    public void delete(Task task){
+    public void update(Task task){
+        UpdateThread updateThread = new UpdateThread(task, dao);
+        updateThread.start();
+    }
+
+    public void delete(Task task) {
         DeleteThread deleteThread = new DeleteThread(task, dao);
         deleteThread.start();
     }
@@ -58,7 +62,7 @@ public class TaskRepository {
         private List<Task> tasks;
         private TaskDao dao;
 
-        InsertManyThread(List<Task> tasks, TaskDao dao){
+        InsertManyThread(List<Task> tasks, TaskDao dao) {
             this.tasks = tasks;
             this.dao = dao;
         }
@@ -70,11 +74,26 @@ public class TaskRepository {
         }
     }
 
+    private class UpdateThread extends Thread {
+        private Task task;
+        private TaskDao dao;
+
+        UpdateThread(Task task, TaskDao dao){
+            this.task = task;
+            this.dao = dao;
+        }
+
+        @Override
+        public void run() {
+            dao.update(task);
+        }
+    }
+
     private class DeleteThread extends Thread {
         private Task task;
         private TaskDao dao;
 
-        DeleteThread(Task task, TaskDao dao){
+        DeleteThread(Task task, TaskDao dao) {
             this.task = task;
             this.dao = dao;
         }
