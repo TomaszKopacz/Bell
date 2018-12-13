@@ -54,7 +54,7 @@ public class Task {
     private boolean status;
 
     @ColumnInfo(name = RESULT)
-    private double result = 37.0;
+    private double result = 0.0d;
 
     @ColumnInfo(name = DRUG_NAME)
     private String drugName;

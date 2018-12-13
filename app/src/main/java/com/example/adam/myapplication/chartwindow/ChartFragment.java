@@ -25,6 +25,7 @@ import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,8 +41,10 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     private GraphView graphView;
 
     private String state = TEMPERATURE_STATE;
-    BarGraphSeries<DataPoint> temperatureSeries = new BarGraphSeries<>();
+    LineGraphSeries<DataPoint> temperatureSeries = new LineGraphSeries<>();
+    PointsGraphSeries<DataPoint> temperaturePointSeries = new PointsGraphSeries<>();
     LineGraphSeries<DataPoint> pressureSeries = new LineGraphSeries<>();
+    PointsGraphSeries<DataPoint> pressurePointSeries = new PointsGraphSeries<>();
 
     private static final String TEMPERATURE_STATE = "TEMPERATURE";
     private static final String PRESSURE_STATE = "PRESSURE";
@@ -86,15 +89,8 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void makeGraph() {
-        Viewport viewport = graphView.getViewport();
-
-        viewport.setYAxisBoundsManual(true);
-        viewport.setXAxisBoundsManual(true);
-
-        viewport.setMinX(0);
-        viewport.setMaxX(30);
-        viewport.setMinY(34);
-        viewport.setMaxY(42);
+        setGraphXScale(timeRangeBar.getProgress() + 1);
+        setGraphYScale(state);
     }
 
     private void setPresenter() {
@@ -111,7 +107,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
             displayTimeRange();
-            setGraphXScale(i);
+            setGraphXScale(i + 1);
             presenter.onTimeRangeChanged(i);
         }
 
@@ -132,12 +128,29 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
 
     private void setGraphXScale(int i) {
         Viewport viewport = graphView.getViewport();
-
-        viewport.setYAxisBoundsManual(true);
         viewport.setXAxisBoundsManual(true);
+        viewport.setMinX(0);
         viewport.setMaxX(i);
 
         graphView.onDataChanged(false, false);
+    }
+
+    private void setGraphYScale(String type){
+
+        Viewport viewport = graphView.getViewport();
+        viewport.setYAxisBoundsManual(true);
+
+        switch (type){
+            case TEMPERATURE_STATE:
+                viewport.setMinY(34);
+                viewport.setMaxY(42);
+                break;
+
+            case PRESSURE_STATE:
+                viewport.setMinY(90);
+                viewport.setMaxY(180);
+                break;
+        }
     }
 
     private CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
@@ -145,10 +158,12 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if (!b){
                 state = TEMPERATURE_STATE;
+                setGraphYScale(state);
                 showTemperatureGraph();
 
             } else {
                 state = PRESSURE_STATE;
+                setGraphYScale(state);
                 showPressureGraph();
             }
         }
@@ -157,11 +172,13 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     private void showTemperatureGraph() {
         graphView.removeAllSeries();
         graphView.addSeries(temperatureSeries);
+        graphView.addSeries(temperaturePointSeries);
     }
 
     private void showPressureGraph() {
         graphView.removeAllSeries();
         graphView.addSeries(pressureSeries);
+        graphView.addSeries(pressurePointSeries);
     }
 
     @Override
@@ -175,6 +192,11 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void setPoints(List<Task> tasks) {
+        temperatureSeries = new LineGraphSeries<>();
+        temperaturePointSeries = new PointsGraphSeries<>();
+        pressureSeries = new LineGraphSeries<>();
+        pressurePointSeries = new PointsGraphSeries<>();
+
         List<List<Task>> temperatureDayTasks = getDayTasks(tasks, Task.MEASUREMENT_TEMPERATURE);
         List<List<Task>> pressureDayTasks = getDayTasks(tasks, Task.MEASUREMENT_PRESSURE);
 
@@ -190,6 +212,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
                 DataPoint point = new DataPoint(x, task.getResult());
 
                 temperatureSeries.appendData(point, true, 1000);
+                temperaturePointSeries.appendData(point, true, 1000);
             }
 
             indexT++;
@@ -205,6 +228,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
                 DataPoint point = new DataPoint(x, task.getResult());
 
                 pressureSeries.appendData(point, true, 1000);
+                pressurePointSeries.appendData(point, true, 1000);
             }
 
             indexP++;
@@ -213,10 +237,12 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
         if (state.equals(TEMPERATURE_STATE)){
             graphView.removeAllSeries();
             graphView.addSeries(temperatureSeries);
+            graphView.addSeries(temperaturePointSeries);
 
         } else {
             graphView.removeAllSeries();
             graphView.addSeries(pressureSeries);
+            graphView.addSeries(pressurePointSeries);
         }
     }
 
