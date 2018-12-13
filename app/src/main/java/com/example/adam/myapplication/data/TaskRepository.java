@@ -19,11 +19,8 @@ public class TaskRepository {
         return dao.getAll();
     }
 
-    public LiveData<List<Task>> getAllFromDate(Date date) {
-        Date startOfDay = getStartDate(date);
-        Date endOfDay = getEndDate(date);
-
-        return dao.getAllFromTimeWindow(startOfDay, endOfDay);
+    public LiveData<List<Task>> getAllFromDate(Date start, Date end) {
+        return dao.getAllFromTimeWindow(start, end);
     }
 
     public void insert(final Task task) {
@@ -39,20 +36,6 @@ public class TaskRepository {
     public void delete(Task task){
         DeleteThread deleteThread = new DeleteThread(task, dao);
         deleteThread.start();
-    }
-
-    private Date getStartDate(Date date) {
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        return (Date) date.clone();
-    }
-
-    private Date getEndDate(Date date) {
-        date.setHours(23);
-        date.setMinutes(59);
-        date.setSeconds(59);
-        return (Date) date.clone();
     }
 
     private class InsertThread extends Thread {

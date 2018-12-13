@@ -111,11 +111,10 @@ public class MainFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Task t = (Task) list.getAdapter().getItem(position);
-                if(t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
+                if (t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
                     new InputDialog(getActivity()).inputDialog().show();
                     return true;
-                }
-                else
+                } else
                     return false;
             }
         });
@@ -167,7 +166,11 @@ public class MainFragment extends Fragment {
 
     public void downloadTasks(Date date) {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        repository.getAllFromDate(date).observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
+
+        Date start = getStartDate(date);
+        Date end = getEndDate(date);
+
+        repository.getAllFromDate(start, end).observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
                 createList(tasks);
@@ -175,14 +178,27 @@ public class MainFragment extends Fragment {
         });
     }
 
+    private Date getStartDate(Date date) {
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        return (Date) date.clone();
+    }
+
+    private Date getEndDate(Date date) {
+        date.setHours(23);
+        date.setMinutes(59);
+        date.setSeconds(59);
+        return (Date) date.clone();
+    }
+
     public void createList(List<Task> tasks) {
         TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity(), tasks);
         list.setAdapter(adapter);
     }
 
-    public void createSwipeList()
-    {
-         creator = new SwipeMenuCreator() {
+    public void createSwipeList() {
+        creator = new SwipeMenuCreator() {
 
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
