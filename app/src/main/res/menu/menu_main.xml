@@ -1,10 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.adam.myapplication.mainwindow.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/calendar"
-        android:title=""
-        app:showAsAction="always"
-        tools:icon="@drawable/ic_calendar" />
+        android:id="@+id/menu_calendar"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="calendar"
+        app:showAsAction="always" />
 </menu>

@@ -18,7 +18,7 @@ public class DatetimePicker {
         dialog.show();
     }
 
-    public static void showTimePicker(Context context, TimePickerDialog.OnTimeSetListener listener){
+    public static void showTimePicker(Context context, TimePickerDialog.OnTimeSetListener listener) {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);

@@ -10,20 +10,29 @@ public interface DrugContract {
         String FAILURE = "failure";
 
         String getDrug();
+
         String getDose();
+
         String getTime();
+
         String getDate();
+
         String getEndDate();
 
         boolean isCycle();
 
         void setDrug(String drug);
+
         void setDose(String dose);
+
         void setTime(String time);
+
         void setDate(String date);
+
         void setEndDate(String endDate);
 
         void onTaskCreated(String status, Task task);
+
         void navigateToParentView();
     }
 

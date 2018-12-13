@@ -1,11 +1,9 @@
 package com.example.adam.myapplication.mainwindow;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,11 +12,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -31,7 +29,6 @@ import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
-import com.example.adam.myapplication.utils.DatetimePicker;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -40,11 +37,29 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
+    public SwipeMenuListView getList() {
+        return list;
+    }
+
     private SwipeMenuListView list;
     private SwipeMenuCreator creator;
     private TextView d_m;
     private TextView year;
     private FloatingActionButton plus;
+    private CheckBox checkBox;
+    private InputDialog inputDialog;
+    private MainFragment mainFragment = this;
+
+    public double getResult() {
+        return result;
+    }
+
+    public void setResult(double result) {
+        this.result = result;
+    }
+
+    private double result = 0;
+
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
@@ -74,6 +89,7 @@ public class MainFragment extends Fragment {
         d_m = view.findViewById(R.id.d_m);
         year = view.findViewById(R.id.rok);
         plus = view.findViewById(R.id.fab);
+        checkBox = view.findViewById(R.id.checkbox);
     }
 
     private void setListeners() {
@@ -95,31 +111,21 @@ public class MainFragment extends Fragment {
             }
         };
 
-        d_m.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatetimePicker.showDatePicker(getActivity(), dateSetListener);
-            }
-        });
-
-        year.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatetimePicker.showDatePicker(getActivity(), dateSetListener);
-            }
-        });
-
         list.setLongClickable(true);
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Task t = (Task) list.getAdapter().getItem(position);
-                if(t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
-                    new InputDialog(getActivity()).inputDialog().show();
+                if (t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
+                    inputDialog = new InputDialog(getActivity());
+                    inputDialog.inputDialog(mainFragment, position).show();
+
+                    return true;
+                } else if (t.getType().equals("DRUG") || t.getType().equals("EXAMINATION")) {
+                    new DoneDialog(getActivity()).doneDialog(mainFragment, position).show();
                     return true;
                 }
-                else
-                    return false;
+                return false;
             }
         });
 
@@ -192,9 +198,8 @@ public class MainFragment extends Fragment {
         list.setAdapter(adapter);
     }
 
-    public void createSwipeList()
-    {
-         creator = new SwipeMenuCreator() {
+    public void createSwipeList() {
+        creator = new SwipeMenuCreator() {
 
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -217,6 +222,19 @@ public class MainFragment extends Fragment {
 
         // set creator
         list.setMenuCreator(creator);
+    }
+
+    public DatePickerDialog.OnDateSetListener getDateSetListener() {
+        return dateSetListener;
+    }
+
+    public void setResult(int position, double result) {
+        ((Task) list.getAdapter().getItem(position)).setResult(Double.toString(result));
+        ((Task) list.getAdapter().getItem(position)).setStatus(true);
+    }
+
+    public void setStatus(int position, boolean status) {
+        ((Task) list.getAdapter().getItem(position)).setStatus(true);
     }
 }
 

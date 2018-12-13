@@ -3,9 +3,6 @@ package com.example.adam.myapplication.mainwindow;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.text.InputType;
-import android.util.Log;
-import android.widget.EditText;
 
 import com.example.adam.myapplication.data.Task;
 
@@ -30,17 +27,22 @@ public class InfoDialog {
     }
 
     private String taskInfoText(Task t) {
-        if(t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE"))
-        {
-            return "POMIAR";
-        }
-        else if (t.getType().equals("DRUG"))
-        {
-            return "LEKI";
-        }
-        else
-        {
-            return "BADANIE";
+        if (t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
+            return "Mierzona wartość:" + "\n" + t.getType() + "\n" +
+                    "Jedonstka:" + "\n" + t.getUnit() + "\n" +
+                    "Wynik pomiaru " + "\n" +
+                    t.getResult();
+
+        } else if (t.getType().equals("DRUG")) {
+            return "Nazwa leku:" + "\n" + t.getDrugName() + "\n" +
+                    "Dawka:" + "\n" + t.getDose();
+        } else {
+            return "Imię i nazwisko lekarza:" + "\n" +
+                    t.getDoctor() + "\n" +
+                    "Lokalizacja: " + "\n" +
+                    t.getLocation() + "\n" +
+                    "Dodatkowe informacje:" + "\n" +
+                    t.getInfo();
         }
     }
 }

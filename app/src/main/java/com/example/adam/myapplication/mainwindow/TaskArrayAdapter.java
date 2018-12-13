@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
@@ -26,8 +27,14 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClick
         View rowView = inflater.inflate(R.layout.list_view_line, parent, false);
         TextView taskTime = (TextView) rowView.findViewById(R.id.task_time);
         TextView taskName = (TextView) rowView.findViewById(R.id.task_name);
+        CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
         taskTime.setText(tasks.get(position).getTimestamp().toString().substring(11, 16));
         taskName.setText(tasks.get(position).getType());
+        if (tasks.get(position).isStatus() == false) {
+            checkBox.setChecked(false);
+        } else {
+            checkBox.setChecked(true);
+        }
         return rowView;
     }
 
