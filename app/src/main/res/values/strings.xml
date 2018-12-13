@@ -47,4 +47,7 @@
     <string name="pressure_reminder">Pamiętaj o pomiarze ciśnienia!</string>
     <string name="drug_reminder">Pamiętaj o leku!</string>
     <string name="examination_reminder">Pamiętaj o wizycie u lekarza!</string>
+    <string name="action_calendar">menu_icon_calendar</string>
+    <string name="action_chart">menu_icon_graph</string>
+    <string name="action_info">menu_ocin_info</string>
 </resources>
