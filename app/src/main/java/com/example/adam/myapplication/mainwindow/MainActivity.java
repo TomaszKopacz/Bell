@@ -3,6 +3,7 @@ package com.example.adam.myapplication.mainwindow;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,8 @@ import android.view.MenuItem;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.utils.DatetimePicker;
+import com.example.adam.myapplication.chartwindow.ChartActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,16 +59,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_calendar) {
-            DatetimePicker.showDatePicker(this, mainFragment.getDateSetListener());
-        }
         if (id == R.id.action_calendar) {
-            Log.i("TELM", "CALENDAR");
+            DatetimePicker.showDatePicker(this, mainFragment.getDateSetListener());
             return true;
 
         } else if (id == R.id.action_chart){
-            Log.i("TELM", "CHART");
+            startChartActivity();
             return true;
 
         } else if (id == R.id.action_info){
@@ -74,5 +73,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startChartActivity() {
+        Intent intent = new Intent(this, ChartActivity.class);
+        startActivity(intent);
     }
 }

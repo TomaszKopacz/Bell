@@ -56,7 +56,7 @@ public class Task {
     private boolean status;
 
     @ColumnInfo(name = RESULT)
-    private String result;
+    private double result = 0.0d;
 
     @ColumnInfo(name = DRUG_NAME)
     private String drugName;
@@ -117,11 +117,11 @@ public class Task {
         this.status = status;
     }
 
-    public String getResult() {
+    public double getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(double result) {
         this.result = result;
     }
 

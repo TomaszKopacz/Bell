@@ -50,4 +50,9 @@
     <string name="action_calendar">menu_icon_calendar</string>
     <string name="action_chart">menu_icon_graph</string>
     <string name="action_info">menu_ocin_info</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="time_range">Wybierz przedział czasu:</string>
+    <string name="default_time_range_text">30</string>
 </resources>

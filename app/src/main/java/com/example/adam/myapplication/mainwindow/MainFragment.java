@@ -117,6 +117,7 @@ public class MainFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Task t = (Task) list.getAdapter().getItem(position);
                 if (t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
+
                     inputDialog = new InputDialog(getActivity());
                     inputDialog.inputDialog(mainFragment, position).show();
 
@@ -185,12 +186,30 @@ public class MainFragment extends Fragment {
 
     public void downloadTasks(Date date) {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        repository.getAllFromDate(date).observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
+
+        Date start = getStartDate(date);
+        Date end = getEndDate(date);
+
+        repository.getAllFromDate(start, end).observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
                 createList(tasks);
             }
         });
+    }
+
+    private Date getStartDate(Date date) {
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        return (Date) date.clone();
+    }
+
+    private Date getEndDate(Date date) {
+        date.setHours(23);
+        date.setMinutes(59);
+        date.setSeconds(59);
+        return (Date) date.clone();
     }
 
     public void createList(List<Task> tasks) {
@@ -229,12 +248,20 @@ public class MainFragment extends Fragment {
     }
 
     public void setResult(int position, double result) {
-        ((Task) list.getAdapter().getItem(position)).setResult(Double.toString(result));
-        ((Task) list.getAdapter().getItem(position)).setStatus(true);
+        Task task = (Task) list.getAdapter().getItem(position);
+        task.setResult(result);
+        task.setStatus(true);
+
+        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+        repository.update(task);
     }
 
     public void setStatus(int position, boolean status) {
-        ((Task) list.getAdapter().getItem(position)).setStatus(true);
+        Task task = (Task) list.getAdapter().getItem(position);
+        task.setStatus(status);
+
+        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+        repository.update(task);
     }
 }
 
