@@ -6,6 +6,8 @@ import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.widget.EditText;
 
+import java.util.Calendar;
+
 public class InputDialog {
 
     private Context context;
@@ -29,7 +31,7 @@ public class InputDialog {
                 try {
                     input_value = Double.parseDouble(input.getText().toString());
                     // TOMEK TUTAJ ZAPIS
-                    mainFragment.setResult(position, input_value);
+                         mainFragment.setResult(position, input_value);
 
                 } catch (NumberFormatException e) {
                     errorDialog().show();
@@ -49,9 +51,36 @@ public class InputDialog {
     public AlertDialog errorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("BŁĄD!");
-        builder.setMessage("DOPUSZCZALNY FORMAT TO LICZBA Z ZAKRESU 0 DO X")
+        builder.setMessage("W polu można wpisać jedynie liczbę")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        return dialog;
+    }
+
+    public AlertDialog errorTemperatureDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("BŁĄD!");
+        builder.setMessage("Błędna wartość temperatury.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        return dialog;
+    }
+
+    public AlertDialog errorPressureDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("BŁĄD!");
+        builder.setMessage("Błędna wartość ciśnienia.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
                     }
                 });
         AlertDialog dialog = builder.create();

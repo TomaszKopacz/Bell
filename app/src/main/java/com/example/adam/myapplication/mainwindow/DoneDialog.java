@@ -32,4 +32,19 @@ public class DoneDialog {
         AlertDialog dialog = builder.create();
         return dialog;
     }
+
+    public AlertDialog doneDialogWrongDate() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Uwaga!");
+        builder.setMessage("Zadanie nie może zostać wykonane."
+        + "\n" + "Proszę wybrać poprawną datę.");
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        return dialog;
+    }
 }

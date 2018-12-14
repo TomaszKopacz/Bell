@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_cointainer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Próbny widok");
+        getSupportActionBar().setTitle("Kalendarz");
         setDefaultFragment();
     }
 

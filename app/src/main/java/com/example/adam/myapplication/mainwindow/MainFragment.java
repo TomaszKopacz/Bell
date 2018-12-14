@@ -50,6 +50,12 @@ public class MainFragment extends Fragment {
     private InputDialog inputDialog;
     private MainFragment mainFragment = this;
 
+    public Calendar getDisplayedDay() {
+        return displayedDay;
+    }
+
+    private Calendar displayedDay;
+
     public double getResult() {
         return result;
     }
@@ -115,18 +121,22 @@ public class MainFragment extends Fragment {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Task t = (Task) list.getAdapter().getItem(position);
-                if (t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
+                if(!(mainFragment.getDisplayedDay().after(Calendar.getInstance()))) {
+                    Task t = (Task) list.getAdapter().getItem(position);
+                    if (t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
 
-                    inputDialog = new InputDialog(getActivity());
-                    inputDialog.inputDialog(mainFragment, position).show();
+                        inputDialog = new InputDialog(getActivity());
+                        inputDialog.inputDialog(mainFragment, position).show();
 
-                    return true;
-                } else if (t.getType().equals("DRUG") || t.getType().equals("EXAMINATION")) {
-                    new DoneDialog(getActivity()).doneDialog(mainFragment, position).show();
-                    return true;
+                        return true;
+                    } else if (t.getType().equals("DRUG") || t.getType().equals("EXAMINATION")) {
+                        new DoneDialog(getActivity()).doneDialog(mainFragment, position).show();
+                        return true;
+                    }
                 }
-                return false;
+                    new DoneDialog(getActivity()).doneDialogWrongDate().show();
+                return true;
+
             }
         });
 
@@ -157,13 +167,14 @@ public class MainFragment extends Fragment {
     }
 
     private void displayCurrentDay() {
-        Calendar calendar = Calendar.getInstance();
-        displayDay(calendar);
+        displayedDay = Calendar.getInstance();
+        displayDay(displayedDay);
     }
 
-    private void displayDay(Calendar calendar) {
-        displayDayText(calendar);
-        displayDayTasks(calendar);
+    private void displayDay(Calendar calendar)
+    {   displayedDay = calendar;
+        displayDayText(displayedDay);
+        displayDayTasks(displayedDay);
     }
 
     private void displayDayText(Calendar calendar) {
@@ -249,11 +260,21 @@ public class MainFragment extends Fragment {
 
     public void setResult(int position, double result) {
         Task task = (Task) list.getAdapter().getItem(position);
-        task.setResult(result);
-        task.setStatus(true);
+        if(task.getType().equals("TEMPERATURE")&& (result<31.0 || result> 45.0)) {
+            new InputDialog(getActivity()).errorTemperatureDialog().show();
+        }
 
-        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
-        repository.update(task);
+        else if(task.getType().equals("PRESSURE")&& (result<50.0 || result> 250.0))
+        {
+            new InputDialog(getActivity()).errorPressureDialog().show();
+        }
+        else {
+            task.setResult(result);
+            task.setStatus(true);
+
+            TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+            repository.update(task);
+        }
     }
 
     public void setStatus(int position, boolean status) {
