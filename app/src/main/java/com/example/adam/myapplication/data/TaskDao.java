@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface TaskDao {
 
-    @Query("SELECT * FROM Task")
+    @Query("SELECT * FROM Task ORDER BY timestamp, type ASC")
     LiveData<List<Task>> getAll();
 
     @Query("SELECT * FROM Task WHERE timestamp BETWEEN :start AND :end ORDER BY timestamp, type ASC")

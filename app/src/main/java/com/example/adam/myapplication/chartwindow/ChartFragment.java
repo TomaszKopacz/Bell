@@ -1,53 +1,53 @@
 package com.example.adam.myapplication.chartwindow;
 
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.Viewport;
-import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 public class ChartFragment extends Fragment implements ChartContract.ChartView {
 
-    private ChartPresenter presenter;
+    private static final String TEMPERATURE_STATE = "TEMPERATURE";
+    private static final String PRESSURE_STATE = "PRESSURE";
 
-    private TextView timeRangeView;
-    private SeekBar timeRangeBar;
     private Switch typeSwitch;
     private GraphView graphView;
 
-    private String state = TEMPERATURE_STATE;
-    LineGraphSeries<DataPoint> temperatureSeries = new LineGraphSeries<>();
-    PointsGraphSeries<DataPoint> temperaturePointSeries = new PointsGraphSeries<>();
-    LineGraphSeries<DataPoint> pressureSeries = new LineGraphSeries<>();
-    PointsGraphSeries<DataPoint> pressurePointSeries = new PointsGraphSeries<>();
+    private ChartPresenter presenter;
 
-    private static final String TEMPERATURE_STATE = "TEMPERATURE";
-    private static final String PRESSURE_STATE = "PRESSURE";
+    private String state = TEMPERATURE_STATE;
+
+    private LineGraphSeries<DataPoint> temperatureSeries = new LineGraphSeries<>();
+    private PointsGraphSeries<DataPoint> temperaturePointSeries = new PointsGraphSeries<>();
+    private LineGraphSeries<DataPoint> pressureSeries = new LineGraphSeries<>();
+    private PointsGraphSeries<DataPoint> pressurePointSeries = new PointsGraphSeries<>();
 
     public ChartFragment() {
 
@@ -80,8 +80,6 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void getComponents(View view) {
-        timeRangeView = view.findViewById(R.id.time_range_label);
-        timeRangeBar = view.findViewById(R.id.time_range_bar);
         typeSwitch = view.findViewById(R.id.type_switch);
         graphView = view.findViewById(R.id.graph_view);
 
@@ -89,8 +87,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void makeGraph() {
-        setGraphXScale(timeRangeBar.getProgress() + 1);
-        setGraphYScale(state);
+
     }
 
     private void setPresenter() {
@@ -99,58 +96,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void setListeners() {
-        timeRangeBar.setOnSeekBarChangeListener(timeRangeBarListener);
         typeSwitch.setOnCheckedChangeListener(switchListener);
-    }
-
-    private SeekBar.OnSeekBarChangeListener timeRangeBarListener = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-            displayTimeRange();
-            setGraphXScale(i + 1);
-            presenter.onTimeRangeChanged(i);
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-
-        }
-    };
-
-    private void displayTimeRange() {
-        timeRangeView.setText(String.valueOf(timeRangeBar.getProgress()));
-    }
-
-    private void setGraphXScale(int i) {
-        Viewport viewport = graphView.getViewport();
-        viewport.setXAxisBoundsManual(true);
-        viewport.setMinX(0);
-        viewport.setMaxX(i);
-
-        graphView.onDataChanged(false, false);
-    }
-
-    private void setGraphYScale(String type){
-
-        Viewport viewport = graphView.getViewport();
-        viewport.setYAxisBoundsManual(true);
-
-        switch (type){
-            case TEMPERATURE_STATE:
-                viewport.setMinY(34);
-                viewport.setMaxY(42);
-                break;
-
-            case PRESSURE_STATE:
-                viewport.setMinY(90);
-                viewport.setMaxY(180);
-                break;
-        }
     }
 
     private CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
@@ -158,28 +104,12 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if (!b){
                 state = TEMPERATURE_STATE;
-                setGraphYScale(state);
-                showTemperatureGraph();
 
             } else {
                 state = PRESSURE_STATE;
-                setGraphYScale(state);
-                showPressureGraph();
             }
         }
     };
-
-    private void showTemperatureGraph() {
-        graphView.removeAllSeries();
-        graphView.addSeries(temperatureSeries);
-        graphView.addSeries(temperaturePointSeries);
-    }
-
-    private void showPressureGraph() {
-        graphView.removeAllSeries();
-        graphView.addSeries(pressureSeries);
-        graphView.addSeries(pressurePointSeries);
-    }
 
     @Override
     public void drawChart(LiveData<List<Task>> tasks) {
@@ -191,111 +121,35 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
     private void setPoints(List<Task> tasks) {
-        temperatureSeries = new LineGraphSeries<>();
         temperaturePointSeries = new PointsGraphSeries<>();
-        pressureSeries = new LineGraphSeries<>();
-        pressurePointSeries = new PointsGraphSeries<>();
 
-        List<List<Task>> temperatureDayTasks = getDayTasks(tasks, Task.MEASUREMENT_TEMPERATURE);
-        List<List<Task>> pressureDayTasks = getDayTasks(tasks, Task.MEASUREMENT_PRESSURE);
-
-        int chartBegin = timeRangeBar.getProgress() - temperatureDayTasks.size();
-
-        int indexT = 0;
-        for (List<Task> list : temperatureDayTasks) {
-
-            for (int j = 0; j < list.size(); j++) {
-                Task task = list.get(j);
-                double x = (double) chartBegin + (double) indexT + ((double) j / (double) list.size());
-
-                DataPoint point = new DataPoint(x, task.getResult());
-
-                temperatureSeries.appendData(point, true, 1000);
-                temperaturePointSeries.appendData(point, true, 1000);
-            }
-
-            indexT++;
+        for(Task task : tasks){
+            DataPoint point = new DataPoint(task.getTimestamp(), task.getResult());
+            temperatureSeries.appendData(point, true, 1000);
+            temperaturePointSeries.appendData(point, true, 1000);
         }
 
-        int indexP = 0;
-        for (List<Task> list : pressureDayTasks) {
+        Calendar calendar = Calendar.getInstance();
+        Date today = calendar.getTime();
+        calendar.add(Calendar.DATE, -5);
+        Date twoDaysBefore = calendar.getTime();
 
-            for (int j = 0; j < list.size(); j++) {
-                Task task = list.get(j);
-                double x = (double) chartBegin + (double) indexP + ((double) j / (double) list.size());
-
-                DataPoint point = new DataPoint(x, task.getResult());
-
-                pressureSeries.appendData(point, true, 1000);
-                pressurePointSeries.appendData(point, true, 1000);
-            }
-
-            indexP++;
-        }
-
-        if (state.equals(TEMPERATURE_STATE)){
-            graphView.removeAllSeries();
-            graphView.addSeries(temperatureSeries);
-            graphView.addSeries(temperaturePointSeries);
-
-        } else {
-            graphView.removeAllSeries();
-            graphView.addSeries(pressureSeries);
-            graphView.addSeries(pressurePointSeries);
-        }
-    }
-
-    private List<List<Task>> getDayTasks(List<Task> tasks, String type) {
-        List<List<Task>> result = new ArrayList<>();
-
-        if (tasks.isEmpty())
-            return result;
-
-        Date start = new Date();
-        start.setTime(tasks.get(0).getTimestamp().getTime());
-
-        Date end = new Date();
-        end.setTime(tasks.get(tasks.size() - 1).getTimestamp().getTime());
-
-        Date startOfDay = start;
-        startOfDay.setHours(0);
-        startOfDay.setMinutes(0);
-        startOfDay.setSeconds(0);
-
-        Date endOfDay = incrementDay(startOfDay);
-
-        while (startOfDay.before(end) || startOfDay.equals(end)) {
-
-            List<Task> dayTasks = new ArrayList<>();
-            for (Task task : tasks) {
-
-                if ((task.getTimestamp().after(startOfDay) || task.getTimestamp().equals(startOfDay))
-                        && task.getTimestamp().before(endOfDay)) {
-
-                    if (task.getType().equals(type))
-                        dayTasks.add(task);
-                }
-            }
-
-            result.add(dayTasks);
-
-            startOfDay = endOfDay;
-            endOfDay = incrementDay(startOfDay);
-        }
-
-        return result;
-    }
-
-    private Date incrementDay(Date date) {
-        Date day = new Date();
-        day.setTime(date.getTime() + (24 * 60 * 60 * 1000));
-
-        return day;
-    }
-
-    @Override
-    public int getRange() {
-        return timeRangeBar.getProgress();
+        graphView.addSeries(temperatureSeries);
+        graphView.addSeries(temperaturePointSeries);
+        graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        graphView.getGridLabelRenderer().setNumHorizontalLabels(5);
+        graphView.getGridLabelRenderer().setNumVerticalLabels(9);
+        graphView.getGridLabelRenderer().setHorizontalLabelsAngle(135);
+        graphView.getViewport().setMinX(twoDaysBefore.getTime());
+        graphView.getViewport().setMaxX(today.getTime());
+        graphView.getViewport().setMinY(34);
+        graphView.getViewport().setMaxY(42);
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setYAxisBoundsManual(true);
+        graphView.getViewport().setScrollable(true);
+        graphView.getViewport().setScalable(true);
+        graphView.getGridLabelRenderer().setHumanRounding(false);
     }
 }

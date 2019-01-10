@@ -5,42 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".chartwindow.ChartFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/label_margin"
-                android:gravity="center"
-                android:text="@string/time_range" />
-
-            <TextView
-                android:id="@+id/time_range_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/default_time_range_text"
-                android:textSize="@dimen/large_text"
-                android:layout_margin="@dimen/label_margin"/>
-
-        </LinearLayout>
-
-        <SeekBar
-            android:id="@+id/time_range_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/label_margin"
-            android:max="30"
-            android:progress="30"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,12 +32,9 @@
         </LinearLayout>
 
 
-
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/graph_margin" />
-    </LinearLayout>
-
 </FrameLayout>
