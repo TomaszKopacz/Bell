@@ -123,11 +123,17 @@
                         android:src="@drawable/ic_clock" />
 
                     <TextView
-                        android:id="@+id/time"
+                        android:id="@+id/time_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin"
                         android:text="@string/task_hour_label" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/label_margin" />
 
                 </LinearLayout>
 
@@ -150,44 +156,55 @@
                         android:src="@drawable/ic_calendar" />
 
                     <TextView
-                        android:id="@+id/date"
+                        android:id="@+id/date_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin"
                         android:text="@string/task_date_label" />
 
-                    <net.cachapa.expandablelayout.ExpandableLayout
-                        android:id="@+id/date_expandable"
+                    <TextView
+                        android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_margin="@dimen/label_margin" />
+                </LinearLayout>
 
-                        <LinearLayout
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/date_expandable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:id="@+id/date_end_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            tools:ignore="UseCompoundDrawables">
+                            android:layout_margin="@dimen/icon_margin"
+                            android:contentDescription="@string/date_description"
+                            android:src="@drawable/ic_calendar" />
 
-                            <ImageView
-                                android:id="@+id/date_end_icon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/icon_margin"
-                                android:contentDescription="@string/date_description"
-                                android:src="@drawable/ic_calendar" />
+                        <TextView
+                            android:id="@+id/date_end_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/label_margin"
+                            android:text="@string/task_date_end_label" />
 
-                            <TextView
-                                android:id="@+id/date_end"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/label_margin"
-                                android:text="@string/task_date_end_label" />
+                        <TextView
+                            android:id="@+id/date_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/label_margin" />
 
-                        </LinearLayout>
+                    </LinearLayout>
 
-                    </net.cachapa.expandablelayout.ExpandableLayout>
-
-                </LinearLayout>
+                </net.cachapa.expandablelayout.ExpandableLayout>
 
                 <CheckBox
                     android:id="@+id/cycle_check_box"

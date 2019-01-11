@@ -17,7 +17,7 @@ public interface MeasurementContract {
 
         String getUnit();
 
-        String getHour();
+        String getTime();
 
         String getDate();
 
@@ -38,6 +38,8 @@ public interface MeasurementContract {
         void setIsCycle(boolean b);
 
         void onTaskCreated(String status, @Nullable Task task);
+
+        void showError(String error);
 
         void navigateToParentView();
     }

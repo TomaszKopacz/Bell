@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.newtaskwindow.TaskException;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import java.text.ParseException;
@@ -16,6 +17,11 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
     private MeasurementContract.MeasurementView view;
     private TaskRepository repository;
 
+    private static final String EMPTY_TASK_TIME = "Wprowadź godzinę!";
+    private static final String EMPTY_TASK_DATE = "Wprowadź datę!";
+    private static final String EMPTY_TASK_END_DATE = "Wprowadź datę zakończnia cyklu!";
+    private static final String DATES_INCORRECT_ORDER = "Data końca cyklu musi być późniejsza niż jego start!";
+
     MeasurementPresenter(MeasurementContract.MeasurementView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
@@ -23,36 +29,60 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
 
     @Override
     public void onSubmitButtonClicked() {
-        insertTasks();
+        try {
+            insertTasks();
+
+        } catch (Exception e) {
+            view.showError(e.getMessage());
+        }
     }
 
-    private void insertTasks() {
-        try {
-            if (!view.isCycle()) {
-                Task task = getTaskFromLayout();
-                view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
-                repository.insert(task);
+    private void insertTasks() throws ParseException, TaskException {
+        checkFields();
 
-            } else {
-                List<Task> tasks = getCyclicTasks();
+        if (!view.isCycle())
+            insertSingleTask();
+        else
+            insertManyTasks();
 
-                for (Task task : tasks)
-                    view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+        view.navigateToParentView();
+    }
 
-                repository.insert(tasks);
-            }
+    private void checkFields() throws TaskException, ParseException {
+        if (view.getTime().isEmpty())
+            throw new TaskException(EMPTY_TASK_TIME);
 
-            view.navigateToParentView();
+        if (view.getDate().isEmpty())
+            throw new TaskException(EMPTY_TASK_DATE);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        if (view.isCycle() && view.getEndDate().isEmpty())
+            throw new TaskException(EMPTY_TASK_END_DATE);
+
+        Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
+        Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
+        if (currentDate.after(endDate))
+            throw new TaskException(DATES_INCORRECT_ORDER);
+    }
+
+    private void insertSingleTask() throws ParseException {
+        Task task = getTaskFromLayout();
+        view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+        repository.insert(task);
+    }
+
+    private void insertManyTasks() throws ParseException {
+        List<Task> tasks = getCyclicTasks();
+
+        for (Task task : tasks)
+            view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+
+        repository.insert(tasks);
     }
 
     @NonNull
     private Task getTaskFromLayout() throws ParseException {
         String type = view.getType();
-        String time = view.getHour();
+        String time = view.getTime();
         String date = view.getDate();
         String unit = view.getUnit();
 
@@ -65,12 +95,12 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
     }
 
     private List<Task> getCyclicTasks() throws ParseException {
-        Date currentDate = getCurrentDate();
-        Date endDate = getEndDate(currentDate);
+        Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
+        Date endDate =  DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
 
         List<Task> tasks = new ArrayList<>();
 
-        for (; currentDate.before(endDate) || currentDate.equals(endDate); ) {
+        while (currentDate.before(endDate) || currentDate.equals(endDate)) {
             Task task = getTaskFromLayout();
 
             Date timestamp = new Date();
@@ -83,15 +113,6 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
         }
 
         return tasks;
-    }
-
-    private Date getCurrentDate() throws ParseException {
-        return DatetimeFormatter.getTimestamp(view.getDate(), view.getHour());
-    }
-
-    private Date getEndDate(Date startDate) throws ParseException {
-        return view.isCycle() ?
-                DatetimeFormatter.getTimestamp(view.getEndDate(), view.getHour()) : startDate;
     }
 
     private void incrementDay(Date date) {

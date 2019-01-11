@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
@@ -40,7 +41,6 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
     private EditText doseText;
 
     private ImageView unitIcon;
-    private TextView unitView;
 
     private ImageView timeIcon;
     private TextView timeText;
@@ -82,7 +82,6 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
         doseText = view.findViewById(R.id.dose);
 
         unitIcon = view.findViewById(R.id.unit_icon);
-        unitView = view.findViewById(R.id.unit_value_label);
 
         timeIcon = view.findViewById(R.id.time_icon);
         timeText = view.findViewById(R.id.time);
@@ -254,6 +253,11 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
             if (!task.getTimestamp().before(currentDate))
                 setNotification(task);
         }
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
     private void setNotification(Task task) {

@@ -112,14 +112,14 @@
                         android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/time"
+                        android:id="@+id/time_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin"
                         android:text="@string/task_hour_label" />
 
                     <TextView
-                        android:id="@+id/hour_value_label"
+                        android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin" />
@@ -145,14 +145,14 @@
                         android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/date"
+                        android:id="@+id/date_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin"
                         android:text="@string/task_date_label" />
 
                     <TextView
-                        android:id="@+id/date_value_label"
+                        android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin" />
@@ -181,14 +181,14 @@
                             android:focusable="true" />
 
                         <TextView
-                            android:id="@+id/date_end"
+                            android:id="@+id/date_end_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/label_margin"
                             android:text="@string/task_date_end_label" />
 
                         <TextView
-                            android:id="@+id/end_date_value_label"
+                            android:id="@+id/date_end"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/label_margin" />

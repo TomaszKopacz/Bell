@@ -33,6 +33,8 @@ public interface DrugContract {
 
         void onTaskCreated(String status, Task task);
 
+        void showError(String error);
+
         void navigateToParentView();
     }
 
