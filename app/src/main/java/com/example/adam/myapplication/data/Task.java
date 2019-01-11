@@ -17,9 +17,8 @@ public class Task {
     private static final String TYPE = "type";
     private static final String TIMESTAMP = "timestamp";
     private static final String STATUS = "status";
-    private static final String STATUS_DONE = "done";
-    private static final String STATUS_NOT_DONE = "not_done";
     private static final String RESULT = "result";
+    private static final String RESULT2 = "result2";
 
     private static final String DRUG_NAME = "drug_name";
     private static final String DOSE = "dose";
@@ -57,6 +56,9 @@ public class Task {
 
     @ColumnInfo(name = RESULT)
     private double result = 0.0d;
+
+    @ColumnInfo(name = RESULT2)
+    private double result2 = 0.0d;
 
     @ColumnInfo(name = DRUG_NAME)
     private String drugName;
@@ -109,7 +111,7 @@ public class Task {
         this.timestamp = timestamp;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 
@@ -123,6 +125,14 @@ public class Task {
 
     public void setResult(double result) {
         this.result = result;
+    }
+
+    public double getResult2() {
+        return result2;
+    }
+
+    public void setResult2(double result2) {
+        this.result2 = result2;
     }
 
     public String getDrugName() {

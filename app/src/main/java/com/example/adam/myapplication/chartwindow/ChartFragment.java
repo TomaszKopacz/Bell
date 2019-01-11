@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.AnatomyLimits;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.jjoe64.graphview.GraphView;
@@ -33,7 +35,10 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     private static final String TEMPERATURE_STATE = "TEMPERATURE";
     private static final String PRESSURE_STATE = "PRESSURE";
 
-    private static final int GRAPH_VIEWPORT_RANGE = 5;
+    private static final int NUM_OF_TEMP_LABELS_X = 6;
+    private static final int NUM_OF_PRESSURE_LABELS_X = 8;
+    private static final int NUM_OF_LABELS_Y = 9;
+    private static final int LABELS_ANGLE = 135;
 
     private GraphView temperatureGraphView;
     private GraphView pressureGraphView;
@@ -42,8 +47,12 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
 
     private LineGraphSeries<DataPoint> temperatureLineSeries = new LineGraphSeries<>();
     private PointsGraphSeries<DataPoint> temperaturePointSeries = new PointsGraphSeries<>();
-    private LineGraphSeries<DataPoint> pressureLineSeries = new LineGraphSeries<>();
-    private PointsGraphSeries<DataPoint> pressurePointSeries = new PointsGraphSeries<>();
+
+    private LineGraphSeries<DataPoint> pressureSystolicLineSeries = new LineGraphSeries<>();
+    private PointsGraphSeries<DataPoint> pressureSystolicPointSeries = new PointsGraphSeries<>();
+
+    private LineGraphSeries<DataPoint> pressureDiastolicLineSeries = new LineGraphSeries<>();
+    private PointsGraphSeries<DataPoint> pressureDiastolicPointSeries = new PointsGraphSeries<>();
 
     public ChartFragment() {
 
@@ -92,31 +101,31 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void setDefaultYAxis() {
-        temperatureGraphView.getGridLabelRenderer().setNumVerticalLabels(5);
-        temperatureGraphView.getViewport().setMinY(34);
-        temperatureGraphView.getViewport().setMaxY(42);
+        temperatureGraphView.getGridLabelRenderer().setNumVerticalLabels(NUM_OF_TEMP_LABELS_X);
+        temperatureGraphView.getViewport().setMinY(AnatomyLimits.LIMIT_MIN_TEMPERATURE);
+        temperatureGraphView.getViewport().setMaxY(AnatomyLimits.LIMIT_MAX_TEMPERATURE);
 
-        pressureGraphView.getGridLabelRenderer().setNumVerticalLabels(6);
-        pressureGraphView.getViewport().setMinY(60);
-        pressureGraphView.getViewport().setMaxY(210);
+        pressureGraphView.getGridLabelRenderer().setNumVerticalLabels(NUM_OF_PRESSURE_LABELS_X);
+        pressureGraphView.getViewport().setMinY(AnatomyLimits.LIMIT_MIN_PRESSURE);
+        pressureGraphView.getViewport().setMaxY(AnatomyLimits.LIMIT_MAX_PRESSURE);
     }
 
     private void setDatesAsXLabels() {
         temperatureGraphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        temperatureGraphView.getGridLabelRenderer().setHorizontalLabelsAngle(135);
-        temperatureGraphView.getGridLabelRenderer().setNumHorizontalLabels(6);
+        temperatureGraphView.getGridLabelRenderer().setHorizontalLabelsAngle(LABELS_ANGLE);
+        temperatureGraphView.getGridLabelRenderer().setNumHorizontalLabels(NUM_OF_LABELS_Y);
         temperatureGraphView.getGridLabelRenderer().setHumanRounding(false);
 
         pressureGraphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        pressureGraphView.getGridLabelRenderer().setHorizontalLabelsAngle(135);
-        pressureGraphView.getGridLabelRenderer().setNumHorizontalLabels(6);
+        pressureGraphView.getGridLabelRenderer().setHorizontalLabelsAngle(LABELS_ANGLE);
+        pressureGraphView.getGridLabelRenderer().setNumHorizontalLabels(NUM_OF_LABELS_Y);
         pressureGraphView.getGridLabelRenderer().setHumanRounding(false);
     }
 
     private void setDefaultDatesRange() {
         Calendar calendar = Calendar.getInstance();
         Date endDay = calendar.getTime();
-        calendar.add(Calendar.DATE, -GRAPH_VIEWPORT_RANGE);
+        calendar.add(Calendar.DATE, -NUM_OF_LABELS_Y);
         Date startDay = calendar.getTime();
 
         temperatureGraphView.getViewport().setMinX(startDay.getTime());
@@ -166,25 +175,36 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
 
         temperatureLineSeries = new LineGraphSeries<>();
         temperaturePointSeries = new PointsGraphSeries<>();
-        pressureLineSeries = new LineGraphSeries<>();
-        pressurePointSeries = new PointsGraphSeries<>();
+        temperatureLineSeries.setColor(Color.RED);
+        temperaturePointSeries.setColor(Color.RED);
+
+        pressureSystolicLineSeries = new LineGraphSeries<>();
+        pressureSystolicPointSeries = new PointsGraphSeries<>();
+        pressureSystolicLineSeries.setColor(Color.RED);
+        pressureSystolicPointSeries.setColor(Color.RED);
+
+        pressureDiastolicLineSeries = new LineGraphSeries<>();
+        pressureDiastolicPointSeries = new PointsGraphSeries<>();
+        pressureDiastolicLineSeries.setColor(Color.BLUE);
+        pressureDiastolicPointSeries.setColor(Color.BLUE);
     }
 
     private void appendPoints(List<Task> tasks) {
         for (Task task : tasks) {
 
             if (task.getResult() == 0.0f)
-                break;
-
-            DataPoint point = new DataPoint(task.getTimestamp(), task.getResult());
+                continue;
 
             switch (task.getType()) {
                 case TEMPERATURE_STATE:
+                    DataPoint point = new DataPoint(task.getTimestamp(), task.getResult());
                     appendTemperaturePoint(point);
                     break;
 
                 case PRESSURE_STATE:
-                    appendPressurePoint(point);
+                    DataPoint pointSystolic = new DataPoint(task.getTimestamp(), task.getResult());
+                    DataPoint pointDiastolic = new DataPoint(task.getTimestamp(), task.getResult2());
+                    appendPressurePoint(pointSystolic, pointDiastolic);
                     break;
             }
         }
@@ -195,16 +215,22 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
         temperaturePointSeries.appendData(point, true, 1000);
     }
 
-    private void appendPressurePoint(DataPoint point) {
-        pressureLineSeries.appendData(point, true, 1000);
-        pressurePointSeries.appendData(point, true, 1000);
+    private void appendPressurePoint(DataPoint pointSystolic, DataPoint pointDiastolic) {
+        pressureSystolicLineSeries.appendData(pointSystolic, true, 1000);
+        pressureSystolicPointSeries.appendData(pointSystolic, true, 1000);
+
+        pressureDiastolicLineSeries.appendData(pointDiastolic, true, 1000);
+        pressureDiastolicPointSeries.appendData(pointDiastolic, true, 1000);
     }
 
     private void presentSeries() {
         temperatureGraphView.addSeries(temperatureLineSeries);
         temperatureGraphView.addSeries(temperaturePointSeries);
 
-        pressureGraphView.addSeries(pressureLineSeries);
-        pressureGraphView.addSeries(pressurePointSeries);
+        pressureGraphView.addSeries(pressureSystolicLineSeries);
+        pressureGraphView.addSeries(pressureSystolicPointSeries);
+
+        pressureGraphView.addSeries(pressureDiastolicLineSeries);
+        pressureGraphView.addSeries(pressureDiastolicPointSeries);
     }
 }
