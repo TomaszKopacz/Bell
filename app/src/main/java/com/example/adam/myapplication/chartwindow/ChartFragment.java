@@ -10,12 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
@@ -28,7 +25,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -37,16 +33,16 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     private static final String TEMPERATURE_STATE = "TEMPERATURE";
     private static final String PRESSURE_STATE = "PRESSURE";
 
-    private Switch typeSwitch;
-    private GraphView graphView;
+    private static final int GRAPH_VIEWPORT_RANGE = 5;
+
+    private GraphView temperatureGraphView;
+    private GraphView pressureGraphView;
 
     private ChartPresenter presenter;
 
-    private String state = TEMPERATURE_STATE;
-
-    private LineGraphSeries<DataPoint> temperatureSeries = new LineGraphSeries<>();
+    private LineGraphSeries<DataPoint> temperatureLineSeries = new LineGraphSeries<>();
     private PointsGraphSeries<DataPoint> temperaturePointSeries = new PointsGraphSeries<>();
-    private LineGraphSeries<DataPoint> pressureSeries = new LineGraphSeries<>();
+    private LineGraphSeries<DataPoint> pressureLineSeries = new LineGraphSeries<>();
     private PointsGraphSeries<DataPoint> pressurePointSeries = new PointsGraphSeries<>();
 
     public ChartFragment() {
@@ -67,7 +63,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
 
         getComponents(view);
         setPresenter();
-        setListeners();
+        setDefaultGraphLayout();
 
         return view;
     }
@@ -80,14 +76,66 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void getComponents(View view) {
-        typeSwitch = view.findViewById(R.id.type_switch);
-        graphView = view.findViewById(R.id.graph_view);
-
-        makeGraph();
+        temperatureGraphView = view.findViewById(R.id.graph_view_temperature);
+        pressureGraphView = view.findViewById(R.id.graph_view_pressure);
     }
 
-    private void makeGraph() {
+    private void setDefaultGraphLayout() {
+        setDefaultXAxis();
+        setDefaultYAxis();
+        setDefaultGraphPerformance();
+    }
 
+    private void setDefaultXAxis() {
+        setDatesAsXLabels();
+        setDefaultDatesRange();
+    }
+
+    private void setDefaultYAxis() {
+        temperatureGraphView.getGridLabelRenderer().setNumVerticalLabels(5);
+        temperatureGraphView.getViewport().setMinY(34);
+        temperatureGraphView.getViewport().setMaxY(42);
+
+        pressureGraphView.getGridLabelRenderer().setNumVerticalLabels(6);
+        pressureGraphView.getViewport().setMinY(60);
+        pressureGraphView.getViewport().setMaxY(210);
+    }
+
+    private void setDatesAsXLabels() {
+        temperatureGraphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        temperatureGraphView.getGridLabelRenderer().setHorizontalLabelsAngle(135);
+        temperatureGraphView.getGridLabelRenderer().setNumHorizontalLabels(6);
+        temperatureGraphView.getGridLabelRenderer().setHumanRounding(false);
+
+        pressureGraphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        pressureGraphView.getGridLabelRenderer().setHorizontalLabelsAngle(135);
+        pressureGraphView.getGridLabelRenderer().setNumHorizontalLabels(6);
+        pressureGraphView.getGridLabelRenderer().setHumanRounding(false);
+    }
+
+    private void setDefaultDatesRange() {
+        Calendar calendar = Calendar.getInstance();
+        Date endDay = calendar.getTime();
+        calendar.add(Calendar.DATE, -GRAPH_VIEWPORT_RANGE);
+        Date startDay = calendar.getTime();
+
+        temperatureGraphView.getViewport().setMinX(startDay.getTime());
+        temperatureGraphView.getViewport().setMaxX(endDay.getTime());
+
+        pressureGraphView.getViewport().setMinX(startDay.getTime());
+        pressureGraphView.getViewport().setMaxX(endDay.getTime());
+    }
+
+    private void setDefaultGraphPerformance() {
+        temperatureGraphView.getViewport().setXAxisBoundsManual(true);
+        temperatureGraphView.getViewport().setYAxisBoundsManual(true);
+        temperatureGraphView.getViewport().setScrollable(true);
+        temperatureGraphView.getViewport().setScalable(true);
+
+        pressureGraphView.getViewport().setXAxisBoundsManual(true);
+        pressureGraphView.getViewport().setYAxisBoundsManual(true);
+        pressureGraphView.getViewport().setScrollable(true);
+        pressureGraphView.getViewport().setScalable(true);
     }
 
     private void setPresenter() {
@@ -95,61 +143,68 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
         presenter = new ChartPresenter(this, repository);
     }
 
-    private void setListeners() {
-        typeSwitch.setOnCheckedChangeListener(switchListener);
-    }
-
-    private CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (!b){
-                state = TEMPERATURE_STATE;
-
-            } else {
-                state = PRESSURE_STATE;
-            }
-        }
-    };
-
     @Override
     public void drawChart(LiveData<List<Task>> tasks) {
         tasks.observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
-                setPoints(tasks);
+                drawSeries(tasks);
             }
         });
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    private void setPoints(List<Task> tasks) {
+    private void drawSeries(List<Task> tasks) {
+        resetSeriesPoints();
+        appendPoints(tasks);
+        presentSeries();
+    }
+
+    private void resetSeriesPoints() {
+        temperatureGraphView.removeAllSeries();
+        pressureGraphView.removeAllSeries();
+
+        temperatureLineSeries = new LineGraphSeries<>();
         temperaturePointSeries = new PointsGraphSeries<>();
+        pressureLineSeries = new LineGraphSeries<>();
+        pressurePointSeries = new PointsGraphSeries<>();
+    }
 
-        for(Task task : tasks){
+    private void appendPoints(List<Task> tasks) {
+        for (Task task : tasks) {
+
+            if (task.getResult() == 0.0f)
+                break;
+
             DataPoint point = new DataPoint(task.getTimestamp(), task.getResult());
-            temperatureSeries.appendData(point, true, 1000);
-            temperaturePointSeries.appendData(point, true, 1000);
+
+            switch (task.getType()) {
+                case TEMPERATURE_STATE:
+                    appendTemperaturePoint(point);
+                    break;
+
+                case PRESSURE_STATE:
+                    appendPressurePoint(point);
+                    break;
+            }
         }
+    }
 
-        Calendar calendar = Calendar.getInstance();
-        Date today = calendar.getTime();
-        calendar.add(Calendar.DATE, -5);
-        Date twoDaysBefore = calendar.getTime();
+    private void appendTemperaturePoint(DataPoint point) {
+        temperatureLineSeries.appendData(point, true, 1000);
+        temperaturePointSeries.appendData(point, true, 1000);
+    }
 
-        graphView.addSeries(temperatureSeries);
-        graphView.addSeries(temperaturePointSeries);
-        graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        graphView.getGridLabelRenderer().setNumHorizontalLabels(5);
-        graphView.getGridLabelRenderer().setNumVerticalLabels(9);
-        graphView.getGridLabelRenderer().setHorizontalLabelsAngle(135);
-        graphView.getViewport().setMinX(twoDaysBefore.getTime());
-        graphView.getViewport().setMaxX(today.getTime());
-        graphView.getViewport().setMinY(34);
-        graphView.getViewport().setMaxY(42);
-        graphView.getViewport().setXAxisBoundsManual(true);
-        graphView.getViewport().setYAxisBoundsManual(true);
-        graphView.getViewport().setScrollable(true);
-        graphView.getViewport().setScalable(true);
-        graphView.getGridLabelRenderer().setHumanRounding(false);
+    private void appendPressurePoint(DataPoint point) {
+        pressureLineSeries.appendData(point, true, 1000);
+        pressurePointSeries.appendData(point, true, 1000);
+    }
+
+    private void presentSeries() {
+        temperatureGraphView.addSeries(temperatureLineSeries);
+        temperatureGraphView.addSeries(temperaturePointSeries);
+
+        pressureGraphView.addSeries(pressureLineSeries);
+        pressureGraphView.addSeries(pressurePointSeries);
     }
 }
