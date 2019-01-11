@@ -9,12 +9,10 @@ import java.util.List;
 public interface ChartContract {
 
     interface ChartView {
-        int getRange();
         void drawChart(LiveData<List<Task>> tasks);
     }
 
     interface ChartPresenter {
         void onViewAttached();
-        void onTimeRangeChanged(int range);
     }
 }

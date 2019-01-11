@@ -9,7 +9,7 @@
     <dimen name="icon_margin">8dp</dimen>
     <dimen name="input_margin">8dp</dimen>
     <dimen name="input_little_margin">0dp</dimen>
-    <dimen name="graph_margin">36dp</dimen>
+    <dimen name="graph_margin">24dp</dimen>
 
     <dimen name="text_padding">6dp</dimen>
 

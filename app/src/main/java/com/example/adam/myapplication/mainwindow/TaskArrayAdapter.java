@@ -30,7 +30,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> implements View.OnClick
         CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.checkbox);
         taskTime.setText(tasks.get(position).getTimestamp().toString().substring(11, 16));
         taskName.setText(tasks.get(position).getType());
-        if (tasks.get(position).isStatus() == false) {
+        if (tasks.get(position).getStatus() == false) {
             checkBox.setChecked(false);
         } else {
             checkBox.setChecked(true);

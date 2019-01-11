@@ -26,6 +26,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.AnatomyLimits;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
@@ -56,17 +57,6 @@ public class MainFragment extends Fragment {
 
     private Calendar displayedDay;
 
-    public double getResult() {
-        return result;
-    }
-
-    public void setResult(double result) {
-        this.result = result;
-    }
-
-    private double result = 0;
-
-
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     public MainFragment() {
@@ -91,7 +81,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getLayoutViews(View view) {
-        list = (SwipeMenuListView) view.findViewById(R.id.lista);
+        list = view.findViewById(R.id.lista);
         d_m = view.findViewById(R.id.d_m);
         year = view.findViewById(R.id.rok);
         plus = view.findViewById(R.id.fab);
@@ -121,22 +111,31 @@ public class MainFragment extends Fragment {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(!(mainFragment.getDisplayedDay().after(Calendar.getInstance()))) {
+                if (!(mainFragment.getDisplayedDay().after(Calendar.getInstance()))) {
                     Task t = (Task) list.getAdapter().getItem(position);
-                    if (t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
+                    switch (t.getType()) {
 
-                        inputDialog = new InputDialog(getActivity());
-                        inputDialog.inputDialog(mainFragment, position).show();
+                        case "TEMPERATURE":
+                            inputDialog = new InputDialog(getActivity());
+                            inputDialog.inputTemperatureDialog(mainFragment, position).show();
+                            break;
 
-                        return true;
-                    } else if (t.getType().equals("DRUG") || t.getType().equals("EXAMINATION")) {
-                        new DoneDialog(getActivity()).doneDialog(mainFragment, position).show();
-                        return true;
+                        case "PRESSURE":
+                            inputDialog = new InputDialog(getActivity());
+                            inputDialog.inputPressureDialog(mainFragment, position).show();
+                            break;
+
+                        case "DRUG":
+                        case "EXAMINATION":
+                            new DoneDialog(getActivity()).doneDialog(mainFragment, position).show();
+                            break;
                     }
-                }
-                    new DoneDialog(getActivity()).doneDialogWrongDate().show();
-                return true;
 
+                } else {
+                    new DoneDialog(getActivity()).doneDialogWrongDate().show();
+                }
+
+                return true;
             }
         });
 
@@ -171,8 +170,8 @@ public class MainFragment extends Fragment {
         displayDay(displayedDay);
     }
 
-    private void displayDay(Calendar calendar)
-    {   displayedDay = calendar;
+    private void displayDay(Calendar calendar) {
+        displayedDay = calendar;
         displayDayText(displayedDay);
         displayDayTasks(displayedDay);
     }
@@ -258,18 +257,35 @@ public class MainFragment extends Fragment {
         return dateSetListener;
     }
 
-    public void setResult(int position, double result) {
+    public void setTemperatureResult(int position, double result) {
         Task task = (Task) list.getAdapter().getItem(position);
-        if(task.getType().equals("TEMPERATURE")&& (result<31.0 || result> 45.0)) {
-            new InputDialog(getActivity()).errorTemperatureDialog().show();
-        }
+        if (result < AnatomyLimits.LIMIT_MIN_TEMPERATURE
+                || result > AnatomyLimits.LIMIT_MAX_TEMPERATURE) {
 
-        else if(task.getType().equals("PRESSURE")&& (result<50.0 || result> 250.0))
-        {
-            new InputDialog(getActivity()).errorPressureDialog().show();
-        }
-        else {
+            new InputDialog(getActivity()).errorTemperatureDialog().show();
+
+        }  else {
             task.setResult(result);
+            task.setStatus(true);
+
+            TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+            repository.update(task);
+        }
+    }
+
+    public void setPressureResult(int position, double result1, double result2) {
+        Task task = (Task) list.getAdapter().getItem(position);
+
+        if (result1 < AnatomyLimits.LIMIT_MIN_PRESSURE
+                || result2 < AnatomyLimits.LIMIT_MIN_PRESSURE
+                || result1 > AnatomyLimits.LIMIT_MAX_PRESSURE
+                || result2 > AnatomyLimits.LIMIT_MAX_PRESSURE) {
+
+            new InputDialog(getActivity()).errorPressureDialog().show();
+
+        } else {
+            task.setResult(result1);
+            task.setResult2(result2);
             task.setStatus(true);
 
             TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
@@ -281,7 +297,7 @@ public class MainFragment extends Fragment {
         Task task = (Task) list.getAdapter().getItem(position);
         task.setStatus(status);
 
-        TaskRepository repository = ((App)getActivity().getApplication()).getTaskRepository();
+        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
         repository.update(task);
     }
 }

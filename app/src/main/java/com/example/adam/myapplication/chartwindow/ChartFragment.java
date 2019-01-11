@@ -1,53 +1,58 @@
 package com.example.adam.myapplication.chartwindow;
 
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.AnatomyLimits;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.Viewport;
-import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class ChartFragment extends Fragment implements ChartContract.ChartView {
 
-    private ChartPresenter presenter;
-
-    private TextView timeRangeView;
-    private SeekBar timeRangeBar;
-    private Switch typeSwitch;
-    private GraphView graphView;
-
-    private String state = TEMPERATURE_STATE;
-    LineGraphSeries<DataPoint> temperatureSeries = new LineGraphSeries<>();
-    PointsGraphSeries<DataPoint> temperaturePointSeries = new PointsGraphSeries<>();
-    LineGraphSeries<DataPoint> pressureSeries = new LineGraphSeries<>();
-    PointsGraphSeries<DataPoint> pressurePointSeries = new PointsGraphSeries<>();
-
     private static final String TEMPERATURE_STATE = "TEMPERATURE";
     private static final String PRESSURE_STATE = "PRESSURE";
+
+    private static final int NUM_OF_TEMP_LABELS_X = 6;
+    private static final int NUM_OF_PRESSURE_LABELS_X = 8;
+    private static final int NUM_OF_LABELS_Y = 9;
+    private static final int LABELS_ANGLE = 135;
+
+    private GraphView temperatureGraphView;
+    private GraphView pressureGraphView;
+
+    private ChartPresenter presenter;
+
+    private LineGraphSeries<DataPoint> temperatureLineSeries = new LineGraphSeries<>();
+    private PointsGraphSeries<DataPoint> temperaturePointSeries = new PointsGraphSeries<>();
+
+    private LineGraphSeries<DataPoint> pressureSystolicLineSeries = new LineGraphSeries<>();
+    private PointsGraphSeries<DataPoint> pressureSystolicPointSeries = new PointsGraphSeries<>();
+
+    private LineGraphSeries<DataPoint> pressureDiastolicLineSeries = new LineGraphSeries<>();
+    private PointsGraphSeries<DataPoint> pressureDiastolicPointSeries = new PointsGraphSeries<>();
 
     public ChartFragment() {
 
@@ -67,7 +72,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
 
         getComponents(view);
         setPresenter();
-        setListeners();
+        setDefaultGraphLayout();
 
         return view;
     }
@@ -80,17 +85,66 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void getComponents(View view) {
-        timeRangeView = view.findViewById(R.id.time_range_label);
-        timeRangeBar = view.findViewById(R.id.time_range_bar);
-        typeSwitch = view.findViewById(R.id.type_switch);
-        graphView = view.findViewById(R.id.graph_view);
-
-        makeGraph();
+        temperatureGraphView = view.findViewById(R.id.graph_view_temperature);
+        pressureGraphView = view.findViewById(R.id.graph_view_pressure);
     }
 
-    private void makeGraph() {
-        setGraphXScale(timeRangeBar.getProgress() + 1);
-        setGraphYScale(state);
+    private void setDefaultGraphLayout() {
+        setDefaultXAxis();
+        setDefaultYAxis();
+        setDefaultGraphPerformance();
+    }
+
+    private void setDefaultXAxis() {
+        setDatesAsXLabels();
+        setDefaultDatesRange();
+    }
+
+    private void setDefaultYAxis() {
+        temperatureGraphView.getGridLabelRenderer().setNumVerticalLabels(NUM_OF_TEMP_LABELS_X);
+        temperatureGraphView.getViewport().setMinY(AnatomyLimits.LIMIT_MIN_TEMPERATURE);
+        temperatureGraphView.getViewport().setMaxY(AnatomyLimits.LIMIT_MAX_TEMPERATURE);
+
+        pressureGraphView.getGridLabelRenderer().setNumVerticalLabels(NUM_OF_PRESSURE_LABELS_X);
+        pressureGraphView.getViewport().setMinY(AnatomyLimits.LIMIT_MIN_PRESSURE);
+        pressureGraphView.getViewport().setMaxY(AnatomyLimits.LIMIT_MAX_PRESSURE);
+    }
+
+    private void setDatesAsXLabels() {
+        temperatureGraphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        temperatureGraphView.getGridLabelRenderer().setHorizontalLabelsAngle(LABELS_ANGLE);
+        temperatureGraphView.getGridLabelRenderer().setNumHorizontalLabels(NUM_OF_LABELS_Y);
+        temperatureGraphView.getGridLabelRenderer().setHumanRounding(false);
+
+        pressureGraphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        pressureGraphView.getGridLabelRenderer().setHorizontalLabelsAngle(LABELS_ANGLE);
+        pressureGraphView.getGridLabelRenderer().setNumHorizontalLabels(NUM_OF_LABELS_Y);
+        pressureGraphView.getGridLabelRenderer().setHumanRounding(false);
+    }
+
+    private void setDefaultDatesRange() {
+        Calendar calendar = Calendar.getInstance();
+        Date endDay = calendar.getTime();
+        calendar.add(Calendar.DATE, -NUM_OF_LABELS_Y);
+        Date startDay = calendar.getTime();
+
+        temperatureGraphView.getViewport().setMinX(startDay.getTime());
+        temperatureGraphView.getViewport().setMaxX(endDay.getTime());
+
+        pressureGraphView.getViewport().setMinX(startDay.getTime());
+        pressureGraphView.getViewport().setMaxX(endDay.getTime());
+    }
+
+    private void setDefaultGraphPerformance() {
+        temperatureGraphView.getViewport().setXAxisBoundsManual(true);
+        temperatureGraphView.getViewport().setYAxisBoundsManual(true);
+        temperatureGraphView.getViewport().setScrollable(true);
+        temperatureGraphView.getViewport().setScalable(true);
+
+        pressureGraphView.getViewport().setXAxisBoundsManual(true);
+        pressureGraphView.getViewport().setYAxisBoundsManual(true);
+        pressureGraphView.getViewport().setScrollable(true);
+        pressureGraphView.getViewport().setScalable(true);
     }
 
     private void setPresenter() {
@@ -98,204 +152,85 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
         presenter = new ChartPresenter(this, repository);
     }
 
-    private void setListeners() {
-        timeRangeBar.setOnSeekBarChangeListener(timeRangeBarListener);
-        typeSwitch.setOnCheckedChangeListener(switchListener);
-    }
-
-    private SeekBar.OnSeekBarChangeListener timeRangeBarListener = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-            displayTimeRange();
-            setGraphXScale(i + 1);
-            presenter.onTimeRangeChanged(i);
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-
-        }
-    };
-
-    private void displayTimeRange() {
-        timeRangeView.setText(String.valueOf(timeRangeBar.getProgress()));
-    }
-
-    private void setGraphXScale(int i) {
-        Viewport viewport = graphView.getViewport();
-        viewport.setXAxisBoundsManual(true);
-        viewport.setMinX(0);
-        viewport.setMaxX(i);
-
-        graphView.onDataChanged(false, false);
-    }
-
-    private void setGraphYScale(String type){
-
-        Viewport viewport = graphView.getViewport();
-        viewport.setYAxisBoundsManual(true);
-
-        switch (type){
-            case TEMPERATURE_STATE:
-                viewport.setMinY(34);
-                viewport.setMaxY(42);
-                break;
-
-            case PRESSURE_STATE:
-                viewport.setMinY(90);
-                viewport.setMaxY(180);
-                break;
-        }
-    }
-
-    private CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (!b){
-                state = TEMPERATURE_STATE;
-                setGraphYScale(state);
-                showTemperatureGraph();
-
-            } else {
-                state = PRESSURE_STATE;
-                setGraphYScale(state);
-                showPressureGraph();
-            }
-        }
-    };
-
-    private void showTemperatureGraph() {
-        graphView.removeAllSeries();
-        graphView.addSeries(temperatureSeries);
-        graphView.addSeries(temperaturePointSeries);
-    }
-
-    private void showPressureGraph() {
-        graphView.removeAllSeries();
-        graphView.addSeries(pressureSeries);
-        graphView.addSeries(pressurePointSeries);
-    }
-
     @Override
     public void drawChart(LiveData<List<Task>> tasks) {
         tasks.observe((LifecycleOwner) getActivity(), new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
-                setPoints(tasks);
+                drawSeries(tasks);
             }
         });
     }
 
-    private void setPoints(List<Task> tasks) {
-        temperatureSeries = new LineGraphSeries<>();
+    @TargetApi(Build.VERSION_CODES.N)
+    private void drawSeries(List<Task> tasks) {
+        resetSeriesPoints();
+        appendPoints(tasks);
+        presentSeries();
+    }
+
+    private void resetSeriesPoints() {
+        temperatureGraphView.removeAllSeries();
+        pressureGraphView.removeAllSeries();
+
+        temperatureLineSeries = new LineGraphSeries<>();
         temperaturePointSeries = new PointsGraphSeries<>();
-        pressureSeries = new LineGraphSeries<>();
-        pressurePointSeries = new PointsGraphSeries<>();
+        temperatureLineSeries.setColor(Color.RED);
+        temperaturePointSeries.setColor(Color.RED);
 
-        List<List<Task>> temperatureDayTasks = getDayTasks(tasks, Task.MEASUREMENT_TEMPERATURE);
-        List<List<Task>> pressureDayTasks = getDayTasks(tasks, Task.MEASUREMENT_PRESSURE);
+        pressureSystolicLineSeries = new LineGraphSeries<>();
+        pressureSystolicPointSeries = new PointsGraphSeries<>();
+        pressureSystolicLineSeries.setColor(Color.RED);
+        pressureSystolicPointSeries.setColor(Color.RED);
 
-        int chartBegin = timeRangeBar.getProgress() - temperatureDayTasks.size();
+        pressureDiastolicLineSeries = new LineGraphSeries<>();
+        pressureDiastolicPointSeries = new PointsGraphSeries<>();
+        pressureDiastolicLineSeries.setColor(Color.BLUE);
+        pressureDiastolicPointSeries.setColor(Color.BLUE);
+    }
 
-        int indexT = 0;
-        for (List<Task> list : temperatureDayTasks) {
+    private void appendPoints(List<Task> tasks) {
+        for (Task task : tasks) {
 
-            for (int j = 0; j < list.size(); j++) {
-                Task task = list.get(j);
-                double x = (double) chartBegin + (double) indexT + ((double) j / (double) list.size());
+            if (task.getResult() == 0.0f)
+                continue;
 
-                DataPoint point = new DataPoint(x, task.getResult());
+            switch (task.getType()) {
+                case TEMPERATURE_STATE:
+                    DataPoint point = new DataPoint(task.getTimestamp(), task.getResult());
+                    appendTemperaturePoint(point);
+                    break;
 
-                temperatureSeries.appendData(point, true, 1000);
-                temperaturePointSeries.appendData(point, true, 1000);
+                case PRESSURE_STATE:
+                    DataPoint pointSystolic = new DataPoint(task.getTimestamp(), task.getResult());
+                    DataPoint pointDiastolic = new DataPoint(task.getTimestamp(), task.getResult2());
+                    appendPressurePoint(pointSystolic, pointDiastolic);
+                    break;
             }
-
-            indexT++;
-        }
-
-        int indexP = 0;
-        for (List<Task> list : pressureDayTasks) {
-
-            for (int j = 0; j < list.size(); j++) {
-                Task task = list.get(j);
-                double x = (double) chartBegin + (double) indexP + ((double) j / (double) list.size());
-
-                DataPoint point = new DataPoint(x, task.getResult());
-
-                pressureSeries.appendData(point, true, 1000);
-                pressurePointSeries.appendData(point, true, 1000);
-            }
-
-            indexP++;
-        }
-
-        if (state.equals(TEMPERATURE_STATE)){
-            graphView.removeAllSeries();
-            graphView.addSeries(temperatureSeries);
-            graphView.addSeries(temperaturePointSeries);
-
-        } else {
-            graphView.removeAllSeries();
-            graphView.addSeries(pressureSeries);
-            graphView.addSeries(pressurePointSeries);
         }
     }
 
-    private List<List<Task>> getDayTasks(List<Task> tasks, String type) {
-        List<List<Task>> result = new ArrayList<>();
-
-        if (tasks.isEmpty())
-            return result;
-
-        Date start = new Date();
-        start.setTime(tasks.get(0).getTimestamp().getTime());
-
-        Date end = new Date();
-        end.setTime(tasks.get(tasks.size() - 1).getTimestamp().getTime());
-
-        Date startOfDay = start;
-        startOfDay.setHours(0);
-        startOfDay.setMinutes(0);
-        startOfDay.setSeconds(0);
-
-        Date endOfDay = incrementDay(startOfDay);
-
-        while (startOfDay.before(end) || startOfDay.equals(end)) {
-
-            List<Task> dayTasks = new ArrayList<>();
-            for (Task task : tasks) {
-
-                if ((task.getTimestamp().after(startOfDay) || task.getTimestamp().equals(startOfDay))
-                        && task.getTimestamp().before(endOfDay)) {
-
-                    if (task.getType().equals(type))
-                        dayTasks.add(task);
-                }
-            }
-
-            result.add(dayTasks);
-
-            startOfDay = endOfDay;
-            endOfDay = incrementDay(startOfDay);
-        }
-
-        return result;
+    private void appendTemperaturePoint(DataPoint point) {
+        temperatureLineSeries.appendData(point, true, 1000);
+        temperaturePointSeries.appendData(point, true, 1000);
     }
 
-    private Date incrementDay(Date date) {
-        Date day = new Date();
-        day.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+    private void appendPressurePoint(DataPoint pointSystolic, DataPoint pointDiastolic) {
+        pressureSystolicLineSeries.appendData(pointSystolic, true, 1000);
+        pressureSystolicPointSeries.appendData(pointSystolic, true, 1000);
 
-        return day;
+        pressureDiastolicLineSeries.appendData(pointDiastolic, true, 1000);
+        pressureDiastolicPointSeries.appendData(pointDiastolic, true, 1000);
     }
 
-    @Override
-    public int getRange() {
-        return timeRangeBar.getProgress();
+    private void presentSeries() {
+        temperatureGraphView.addSeries(temperatureLineSeries);
+        temperatureGraphView.addSeries(temperaturePointSeries);
+
+        pressureGraphView.addSeries(pressureSystolicLineSeries);
+        pressureGraphView.addSeries(pressureSystolicPointSeries);
+
+        pressureGraphView.addSeries(pressureDiastolicLineSeries);
+        pressureGraphView.addSeries(pressureDiastolicPointSeries);
     }
 }

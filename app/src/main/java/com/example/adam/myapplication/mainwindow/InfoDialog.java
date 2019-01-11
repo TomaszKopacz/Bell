@@ -27,11 +27,19 @@ public class InfoDialog {
     }
 
     private String taskInfoText(Task t) {
-        if (t.getType().equals("TEMPERATURE") || t.getType().equals("PRESSURE")) {
+        if (t.getType().equals("TEMPERATURE")) {
             return "Mierzona wartość:" + "\n" + t.getType() + "\n" +
-                    "Jedonstka:" + "\n" + t.getUnit() + "\n" +
+                    "Jednostka:" + "\n" + t.getUnit() + "\n" +
                     "Wynik pomiaru " + "\n" +
                     t.getResult();
+
+        } else if ( t.getType().equals("PRESSURE")){
+
+            return "Mierzona wartość:" + "\n" + t.getType() + "\n" +
+                    "Jednostka:" + "\n" + t.getUnit() + "\n" +
+                    "Wynik pomiaru " + "\n" +
+                    "Ciśnienie skurczowe: " + t.getResult() + "\n" +
+                    "Ciśnienie rozkurczowe: " + t.getResult2();
 
         } else if (t.getType().equals("DRUG")) {
             return "Nazwa leku:" + "\n" + t.getDrugName() + "\n" +
