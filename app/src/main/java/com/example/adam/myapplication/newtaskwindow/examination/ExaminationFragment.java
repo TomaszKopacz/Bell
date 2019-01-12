@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
@@ -251,6 +252,11 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
             if (!task.getTimestamp().before(currentDate))
                 setNotification(task);
         }
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
     private void setNotification(Task task) {

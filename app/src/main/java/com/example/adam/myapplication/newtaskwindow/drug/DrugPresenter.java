@@ -2,6 +2,7 @@ package com.example.adam.myapplication.newtaskwindow.drug;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.newtaskwindow.TaskException;
 import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementContract;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
@@ -15,6 +16,13 @@ public class DrugPresenter implements DrugContract.DrugPresenter {
     private DrugContract.DrugView view;
     private TaskRepository repository;
 
+    private static final String EMPTY_DRUG_NAME = "Wprowadź nazwę leku!";
+    private static final String EMPTY_DRUG_DOSE = "Wprowadź dawkę leku!";
+    private static final String EMPTY_TASK_TIME = "Wprowadź godzinę!";
+    private static final String EMPTY_TASK_DATE = "Wprowadź datę!";
+    private static final String EMPTY_TASK_END_DATE = "Wprowadź datę zakończnia cyklu!";
+    private static final String DATES_INCORRECT_ORDER = "Data końca cyklu musi być późniejsza niż jego start!";
+
     DrugPresenter(DrugContract.DrugView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
@@ -22,30 +30,60 @@ public class DrugPresenter implements DrugContract.DrugPresenter {
 
     @Override
     public void onSubmitButtonClicked() {
-        insertTasks();
+        try {
+            insertTasks();
+
+        } catch (Exception e) {
+            view.showError(e.getMessage());
+        }
     }
 
-    private void insertTasks() {
-        try {
-            if (!view.isCycle()) {
-                Task task = getTaskFromLayout();
-                view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
-                repository.insert(task);
+    private void insertTasks() throws ParseException, TaskException {
+        checkFields();
 
-            } else {
-                List<Task> tasks = getCyclicTasks();
+        if (!view.isCycle())
+            insertSingleTask();
+        else
+            insertManyTasks();
 
-                for (Task task : tasks)
-                    view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+        view.navigateToParentView();
+    }
 
-                repository.insert(tasks);
-            }
+    private void checkFields() throws TaskException, ParseException {
+        if (view.getDrug().isEmpty())
+            throw new TaskException(EMPTY_DRUG_NAME);
 
-            view.navigateToParentView();
+        if (view.getDose().isEmpty())
+            throw new TaskException(EMPTY_DRUG_DOSE);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        if (view.getTime().isEmpty())
+            throw new TaskException(EMPTY_TASK_TIME);
+
+        if (view.getDate().isEmpty())
+            throw new TaskException(EMPTY_TASK_DATE);
+
+        if (view.isCycle() && view.getEndDate().isEmpty())
+            throw new TaskException(EMPTY_TASK_END_DATE);
+
+        Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
+        Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
+        if (currentDate.after(endDate))
+            throw new TaskException(DATES_INCORRECT_ORDER);
+    }
+
+    private void insertSingleTask() throws ParseException {
+        Task task = getTaskFromLayout();
+        view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+        repository.insert(task);
+    }
+
+    private void insertManyTasks() throws ParseException {
+        List<Task> tasks = getCyclicTasks();
+
+        for (Task task : tasks)
+            view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+
+        repository.insert(tasks);
     }
 
     private Task getTaskFromLayout() throws ParseException {
@@ -65,12 +103,12 @@ public class DrugPresenter implements DrugContract.DrugPresenter {
     }
 
     private List<Task> getCyclicTasks() throws ParseException {
-        Date currentDate = getCurrentDate();
-        Date endDate = getEndDate(currentDate);
+        Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
+        Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
 
         List<Task> tasks = new ArrayList<>();
 
-        for (; currentDate.before(endDate) || currentDate.equals(endDate); ) {
+        while (currentDate.before(endDate) || currentDate.equals(endDate)) {
             Task task = getTaskFromLayout();
 
             Date timestamp = new Date();
@@ -83,15 +121,6 @@ public class DrugPresenter implements DrugContract.DrugPresenter {
         }
 
         return tasks;
-    }
-
-    private Date getCurrentDate() throws ParseException {
-        return DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
-    }
-
-    private Date getEndDate(Date startDate) throws ParseException {
-        return view.isCycle() ?
-                DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime()) : startDate;
     }
 
     private void incrementDay(Date date) {

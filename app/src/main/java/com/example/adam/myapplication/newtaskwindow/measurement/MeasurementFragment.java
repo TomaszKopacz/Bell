@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
@@ -85,13 +86,13 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
         unitText = view.findViewById(R.id.unit_value_label);
 
         hourIcon = view.findViewById(R.id.time_icon);
-        hourText = view.findViewById(R.id.hour_value_label);
+        hourText = view.findViewById(R.id.time);
 
         dateIcon = view.findViewById(R.id.date_icon);
-        dateText = view.findViewById(R.id.date_value_label);
+        dateText = view.findViewById(R.id.date);
 
         endDateIcon = view.findViewById(R.id.date_end_icon);
-        endDateText = view.findViewById(R.id.end_date_value_label);
+        endDateText = view.findViewById(R.id.date_end);
 
         expandableDateLayout = view.findViewById(R.id.date_expandable);
         box = view.findViewById(R.id.cycle_check_box);
@@ -230,7 +231,7 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
     }
 
     @Override
-    public String getHour() {
+    public String getTime() {
         return hourText.getText().toString();
     }
 
@@ -294,6 +295,11 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
             if (!task.getTimestamp().before(currentDate))
                 setNotification(task);
         }
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
     private void setNotification(Task task) {

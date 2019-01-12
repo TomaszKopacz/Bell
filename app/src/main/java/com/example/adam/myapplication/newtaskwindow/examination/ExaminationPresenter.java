@@ -1,9 +1,8 @@
 package com.example.adam.myapplication.newtaskwindow.examination;
 
-import android.support.annotation.NonNull;
-
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.newtaskwindow.TaskException;
 import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementContract;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
@@ -17,6 +16,12 @@ public class ExaminationPresenter implements ExaminationContract.ExaminationPres
     private ExaminationContract.ExaminationView view;
     private TaskRepository repository;
 
+    private static final String EMPTY_DOCTOR_NAME = "Wprowadź nazwisko lekarza!";
+    private static final String EMPTY_TASK_TIME = "Wprowadź godzinę!";
+    private static final String EMPTY_TASK_DATE = "Wprowadź datę!";
+    private static final String EMPTY_TASK_END_DATE = "Wprowadź datę zakończnia cyklu!";
+    private static final String DATES_INCORRECT_ORDER = "Data końca cyklu musi być późniejsza niż jego start!";
+
     ExaminationPresenter(ExaminationContract.ExaminationView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
@@ -24,33 +29,62 @@ public class ExaminationPresenter implements ExaminationContract.ExaminationPres
 
     @Override
     public void onSubmitButtonClicked() {
-        insertTasks();
-    }
-
-    private void insertTasks() {
         try {
-            if (!view.isCycle()) {
-                Task task = getTaskFromLayout();
-                view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
-                repository.insert(task);
+            insertTasks();
 
-            } else {
-                List<Task> tasks = getCyclicTasks();
-
-                for (Task task : tasks)
-                    view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
-
-                repository.insert(tasks);
-            }
-
-            view.navigateToParentView();
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            view.showError(e.getMessage());
         }
     }
 
-    @NonNull
+    private void insertTasks() throws TaskException, ParseException {
+        checkFields();
+
+        if (!view.isCycle())
+            insertSingleTask();
+        else
+            insertManyTasks();
+
+        view.navigateToParentView();
+    }
+
+    private void checkFields() throws TaskException, ParseException {
+        if (view.getDoctor().isEmpty())
+            throw new TaskException(EMPTY_DOCTOR_NAME);
+
+        if (view.getTime().isEmpty())
+            throw new TaskException(EMPTY_TASK_TIME);
+
+        if (view.getDate().isEmpty())
+            throw new TaskException(EMPTY_TASK_DATE);
+
+        if (view.isCycle() && view.getEndDate().isEmpty())
+            throw new TaskException(EMPTY_TASK_END_DATE);
+
+        if (view.getDoctor().isEmpty())
+            throw new TaskException(EMPTY_DOCTOR_NAME);
+
+        Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
+        Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
+        if (currentDate.after(endDate))
+            throw new TaskException(DATES_INCORRECT_ORDER);
+    }
+
+    private void insertSingleTask() throws ParseException {
+        Task task = getTaskFromLayout();
+        view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+        repository.insert(task);
+    }
+
+    private void insertManyTasks() throws ParseException {
+        List<Task> tasks = getCyclicTasks();
+
+        for (Task task : tasks)
+            view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+
+        repository.insert(tasks);
+    }
+
     private Task getTaskFromLayout() throws ParseException {
         String type = Task.EXAMINATION;
         String time = view.getTime();
@@ -70,12 +104,12 @@ public class ExaminationPresenter implements ExaminationContract.ExaminationPres
     }
 
     private List<Task> getCyclicTasks() throws ParseException {
-        Date currentDate = getCurrentDate();
-        Date endDate = getEndDate(currentDate);
+        Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
+        Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
 
         List<Task> tasks = new ArrayList<>();
 
-        for (; currentDate.before(endDate) || currentDate.equals(endDate); ) {
+        while (currentDate.before(endDate) || currentDate.equals(endDate)) {
             Task task = getTaskFromLayout();
 
             Date timestamp = new Date();
@@ -88,15 +122,6 @@ public class ExaminationPresenter implements ExaminationContract.ExaminationPres
         }
 
         return tasks;
-    }
-
-    private Date getCurrentDate() throws ParseException {
-        return DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
-    }
-
-    private Date getEndDate(Date startDate) throws ParseException {
-        return view.isCycle() ?
-                DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime()) : startDate;
     }
 
     private void incrementDay(Date date) {
