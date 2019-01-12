@@ -58,16 +58,16 @@ public class ExaminationPresenter implements ExaminationContract.ExaminationPres
         if (view.getDate().isEmpty())
             throw new TaskException(EMPTY_TASK_DATE);
 
-        if (view.isCycle() && view.getEndDate().isEmpty())
-            throw new TaskException(EMPTY_TASK_END_DATE);
+        if (view.isCycle()) {
+            if (view.getEndDate().isEmpty())
+                throw new TaskException(EMPTY_TASK_END_DATE);
 
-        if (view.getDoctor().isEmpty())
-            throw new TaskException(EMPTY_DOCTOR_NAME);
+            Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
+            Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
 
-        Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
-        Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
-        if (currentDate.after(endDate))
-            throw new TaskException(DATES_INCORRECT_ORDER);
+            if (currentDate.after(endDate))
+                throw new TaskException(DATES_INCORRECT_ORDER);
+        }
     }
 
     private void insertSingleTask() throws ParseException {
