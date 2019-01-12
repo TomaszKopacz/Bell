@@ -25,6 +25,7 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
+import com.jjoe64.graphview.series.Series;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -190,6 +191,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void appendPoints(List<Task> tasks) {
+
         for (Task task : tasks) {
 
             if (task.getResult() == 0.0f)
@@ -224,13 +226,30 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     }
 
     private void presentSeries() {
-        temperatureGraphView.addSeries(temperatureLineSeries);
-        temperatureGraphView.addSeries(temperaturePointSeries);
 
-        pressureGraphView.addSeries(pressureSystolicLineSeries);
-        pressureGraphView.addSeries(pressureSystolicPointSeries);
+        if (temperatureLineSeries.isEmpty() && temperaturePointSeries.isEmpty())
+            disableGraphPerformance(temperatureGraphView);
 
-        pressureGraphView.addSeries(pressureDiastolicLineSeries);
-        pressureGraphView.addSeries(pressureDiastolicPointSeries);
+        else {
+            temperatureGraphView.addSeries(temperatureLineSeries);
+            temperatureGraphView.addSeries(temperaturePointSeries);
+        }
+
+        if (pressureDiastolicLineSeries.isEmpty() && pressureDiastolicPointSeries.isEmpty()
+                && pressureSystolicLineSeries.isEmpty() && pressureSystolicPointSeries.isEmpty())
+            disableGraphPerformance(pressureGraphView);
+        
+        else {
+            pressureGraphView.addSeries(pressureSystolicLineSeries);
+            pressureGraphView.addSeries(pressureSystolicPointSeries);
+
+            pressureGraphView.addSeries(pressureDiastolicLineSeries);
+            pressureGraphView.addSeries(pressureDiastolicPointSeries);
+        }
+    }
+
+    private void disableGraphPerformance(GraphView graph){
+        graph.getViewport().setScalable(false);
+        graph.getViewport().setScrollable(false);
     }
 }

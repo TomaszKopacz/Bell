@@ -243,7 +243,7 @@ public class MainFragment extends Fragment {
                 // set item width
                 deleteItem.setWidth(170);
                 // set a icon
-                deleteItem.setIcon(R.drawable.ic_delete);
+                deleteItem.setIcon(R.drawable.ic_delete_item);
                 // add to menu
                 menu.addMenuItem(deleteItem);
             }
