@@ -22,6 +22,30 @@
 
     <include layout="@layout/content_main" />
 
+    <LinearLayout
+        android:id="@+id/no_tasks_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:alpha="0.5">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_empty"
+            android:layout_margin="@dimen/icon_margin"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_list"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/label_margin"/>
+
+    </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
