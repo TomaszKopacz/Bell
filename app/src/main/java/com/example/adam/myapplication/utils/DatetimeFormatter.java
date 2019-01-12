@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class DatetimeFormatter {
 
-    private static final String TIMESTAMP_FORMAT = "dd-MM-yyyy hh:mm";
+    private static final String TIMESTAMP_FORMAT = "dd-MM-yyyy HH:mm";
     private static final SimpleDateFormat formatter = new SimpleDateFormat(TIMESTAMP_FORMAT, Locale.ENGLISH);
 
     public static Date getTimestamp(String date, String time) throws ParseException {
