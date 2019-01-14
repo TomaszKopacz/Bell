@@ -1,0 +1,10 @@
+Instrukcja kompilacji:
+1. Nale¿y przejœæ do folderu zawieraj¹cego pliki projektu, 
+w tym koniecznie narzêdzie do budowania projektów Gradle.
+2. W folderze projektu nale¿y uruchomiæ wiersz poleceñ.
+3. Uruchamiamy polecenie "gradlew tasks". W konsoli pojawi siê lista
+mo¿liwych zadañ do wykonania.
+4. W celu kopilacji uruchamiamy polecenie "gradlew build". Projekt zostanie skompilowany
+oraz zbudowany.
+5. W celu wgrania aplikacji na telefon nale¿y pod³¹czyæ telefon do komputera( z w³¹czonymi opcjami
+dla pogramisty) oraz uruchomienie polecenia "gradlew installDebug".
