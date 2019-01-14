@@ -2,7 +2,6 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="group_margin">16dp</dimen>
-    <dimen name="card_margin">16dp</dimen>
     <dimen name="label_margin">8dp</dimen>
     <dimen name="radio_margin">8dp</dimen>
     <dimen name="box_margin">8dp</dimen>
@@ -14,6 +13,4 @@
     <dimen name="text_padding">6dp</dimen>
 
     <dimen name="input_width">160dp</dimen>
-    <dimen name="input_height">32dp</dimen>
-    <dimen name="large_text">24sp</dimen>
 </resources>

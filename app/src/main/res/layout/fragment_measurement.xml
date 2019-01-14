@@ -58,7 +58,6 @@
                 </RadioGroup>
 
                 <LinearLayout
-                    android:id="@+id/unit_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/group_margin"
@@ -77,7 +76,6 @@
                         android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/unit_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin"
@@ -93,7 +91,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/hour_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/group_margin"
@@ -112,7 +109,6 @@
                         android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/time_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin"
@@ -127,7 +123,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/date_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/group_margin"
@@ -145,7 +140,6 @@
                         android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/date_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/label_margin"
@@ -181,7 +175,6 @@
                             android:focusable="true" />
 
                         <TextView
-                            android:id="@+id/date_end_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/label_margin"

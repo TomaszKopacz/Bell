@@ -2,8 +2,6 @@
     <string name="app_name">Kalendarz pacjenta</string>
 
     <!-- MAIN ACTIVITY -->
-    <string name="action_settings">Settings</string>
-    <string name="textview">TextView</string>
     <string name="dzien_miesiac">Dzień, Miesiąc</string>
     <string name="rok">Rok</string>
 
@@ -48,8 +46,6 @@
     <string name="drug_reminder">Pamiętaj o leku!</string>
     <string name="examination_reminder">Pamiętaj o wizycie u lekarza!</string>
     <string name="action_calendar">menu_icon_calendar</string>
-    <string name="action_chart">menu_icon_graph</string>
-    <string name="action_info">menu_ocin_info</string>
 
     <!-- GRAPH FRAGMENT -->
     <string name="temperature_label">TEMPERATURA CIAŁA</string>
