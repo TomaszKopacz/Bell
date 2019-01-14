@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.TextView;
+
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -29,21 +30,13 @@ import com.example.adam.myapplication.data.AnatomyLimits;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.newtaskwindow.AddTaskActivity;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-/**
- * Class which creates a Fragment obcject for mainWindow
- */
+
 public class MainFragment extends Fragment {
-    /**
-     * Function gets List displayed list of tasks
-     * @return list
-     */
-    public SwipeMenuListView getList() {
-        return list;
-    }
 
     private SwipeMenuListView list;
     private SwipeMenuCreator creator;
@@ -53,31 +46,21 @@ public class MainFragment extends Fragment {
     private CheckBox checkBox;
     private InputDialog inputDialog;
     private MainFragment mainFragment = this;
-    /**
-     * Function gets current displayed day on the screen
-     * @return displayedDay
-     */
+    private Calendar displayedDay;
+    private DatePickerDialog.OnDateSetListener dateSetListener;
+
+    public MainFragment() {
+
+    }
+
+    public SwipeMenuListView getList() {
+        return list;
+    }
+
     public Calendar getDisplayedDay() {
         return displayedDay;
     }
 
-    private Calendar displayedDay;
-
-    private DatePickerDialog.OnDateSetListener dateSetListener;
-    /**
-     * Constructor
-     */
-    public MainFragment() {
-
-    }
-    /**
-     * Function called while the fragment is displayed.
-     * It sets all views and sets up listeners for touch screen actions
-     * @param inflater LayoutInflater object
-     * @param container ViewGroup object
-     * @param savedInstanceState Bundle object
-     * @return view
-     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
@@ -85,12 +68,7 @@ public class MainFragment extends Fragment {
         setListeners();
         return view;
     }
-    /**
-     * Function called when the view is created
-     * It displayes all tasks for a current day and create list of tasks
-     * @param view view Object
-     * @param savedInstanceState Bundle object
-     */
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -282,7 +260,7 @@ public class MainFragment extends Fragment {
 
             new InputDialog(getActivity()).errorTemperatureDialog().show();
 
-        }  else {
+        } else {
             task.setResult(result);
             task.setStatus(true);
 
