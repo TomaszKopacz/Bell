@@ -1,7 +1,6 @@
 package com.example.adam.myapplication.newtaskwindow.measurement;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;

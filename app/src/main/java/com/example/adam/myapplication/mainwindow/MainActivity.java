@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_cointainer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Kalendarz");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Kalendarz pacjenta");
         setDefaultFragment();
     }
 
