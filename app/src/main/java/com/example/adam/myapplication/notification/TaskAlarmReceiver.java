@@ -35,10 +35,6 @@ public class TaskAlarmReceiver extends BroadcastReceiver {
         String title = intent.getStringExtra(TITLE);
         String message = intent.getStringExtra(MESSAGE);
 
-        Log.i("TELM", "on receive title: " + title);
-        Log.i("TELM", "on receive message: " + message);
-
-
         NotificationManager manager
                 = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification

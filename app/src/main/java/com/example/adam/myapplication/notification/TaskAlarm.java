@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.data.Task;
@@ -37,7 +36,6 @@ public class TaskAlarm {
 
         receiverIntent.putExtra(TaskAlarmReceiver.ACTION, TaskAlarmReceiver.NOTIFICATION);
         receiverIntent.putExtra(TaskAlarmReceiver.TITLE, task.getType());
-        Log.i("TELM", "get receiver intent: " + task.getType());
 
         switch (task.getType()) {
             case Task.MEASUREMENT_PRESSURE:

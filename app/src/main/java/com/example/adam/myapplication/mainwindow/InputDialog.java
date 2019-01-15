@@ -95,8 +95,8 @@ public class InputDialog {
 
     public AlertDialog errorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("BŁĄD!");
-        builder.setMessage("W polu można wpisać jedynie liczbę")
+        builder.setTitle("BLAD!");
+        builder.setMessage("W polu mozna wpisac jedynie liczbe")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -108,8 +108,8 @@ public class InputDialog {
 
     public AlertDialog errorTemperatureDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("BŁĄD!");
-        builder.setMessage("Błędna wartość temperatury.")
+        builder.setTitle("BLAD!");
+        builder.setMessage("Bledna wartosc temperatury.")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -121,7 +121,7 @@ public class InputDialog {
 
     public AlertDialog errorPressureDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("BŁĄD!");
+        builder.setTitle("BLAD!");
         builder.setMessage("Błędna wartość ciśnienia.")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

@@ -1,10 +1,11 @@
 package com.example.adam.myapplication.mainwindow;
 
-import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,19 +13,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.utils.DatetimePicker;
 import com.example.adam.myapplication.chartwindow.ChartActivity;
+import com.example.adam.myapplication.utils.DatetimePicker;
 
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DatePickerDialog.OnDateSetListener dateSetListener;
-
-    public MainFragment getMainFragment() {
-        return mainFragment;
-    }
-
     private MainFragment mainFragment;
+    private AppInfoDialog appInfoDialog;
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_cointainer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Kalendarz");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Kalendarz pacjenta");
         setDefaultFragment();
     }
 
@@ -63,12 +62,13 @@ public class MainActivity extends AppCompatActivity {
             DatetimePicker.showDatePicker(this, mainFragment.getDateSetListener());
             return true;
 
-        } else if (id == R.id.action_chart){
+        } else if (id == R.id.action_chart) {
             startChartActivity();
             return true;
 
-        } else if (id == R.id.action_info){
-            Log.i("TELM", "INFO");
+        } else if (id == R.id.action_info) {
+            appInfoDialog = new AppInfoDialog(this);
+            appInfoDialog.infoDialog().show();
             return true;
         }
 

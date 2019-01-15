@@ -38,10 +38,6 @@ import java.util.List;
 
 public class MainFragment extends Fragment {
 
-    public SwipeMenuListView getList() {
-        return list;
-    }
-
     private SwipeMenuListView list;
     private SwipeMenuCreator creator;
     private TextView d_m;
@@ -51,26 +47,26 @@ public class MainFragment extends Fragment {
     private InputDialog inputDialog;
     private MainFragment mainFragment = this;
     private View noTasksView;
-
-    public Calendar getDisplayedDay() {
-        return displayedDay;
-    }
-
     private Calendar displayedDay;
-
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     public MainFragment() {
 
     }
 
+    public SwipeMenuListView getList() {
+        return list;
+    }
+
+    public Calendar getDisplayedDay() {
+        return displayedDay;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-
         getLayoutViews(view);
         setListeners();
-
         return view;
     }
 
@@ -271,7 +267,7 @@ public class MainFragment extends Fragment {
 
             new InputDialog(getActivity()).errorTemperatureDialog().show();
 
-        }  else {
+        } else {
             task.setResult(result);
             task.setStatus(true);
 
