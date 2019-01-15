@@ -21,6 +21,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private MainFragment mainFragment;
+    private AppInfoDialog appInfoDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
@@ -66,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
 
         } else if (id == R.id.action_info) {
-            Log.i("TELM", "INFO");
+            appInfoDialog = new AppInfoDialog(this);
+            appInfoDialog.infoDialog().show();
             return true;
         }
 
