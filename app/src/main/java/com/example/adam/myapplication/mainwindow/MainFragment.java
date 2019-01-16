@@ -46,6 +46,7 @@ public class MainFragment extends Fragment {
     private CheckBox checkBox;
     private InputDialog inputDialog;
     private MainFragment mainFragment = this;
+    private View noTasksView;
     private Calendar displayedDay;
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
@@ -82,6 +83,7 @@ public class MainFragment extends Fragment {
         year = view.findViewById(R.id.rok);
         plus = view.findViewById(R.id.fab);
         checkBox = view.findViewById(R.id.checkbox);
+        noTasksView = view.findViewById(R.id.no_tasks_view);
     }
 
     private void setListeners() {
@@ -219,6 +221,11 @@ public class MainFragment extends Fragment {
     }
 
     public void createList(List<Task> tasks) {
+        if (tasks.isEmpty())
+            noTasksView.setVisibility(View.VISIBLE);
+        else
+            noTasksView.setVisibility(View.INVISIBLE);
+
         TaskArrayAdapter adapter = new TaskArrayAdapter(getActivity(), tasks);
         list.setAdapter(adapter);
     }
@@ -239,7 +246,7 @@ public class MainFragment extends Fragment {
                 // set item width
                 deleteItem.setWidth(170);
                 // set a icon
-                deleteItem.setIcon(R.drawable.ic_delete);
+                deleteItem.setIcon(R.drawable.ic_delete_item);
                 // add to menu
                 menu.addMenuItem(deleteItem);
             }

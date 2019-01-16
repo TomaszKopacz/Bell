@@ -4,6 +4,7 @@
     <!-- MAIN ACTIVITY -->
     <string name="dzien_miesiac">Dzień, Miesiąc</string>
     <string name="rok">Rok</string>
+    <string name="empty_list">BRAK ZADAŃ</string>
 
     <!-- MENU -->
     <string name="button_submit">DODAJ</string>
