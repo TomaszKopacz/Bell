@@ -1,10 +1,9 @@
-package com.example.adam.myapplication.newtaskwindow.measurement;
-
-import android.support.annotation.NonNull;
+package com.example.adam.myapplication.ui.newtask.examination;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.newtaskwindow.TaskException;
+import com.example.adam.myapplication.ui.newtask.exceptions.TaskException;
+import com.example.adam.myapplication.ui.newtask.measurement.MeasurementContract;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import java.text.ParseException;
@@ -12,17 +11,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MeasurementPresenter implements MeasurementContract.MeasurementPresenter {
+public class ExaminationPresenter implements ExaminationContract.ExaminationPresenter {
 
-    private MeasurementContract.MeasurementView view;
+    private ExaminationContract.ExaminationView view;
     private TaskRepository repository;
 
+    private static final String EMPTY_DOCTOR_NAME = "Wprowadź nazwisko lekarza!";
     private static final String EMPTY_TASK_TIME = "Wprowadź godzinę!";
     private static final String EMPTY_TASK_DATE = "Wprowadź datę!";
     private static final String EMPTY_TASK_END_DATE = "Wprowadź datę zakończnia cyklu!";
     private static final String DATES_INCORRECT_ORDER = "Data końca cyklu musi być późniejsza niż jego start!";
 
-    MeasurementPresenter(MeasurementContract.MeasurementView view, TaskRepository repository) {
+    ExaminationPresenter(ExaminationContract.ExaminationView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
     }
@@ -37,7 +37,7 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
         }
     }
 
-    private void insertTasks() throws ParseException, TaskException {
+    private void insertTasks() throws TaskException, ParseException {
         checkFields();
 
         if (!view.isCycle())
@@ -49,6 +49,9 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
     }
 
     private void checkFields() throws TaskException, ParseException {
+        if (view.getDoctor().isEmpty())
+            throw new TaskException(EMPTY_DOCTOR_NAME);
+
         if (view.getTime().isEmpty())
             throw new TaskException(EMPTY_TASK_TIME);
 
@@ -82,24 +85,27 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
         repository.insert(tasks);
     }
 
-    @NonNull
     private Task getTaskFromLayout() throws ParseException {
-        String type = view.getType();
+        String type = Task.EXAMINATION;
         String time = view.getTime();
         String date = view.getDate();
-        String unit = view.getUnit();
+        String doctor = view.getDoctor();
+        String location = view.getLocation();
+        String info = view.getInfo();
 
         Date timestamp = DatetimeFormatter.getTimestamp(date, time);
 
         Task task = new Task(type, timestamp);
-        task.setUnit(unit);
+        task.setDoctor(doctor);
+        task.setLocation(location);
+        task.setInfo(info);
 
         return task;
     }
 
     private List<Task> getCyclicTasks() throws ParseException {
         Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
-        Date endDate =  DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
+        Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
 
         List<Task> tasks = new ArrayList<>();
 

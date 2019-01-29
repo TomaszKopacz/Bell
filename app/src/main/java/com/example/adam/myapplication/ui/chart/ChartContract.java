@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.chartwindow;
+package com.example.adam.myapplication.ui.chart;
 
 import android.arch.lifecycle.LiveData;
 

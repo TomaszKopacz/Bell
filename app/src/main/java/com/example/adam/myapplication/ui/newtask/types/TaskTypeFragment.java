@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.newtaskwindow;
+package com.example.adam.myapplication.ui.newtask.types;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
@@ -10,9 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.newtaskwindow.drug.DrugFragment;
-import com.example.adam.myapplication.newtaskwindow.examination.ExaminationFragment;
-import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementFragment;
+import com.example.adam.myapplication.ui.newtask.drug.DrugFragment;
+import com.example.adam.myapplication.ui.newtask.examination.ExaminationFragment;
+import com.example.adam.myapplication.ui.newtask.measurement.MeasurementFragment;
+import com.example.adam.myapplication.ui.newtask.types.AddTaskActivity;
 
 public class TaskTypeFragment extends Fragment {
 

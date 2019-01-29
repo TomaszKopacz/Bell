@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.mainwindow;
+package com.example.adam.myapplication.ui.board;
 
 import android.content.Context;
 import android.content.DialogInterface;

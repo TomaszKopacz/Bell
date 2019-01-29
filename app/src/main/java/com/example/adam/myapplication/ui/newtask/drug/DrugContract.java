@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.newtaskwindow.drug;
+package com.example.adam.myapplication.ui.newtask.drug;
 
 import com.example.adam.myapplication.data.Task;
 

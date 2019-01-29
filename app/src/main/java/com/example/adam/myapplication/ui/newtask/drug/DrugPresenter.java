@@ -1,9 +1,9 @@
-package com.example.adam.myapplication.newtaskwindow.drug;
+package com.example.adam.myapplication.ui.newtask.drug;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.newtaskwindow.TaskException;
-import com.example.adam.myapplication.newtaskwindow.measurement.MeasurementContract;
+import com.example.adam.myapplication.ui.newtask.exceptions.TaskException;
+import com.example.adam.myapplication.ui.newtask.measurement.MeasurementContract;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import java.text.ParseException;

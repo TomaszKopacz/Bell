@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.chartwindow;
+package com.example.adam.myapplication.ui.chart;
 
 
 import android.annotation.TargetApi;
@@ -25,7 +25,6 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
-import com.jjoe64.graphview.series.Series;
 
 import java.util.Calendar;
 import java.util.Date;

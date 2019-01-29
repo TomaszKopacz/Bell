@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.newtaskwindow.examination;
+package com.example.adam.myapplication.ui.newtask.examination;
 
 import com.example.adam.myapplication.data.Task;
 

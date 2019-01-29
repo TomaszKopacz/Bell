@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".newtaskwindow.examination.ExaminationFragment">
+    tools:context=".ui.newtask.examination.ExaminationFragment">
 
     <ImageView
         android:layout_width="wrap_content"

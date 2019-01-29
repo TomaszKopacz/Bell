@@ -1,44 +1,34 @@
-package com.example.adam.myapplication.mainwindow;
+package com.example.adam.myapplication.ui.board;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.chartwindow.ChartActivity;
+import com.example.adam.myapplication.ui.chart.ChartActivity;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
-import java.util.Objects;
-
-public class MainActivity extends AppCompatActivity {
-
-    private MainFragment mainFragment;
-    private AppInfoDialog appInfoDialog;
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+public class BoardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //  SET VIEW
         setContentView(R.layout.activity_main_cointainer);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Kalendarz pacjenta");
+        toolbar.setTitle("Kalendarz pacjenta");
         setDefaultFragment();
     }
 
     private void setDefaultFragment() {
-        changeFragment(mainFragment = new MainFragment());
+        changeFragment(new BoardFragment());
     }
 
     public void changeFragment(Fragment fragment) {
@@ -49,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -58,24 +47,24 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_calendar) {
-            DatetimePicker.showDatePicker(this, mainFragment.getDateSetListener());
-            return true;
-
-        } else if (id == R.id.action_chart) {
-            startChartActivity();
+        if (id == R.id.action_chart) {
+            showChart();
             return true;
 
         } else if (id == R.id.action_info) {
-            appInfoDialog = new AppInfoDialog(this);
-            appInfoDialog.infoDialog().show();
+            showInfo();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void startChartActivity() {
+    private void showInfo() {
+        AppInfoDialog appInfoDialog = new AppInfoDialog(this);
+        appInfoDialog.infoDialog().show();
+    }
+
+    private void showChart() {
         Intent intent = new Intent(this, ChartActivity.class);
         startActivity(intent);
     }

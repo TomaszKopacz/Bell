@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.chartwindow;
+package com.example.adam.myapplication.ui.newtask.types;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -7,22 +7,22 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.adam.myapplication.R;
 
-public class ChartActivity extends AppCompatActivity {
+public class AddTaskActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chart);
+        setContentView(R.layout.activity_add_task);
         setDefaultFragment();
     }
 
     private void setDefaultFragment() {
-        changeFragment(new ChartFragment());
+        changeFragment(new TaskTypeFragment());
     }
 
     public void changeFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.chart_fragment_container, fragment);
+        transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
     }
 }

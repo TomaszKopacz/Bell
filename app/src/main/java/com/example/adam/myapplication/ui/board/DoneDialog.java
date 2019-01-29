@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.mainwindow;
+package com.example.adam.myapplication.ui.board;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,21 +11,21 @@ public class DoneDialog {
         this.context = context;
     }
 
-    public AlertDialog doneDialog(final MainFragment mainFragment, final int position) {
+    public AlertDialog doneDialog(final BoardFragment mainFragment, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Uwaga!");
         builder.setMessage("Czy zadanie zostało wykonane?");
         builder.setPositiveButton("TAK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        mainFragment.setStatus(position, true);
+//                        mainFragment.setStatus(position, true);
                         //TOMEK TUTAJ ZAPIS
                     }
                 });
         builder.setNegativeButton("NIE",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        mainFragment.setStatus(position, false);
+//                        mainFragment.setStatus(position, false);
                         //TOMEK TUTAJ ZAPIS
                     }
                 });

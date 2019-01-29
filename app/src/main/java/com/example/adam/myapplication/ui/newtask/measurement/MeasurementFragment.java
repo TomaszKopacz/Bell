@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.newtaskwindow.measurement;
+package com.example.adam.myapplication.ui.newtask.measurement;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
