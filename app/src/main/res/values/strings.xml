@@ -2,9 +2,10 @@
     <string name="app_name">Kalendarz pacjenta</string>
 
     <!-- MAIN ACTIVITY -->
-    <string name="dzien_miesiac">Dzień, Miesiąc</string>
-    <string name="rok">Rok</string>
+
+    <!-- MAIN FRAGMENT-->
     <string name="empty_list">BRAK ZADAŃ</string>
+    <string name="empty_list_icon_desc">empty_list_icon</string>
 
     <!-- MENU -->
     <string name="button_submit">DODAJ</string>

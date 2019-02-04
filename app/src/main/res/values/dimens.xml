@@ -13,4 +13,8 @@
     <dimen name="text_padding">6dp</dimen>
 
     <dimen name="input_width">160dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="large_text_size">18sp</dimen>
+    <dimen name="list_margin">12dp</dimen>
+    <dimen name="card_margin">12dp</dimen>
 </resources>

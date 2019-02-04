@@ -15,7 +15,7 @@ public interface BoardContract {
         void showList(LiveData<List<Task>> liveTasks);
         Task getTaskFromPosition(int position);
         void showCalendarView(DatePickerDialog.OnDateSetListener listener);
-        void showNewTaskView();
+        void showTaskCreationView();
     }
 
     interface BoardPresenter {

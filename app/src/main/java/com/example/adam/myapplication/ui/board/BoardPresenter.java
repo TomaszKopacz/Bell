@@ -2,11 +2,8 @@ package com.example.adam.myapplication.ui.board;
 
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.LiveData;
-import android.util.Log;
 import android.widget.DatePicker;
 
-import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.AnatomyLimits;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 
@@ -44,7 +41,7 @@ public class BoardPresenter implements BoardContract.BoardPresenter {
 
     @Override
     public void addButtonClicked() {
-        view.showNewTaskView();
+        view.showTaskCreationView();
     }
 
     private void displayDay(Calendar calendar) {
@@ -52,15 +49,15 @@ public class BoardPresenter implements BoardContract.BoardPresenter {
     }
 
     private void displayDayTasks(Calendar calendar) {
-        downloadTasks(calendar.getTime());
+        LiveData<List<Task>> tasks = downloadTasks(calendar.getTime());
+        view.showList(tasks);
     }
 
-    private void downloadTasks(Date date) {
+    private LiveData<List<Task>> downloadTasks(Date date) {
         Date start = getStartOfDay(date);
         Date end = getEndOfDay(date);
 
-        LiveData<List<Task>> tasks = repository.getAllFromDate(start, end);
-        view.showList(tasks);
+        return repository.getAllFromDate(start, end);
     }
 
     private Date getStartOfDay(Date date) {
