@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.ui.board.BoardActivity;
+import com.example.adam.myapplication.ui.main.MainActivity;
 
 public class TaskAlarmReceiver extends BroadcastReceiver {
 
@@ -44,7 +44,7 @@ public class TaskAlarmReceiver extends BroadcastReceiver {
 
     @NonNull
     private Notification createNotification(Context context, String title, String message) {
-        Intent destinationIntent = new Intent(context, BoardActivity.class);
+        Intent destinationIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 destinationIntent, PendingIntent.FLAG_ONE_SHOT);
 

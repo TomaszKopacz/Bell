@@ -11,10 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.board.BoardActivity"
+            android:name=".ui.main.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,12 +22,12 @@
         </activity>
         <activity
             android:name=".ui.newtask.types.AddTaskActivity"
-            android:parentActivityName=".ui.board.BoardActivity"></activity>
+            android:parentActivityName=".ui.main.MainActivity"></activity>
 
         <receiver android:name=".notification.TaskAlarmReceiver" />
 
         <activity android:name=".ui.chart.ChartActivity"
-            android:parentActivityName=".ui.board.BoardActivity">
+            android:parentActivityName=".ui.main.MainActivity">
 
         </activity>
 

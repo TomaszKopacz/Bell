@@ -40,8 +40,8 @@ public class BoardPresenter implements BoardContract.BoardPresenter {
     }
 
     @Override
-    public void addButtonClicked() {
-        view.showTaskCreationView();
+    public void addTaskButtonClicked() {
+
     }
 
     private void displayDay(Calendar calendar) {
@@ -50,7 +50,7 @@ public class BoardPresenter implements BoardContract.BoardPresenter {
 
     private void displayDayTasks(Calendar calendar) {
         LiveData<List<Task>> tasks = downloadTasks(calendar.getTime());
-        view.showList(tasks);
+        view.displayList(tasks);
     }
 
     private LiveData<List<Task>> downloadTasks(Date date) {

@@ -1,10 +1,14 @@
 <resources>
-    <string name="app_name">Kalendarz pacjenta</string>
+    <!-- APP -->
+    <string name="app_name">MediBell</string>
 
     <!-- MAIN ACTIVITY -->
+    <string name="board_title">BOARD</string>
+    <string name="doctor_title">DOCTOR</string>
+    <string name="pills_title">DRUGS</string>
+    <string name="measurement_title">SCORES</string>
 
-    <!-- MAIN FRAGMENT-->
-    <string name="empty_list">BRAK ZADAŃ</string>
+    <string name="empty_list">NO TASKS</string>
     <string name="empty_list_icon_desc">empty_list_icon</string>
 
     <!-- MENU -->
@@ -52,4 +56,5 @@
     <!-- GRAPH FRAGMENT -->
     <string name="temperature_label">TEMPERATURA CIAŁA</string>
     <string name="pressure_label">CIŚNIENIE KRWI</string>
+    <string name="no_result_text">not done</string>
 </resources>

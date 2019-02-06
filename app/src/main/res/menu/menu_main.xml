@@ -1,17 +1,32 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.board.BoardActivity">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_chart"
-        android:icon="@drawable/menu_ic_chart"
-        android:orderInCategory="200"
-        android:title="action_chart"
+        android:id="@+id/action_board"
+        android:enabled="true"
+        android:icon="@drawable/ic_board"
+        android:title="@string/board_title"
         app:showAsAction="ifRoom" />
+
     <item
-        android:id="@+id/action_info"
-        android:icon="@drawable/menu_ic_info"
-        android:orderInCategory="300"
-        android:title="action_info"
-        app:showAsAction="always" />
+        android:id="@+id/action_doctor"
+        android:enabled="true"
+        android:icon="@drawable/ic_doctor"
+        android:title="@string/doctor_title"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_pill"
+        android:enabled="true"
+        android:icon="@drawable/ic_pills"
+        android:title="@string/pills_title"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_measurement"
+        android:enabled="true"
+        android:icon="@drawable/ic_measurement"
+        android:title="@string/measurement_title"
+        app:showAsAction="ifRoom" />
 </menu>

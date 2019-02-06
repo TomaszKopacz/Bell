@@ -12,16 +12,15 @@ public interface BoardContract {
 
     interface BoardView {
         void displayDate(Calendar calendar);
-        void showList(LiveData<List<Task>> liveTasks);
+        void displayList(LiveData<List<Task>> liveTasks);
         Task getTaskFromPosition(int position);
         void showCalendarView(DatePickerDialog.OnDateSetListener listener);
-        void showTaskCreationView();
     }
 
     interface BoardPresenter {
         void onViewAttached();
         void onItemClicked(int position);
         void calendarButtonClicked();
-        void addButtonClicked();
+        void addTaskButtonClicked();
     }
 }

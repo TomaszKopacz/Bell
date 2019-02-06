@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
@@ -15,11 +14,6 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private List<Task> tasks;
-
-    private static final String TEMPERATURE_TITLE = "Pomiar temperatury";
-    private static final String PRESSURE_TITLE = "Pomiar ciśnienia";
-    private static final String DRUG_TITLE = "Weź lek";
-    private static final String EXAMINATION_TITLE = "Wizyta u lekarza";
 
     TaskAdapter(List<Task> tasks) {
         this.tasks = tasks;
@@ -40,7 +34,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         holder.setHour(task.getTimestamp().toString().substring(11, 16));
         holder.setLabel(task.getType());
-        holder.setChecked(task.getStatus());
+        holder.setResult(task.getResult());
+        holder.setInfo(task.getInfo());
     }
 
     @Override
@@ -52,14 +47,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         private TextView hour;
         private TextView label;
-        private CheckBox checkBox;
+        private TextView result;
+        private TextView info;
 
         TaskViewHolder(View itemView) {
             super(itemView);
 
             hour = itemView.findViewById(R.id.task_time);
             label = itemView.findViewById(R.id.task_name);
-            checkBox = itemView.findViewById(R.id.checkbox);
+            result = itemView.findViewById(R.id.task_result);
+            info = itemView.findViewById(R.id.task_info);
         }
 
         void setHour(String hour) {
@@ -67,27 +64,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         void setLabel(String text) {
-            switch (text){
-                case Task.MEASUREMENT_TEMPERATURE:
-                    label.setText(TEMPERATURE_TITLE);
-                    break;
-
-                case Task.MEASUREMENT_PRESSURE:
-                    label.setText(PRESSURE_TITLE);
-                    break;
-
-                case Task.DRUG:
-                    label.setText(DRUG_TITLE);
-                    break;
-
-                case Task.EXAMINATION:
-                    label.setText(EXAMINATION_TITLE);
-                    break;
-            }
+            this.label.setText(text);
         }
 
-        void setChecked(boolean checked) {
-            this.checkBox.setChecked(checked);
+        void setResult(double result) {
+            if (result == 0.0d)
+                this.result.setText(R.string.no_result_text);
+            else
+                this.result.setText(String.valueOf(result));
+        }
+
+        void setInfo(String text) {
+            if (text == null || text.isEmpty())
+                this.info.setVisibility(View.INVISIBLE);
+
+            else {
+                this.info.setVisibility(View.VISIBLE);
+                this.info.setText(text);
+            }
         }
     }
 }

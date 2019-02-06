@@ -9,10 +9,10 @@ import java.util.Date;
 @Entity
 public class Task {
 
-    public static final String MEASUREMENT_TEMPERATURE = "TEMPERATURE";
-    public static final String MEASUREMENT_PRESSURE = "PRESSURE";
-    public static final String DRUG = "DRUG";
-    public static final String EXAMINATION = "EXAMINATION";
+    public static final String MEASUREMENT_TEMPERATURE = "temperature measurement";
+    public static final String MEASUREMENT_PRESSURE = "pressure measurement";
+    public static final String DRUG = "drug application";
+    public static final String EXAMINATION = "doctor";
 
     private static final String TYPE = "type";
     private static final String TIMESTAMP = "timestamp";

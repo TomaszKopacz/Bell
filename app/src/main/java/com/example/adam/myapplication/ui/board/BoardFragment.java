@@ -1,26 +1,26 @@
 package com.example.adam.myapplication.ui.board;
 
+
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.ui.chart.ChartActivity;
-import com.example.adam.myapplication.ui.newtask.types.AddTaskActivity;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
 import java.text.DateFormat;
@@ -28,11 +28,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class BoardActivity extends AppCompatActivity implements BoardContract.BoardView {
+public class BoardFragment extends Fragment implements BoardContract.BoardView {
 
     private BoardPresenter presenter;
-
-    private Toolbar toolbar;
 
     private TextView dayOfMonthLabel;
     private TextView yearLabel;
@@ -41,52 +39,64 @@ public class BoardActivity extends AppCompatActivity implements BoardContract.Bo
     private RecyclerView listView;
 
     private FloatingActionButton calendarButton;
-    private FloatingActionButton addButton;
 
     private List<Task> tasks = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public BoardFragment() {
 
-        setContentView(R.layout.activity_board);
-
-        setLayout();
-        setPresenter();
     }
 
-    private void setLayout() {
-        getAllComponents();
-        createToolbar();
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_board, container, false);
+        setLayout(view);
+
+        return view;
+    }
+
+    private void setLayout(View view) {
+        getAllComponents(view);
         setUpList();
     }
 
-    private void getAllComponents() {
-        toolbar = findViewById(R.id.toolbar);
+    private void getAllComponents(View view) {
 
-        dayOfMonthLabel = findViewById(R.id.day_month_label);
-        yearLabel = findViewById(R.id.year_label);
+        dayOfMonthLabel = view.findViewById(R.id.day_month_label);
+        yearLabel = view.findViewById(R.id.year_label);
 
-        emptyListView = findViewById(R.id.no_tasks_view);
-        listView = findViewById(R.id.list_view);
+        emptyListView = view.findViewById(R.id.no_tasks_view);
+        listView = view.findViewById(R.id.list_view);
 
-        calendarButton = findViewById(R.id.fab_calendar);
-        addButton = findViewById(R.id.fab_add);
-    }
-
-    private void createToolbar() {
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("Kalendarz pacjenta");
+        calendarButton = view.findViewById(R.id.fab_calendar);
     }
 
     private void setUpList() {
-        listView.setLayoutManager(new LinearLayoutManager(this));
+        listView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setPresenter();
     }
 
     private void setPresenter() {
-        TaskRepository repository = ((App) getApplication()).getTaskRepository();
-        this.presenter = new BoardPresenter(this, repository);
+        Activity parent = getActivity();
 
+        if (parent != null) {
+            TaskRepository repository = ((App) parent.getApplication()).getTaskRepository();
+            this.presenter = new BoardPresenter(this, repository);
+
+            setListeners();
+        }
+
+    }
+
+    private void setListeners() {
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,46 +104,7 @@ public class BoardActivity extends AppCompatActivity implements BoardContract.Bo
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.addButtonClicked();
-            }
-        });
-
         presenter.onViewAttached();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_chart) {
-            showChart();
-            return true;
-
-        } else if (id == R.id.action_info) {
-            showInfo();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void showInfo() {
-        AppInfoDialog appInfoDialog = new AppInfoDialog(this);
-        appInfoDialog.infoDialog().show();
-    }
-
-    private void showChart() {
-        Intent intent = new Intent(this, ChartActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -147,13 +118,12 @@ public class BoardActivity extends AppCompatActivity implements BoardContract.Bo
     }
 
     @Override
-    public void showList(LiveData<List<Task>> liveTasks) {
+    public void displayList(LiveData<List<Task>> liveTasks) {
         liveTasks.observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
-
                 updateTasksList(tasks);
-                generateList(tasks);
+                showList(tasks);
             }
         });
     }
@@ -173,20 +143,14 @@ public class BoardActivity extends AppCompatActivity implements BoardContract.Bo
 
     @Override
     public void showCalendarView(DatePickerDialog.OnDateSetListener listener) {
-        DatetimePicker.showDatePicker(this, listener);
-    }
-
-    @Override
-    public void showTaskCreationView() {
-        Intent intent = new Intent(this, AddTaskActivity.class);
-        startActivity(intent);
+        DatetimePicker.showDatePicker(getActivity(), listener);
     }
 
     private void updateTasksList(List<Task> tasks) {
         this.tasks = tasks;
     }
 
-    private void generateList(List<Task> tasks) {
+    private void showList(List<Task> tasks) {
         showViewForEmptyBoard(tasks.isEmpty());
         resetAdapter(tasks);
     }

@@ -1,6 +1,7 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
 
+    <!-- MARGINS -->
+    <dimen name="fab_margin">16dp</dimen>
     <dimen name="group_margin">16dp</dimen>
     <dimen name="label_margin">8dp</dimen>
     <dimen name="radio_margin">8dp</dimen>
@@ -9,12 +10,19 @@
     <dimen name="input_margin">8dp</dimen>
     <dimen name="input_little_margin">0dp</dimen>
     <dimen name="graph_margin">24dp</dimen>
+    <dimen name="card_margin">6dp</dimen>
+    <dimen name="list_margin">12dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_margin_little">8dp</dimen>
 
+    <!-- PADDING -->
     <dimen name="text_padding">6dp</dimen>
 
+    <!-- TEXT -->
+    <dimen name="text_size">10sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+
+    <!-- DIMENSIONS -->
     <dimen name="input_width">160dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
-    <dimen name="large_text_size">18sp</dimen>
-    <dimen name="list_margin">12dp</dimen>
-    <dimen name="card_margin">12dp</dimen>
 </resources>
