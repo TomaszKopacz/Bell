@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.newtask.examination;
+package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ExaminationPresenter implements ExaminationContract.ExaminationPresenter {
+public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresenter {
 
-    private ExaminationContract.ExaminationView view;
+    private DoctorTaskContract.DoctorTaskView view;
     private TaskRepository repository;
 
     private static final String EMPTY_DOCTOR_NAME = "Wprowadź nazwisko lekarza!";
@@ -22,7 +22,7 @@ public class ExaminationPresenter implements ExaminationContract.ExaminationPres
     private static final String EMPTY_TASK_END_DATE = "Wprowadź datę zakończnia cyklu!";
     private static final String DATES_INCORRECT_ORDER = "Data końca cyklu musi być późniejsza niż jego start!";
 
-    ExaminationPresenter(ExaminationContract.ExaminationView view, TaskRepository repository) {
+    DoctorTaskPresenter(DoctorTaskContract.DoctorTaskView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
     }

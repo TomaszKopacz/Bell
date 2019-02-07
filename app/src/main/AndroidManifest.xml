@@ -20,9 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.newtask.types.AddTaskActivity"
-            android:parentActivityName=".ui.main.MainActivity"></activity>
 
         <receiver android:name=".notification.TaskAlarmReceiver" />
 

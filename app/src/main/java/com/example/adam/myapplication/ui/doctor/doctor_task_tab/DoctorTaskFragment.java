@@ -1,18 +1,19 @@
-package com.example.adam.myapplication.ui.newtask.examination;
+package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
 
 import android.app.DatePickerDialog;
-import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -27,6 +28,7 @@ import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.notification.TaskAlarm;
+import com.example.adam.myapplication.ui.main.MainActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
@@ -34,9 +36,9 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.Date;
 
-public class ExaminationFragment extends Fragment implements ExaminationContract.ExaminationView {
+public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.DoctorTaskView {
 
-    private ExaminationContract.ExaminationPresenter presenter;
+    private DoctorTaskContract.DoctorTaskPresenter presenter;
 
     private EditText doctorText;
     private EditText locationText;
@@ -54,20 +56,16 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
 
     private CheckBox isCycleCheckBox;
 
-    public ExaminationFragment() {
+    private Button submitButton;
 
-    }
+    public DoctorTaskFragment() {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_examination, container, false);
+        View view = inflater.inflate(R.layout.fragment_doctor_task, container, false);
 
         getComponents(view);
         setPresenter();
@@ -92,11 +90,13 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
         endDateText = view.findViewById(R.id.date_end);
 
         isCycleCheckBox = view.findViewById(R.id.cycle_check_box);
+
+        submitButton = view.findViewById(R.id.submit_button);
     }
 
     public void setPresenter() {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        this.presenter = new ExaminationPresenter(this, repository);
+        this.presenter = new DoctorTaskPresenter(this, repository);
     }
 
     private void setListeners() {
@@ -104,6 +104,7 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
         dateIcon.setOnClickListener(dateListener);
         endDateIcon.setOnClickListener(endDateListener);
         isCycleCheckBox.setOnCheckedChangeListener(boxListener);
+        submitButton.setOnClickListener(submitListener);
     }
 
     private View.OnClickListener timeListener
@@ -164,21 +165,12 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
         }
     };
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_add_task, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_submit) {
-            if (presenter != null)
-                presenter.onSubmitButtonClicked();
+    private View.OnClickListener submitListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            presenter.onSubmitButtonClicked();
         }
-
-        return super.onOptionsItemSelected(item);
-    }
+    };
 
     @Override
     public String getDoctor() {
@@ -265,6 +257,7 @@ public class ExaminationFragment extends Fragment implements ExaminationContract
 
     @Override
     public void navigateToParentView() {
-        getActivity().finish();
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).goToBoard();
     }
 }

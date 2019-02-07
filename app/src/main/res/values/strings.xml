@@ -8,16 +8,12 @@
     <string name="pills_title">DRUGS</string>
     <string name="measurement_title">SCORES</string>
 
+    <!-- MENU -->
+    <string name="button_submit">SUBMIT</string>
+
+    <!-- BOARD -->
     <string name="empty_list">NO TASKS</string>
     <string name="empty_list_icon_desc">empty_list_icon</string>
-
-    <!-- MENU -->
-    <string name="button_submit">DODAJ</string>
-
-    <!-- TASK TYPE FRAGMENT-->
-    <string name="measurement">POMIAR</string>
-    <string name="pills">LEKI</string>
-    <string name="examination">WIZYTA</string>
 
     <!-- TASK FRAGMENTS - GENERAL -->
     <string name="add_task_icon_description">Add task icon</string>
@@ -38,13 +34,13 @@
     <!-- DRUG FRAGMENT -->
     <string name="drug_name_label">Podaj nazwę leku:</string>
     <string name="drug_dose_label">Wprowadź dawkę:</string>
+    <string name="unit_mg">mg</string>
+    <string name="unit_description">unit_icon_description</string>
 
     <!-- EXAMINATION FRAGMENT -->
     <string name="doctor_name_label">Podaj imię i nazwisko lekarza:</string>
     <string name="doctor_location_label">Lokalizacja:</string>
     <string name="examination_info_label">Dodatkowe informacje:</string>
-    <string name="unit_mg">mg</string>
-    <string name="unit_description">unit_icon_description</string>
 
     <!-- TASK NOTIFICATION -->
     <string name="temperature_reminder">Pamiętaj o pomiarze temperatury!</string>

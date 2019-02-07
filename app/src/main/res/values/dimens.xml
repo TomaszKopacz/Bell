@@ -25,4 +25,5 @@
 
     <!-- DIMENSIONS -->
     <dimen name="input_width">160dp</dimen>
+    <dimen name="button_margin">16dp</dimen>
 </resources>

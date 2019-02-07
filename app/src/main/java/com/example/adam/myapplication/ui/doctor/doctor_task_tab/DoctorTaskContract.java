@@ -1,10 +1,10 @@
-package com.example.adam.myapplication.ui.newtask.examination;
+package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
 import com.example.adam.myapplication.data.Task;
 
-public interface ExaminationContract {
+public interface DoctorTaskContract {
 
-    interface ExaminationView {
+    interface DoctorTaskView {
 
         String SUCCESS = "success";
         String FAILURE = "failure";
@@ -42,7 +42,7 @@ public interface ExaminationContract {
         void navigateToParentView();
     }
 
-    interface ExaminationPresenter {
+    interface DoctorTaskPresenter {
         void onSubmitButtonClicked();
     }
 }

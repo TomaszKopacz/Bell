@@ -1,6 +1,7 @@
 package com.example.adam.myapplication.ui.main;
 
 import com.example.adam.myapplication.ui.board.BoardFragment;
+import com.example.adam.myapplication.ui.doctor.doctor_tabs.DoctorTabsFragment;
 
 public class MainPresenter implements MainContract.MainPresenter {
 
@@ -22,7 +23,7 @@ public class MainPresenter implements MainContract.MainPresenter {
 
     @Override
     public void onDoctorSelected() {
-        view.changeContentView(new BoardFragment());
+        view.changeContentView(new DoctorTabsFragment());
     }
 
     @Override

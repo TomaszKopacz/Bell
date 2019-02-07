@@ -70,4 +70,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
     }
+
+    public void goToBoard() {
+        bottomNavigation.setSelectedItemId(R.id.action_board);
+    }
 }
