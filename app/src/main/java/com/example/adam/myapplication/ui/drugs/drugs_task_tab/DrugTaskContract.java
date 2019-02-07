@@ -1,10 +1,10 @@
-package com.example.adam.myapplication.ui.newtask.drug;
+package com.example.adam.myapplication.ui.drugs.drugs_task_tab;
 
 import com.example.adam.myapplication.data.Task;
 
-public interface DrugContract {
+public interface DrugTaskContract {
 
-    interface DrugView {
+    interface DrugTaskView {
 
         String SUCCESS = "success";
         String FAILURE = "failure";
@@ -38,7 +38,7 @@ public interface DrugContract {
         void navigateToParentView();
     }
 
-    interface DrugPresenter {
+    interface DrugTaskPresenter {
         void onSubmitButtonClicked();
     }
 }

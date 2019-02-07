@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.doctor.doctor_tabs;
+package com.example.adam.myapplication.ui.drugs.drugs_tabs;
 
 
 import android.os.Bundle;
@@ -12,20 +12,19 @@ import android.view.ViewGroup;
 
 import com.example.adam.myapplication.R;
 
-public class DoctorTabsFragment extends Fragment {
+public class DrugsTabsFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    public DoctorTabsFragment() {
+    public DrugsTabsFragment() {
 
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_doctor_tabs, container, false);
+        View view = inflater.inflate(R.layout.fragment_drugs_tabs, container, false);
 
         customizeComponents(view);
 
@@ -40,7 +39,7 @@ public class DoctorTabsFragment extends Fragment {
     }
 
     private void makeTabPages() {
-        DoctorPagerAdapter adapter = new DoctorPagerAdapter(getChildFragmentManager());
+        DrugsPagerAdapter adapter = new DrugsPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

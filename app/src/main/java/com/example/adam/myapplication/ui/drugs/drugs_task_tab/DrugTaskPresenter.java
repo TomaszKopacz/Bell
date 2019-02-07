@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.newtask.drug;
+package com.example.adam.myapplication.ui.drugs.drugs_task_tab;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DrugPresenter implements DrugContract.DrugPresenter {
+public class DrugTaskPresenter implements DrugTaskContract.DrugTaskPresenter {
 
-    private DrugContract.DrugView view;
+    private DrugTaskContract.DrugTaskView view;
     private TaskRepository repository;
 
     private static final String EMPTY_DRUG_NAME = "Wprowadź nazwę leku!";
@@ -23,7 +23,7 @@ public class DrugPresenter implements DrugContract.DrugPresenter {
     private static final String EMPTY_TASK_END_DATE = "Wprowadź datę zakończnia cyklu!";
     private static final String DATES_INCORRECT_ORDER = "Data końca cyklu musi być późniejsza niż jego start!";
 
-    DrugPresenter(DrugContract.DrugView view, TaskRepository repository) {
+    DrugTaskPresenter(DrugTaskContract.DrugTaskView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
     }

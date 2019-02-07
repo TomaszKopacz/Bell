@@ -1,17 +1,16 @@
-package com.example.adam.myapplication.ui.newtask.drug;
+package com.example.adam.myapplication.ui.drugs.drugs_task_tab;
 
 
 import android.app.DatePickerDialog;
-import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -26,6 +25,7 @@ import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
 import com.example.adam.myapplication.notification.TaskAlarm;
+import com.example.adam.myapplication.ui.main.MainActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
@@ -33,9 +33,9 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.Date;
 
-public class DrugFragment extends Fragment implements DrugContract.DrugView {
+public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugTaskView {
 
-    private DrugContract.DrugPresenter presenter;
+    private DrugTaskContract.DrugTaskPresenter presenter;
 
     private EditText drugText;
     private EditText doseText;
@@ -54,21 +54,17 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
 
     private CheckBox isCycleCheckBox;
 
-    public DrugFragment() {
+    private Button submitButton;
+
+    public DrugTaskFragment() {
 
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_drug, container, false);
+        View view = inflater.inflate(R.layout.fragment_drugs_task, container, false);
 
         getComponents(view);
         setPresenter();
@@ -94,11 +90,13 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
         endDateText = view.findViewById(R.id.date_end);
 
         isCycleCheckBox = view.findViewById(R.id.cycle_check_box);
+
+        submitButton = view.findViewById(R.id.submit_button);
     }
 
     public void setPresenter() {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        this.presenter = new DrugPresenter(this, repository);
+        this.presenter = new DrugTaskPresenter(this, repository);
     }
 
 
@@ -108,6 +106,7 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
         dateIcon.setOnClickListener(dateListener);
         endDateIcon.setOnClickListener(endDateListener);
         isCycleCheckBox.setOnCheckedChangeListener(boxListener);
+        submitButton.setOnClickListener(submitListener);
     }
 
     private View.OnClickListener unitListener = new View.OnClickListener() {
@@ -175,21 +174,12 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
         }
     };
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_add_task, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_submit) {
-            if (presenter != null)
-                presenter.onSubmitButtonClicked();
+    private View.OnClickListener submitListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            presenter.onSubmitButtonClicked();
         }
-
-        return super.onOptionsItemSelected(item);
-    }
+    };
 
     @Override
     public String getDrug() {
@@ -266,6 +256,7 @@ public class DrugFragment extends Fragment implements DrugContract.DrugView {
 
     @Override
     public void navigateToParentView() {
-        getActivity().finish();
+        if (getActivity() instanceof MainActivity)
+            ((MainActivity) getActivity()).goToBoard();
     }
 }
