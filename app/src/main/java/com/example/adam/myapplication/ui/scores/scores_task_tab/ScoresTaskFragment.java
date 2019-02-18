@@ -1,17 +1,15 @@
-package com.example.adam.myapplication.ui.newtask.measurement;
+package com.example.adam.myapplication.ui.scores.scores_task_tab;
 
 import android.app.DatePickerDialog;
-import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -33,9 +31,9 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.Date;
 
-public class MeasurementFragment extends Fragment implements MeasurementContract.MeasurementView {
+public class ScoresTaskFragment extends Fragment implements ScoresTaskContract.ScoresTaskView {
 
-    private MeasurementContract.MeasurementPresenter presenter;
+    private ScoresTaskContract.ScoresTaskPresenter presenter;
 
     private RadioButton temperatureButton;
     private RadioButton pressureButton;
@@ -55,21 +53,22 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
     private CheckBox box;
     private ExpandableLayout expandableDateLayout;
 
-    public MeasurementFragment() {
+    private Button submitButton;
+
+    public ScoresTaskFragment() {
 
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_measurement, container, false);
+        View view = inflater.inflate(R.layout.fragment_scores_task, container, false);
 
         getComponents(view);
         setPresenter();
@@ -96,11 +95,13 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
 
         expandableDateLayout = view.findViewById(R.id.date_expandable);
         box = view.findViewById(R.id.cycle_check_box);
+
+        submitButton = view.findViewById(R.id.submit_button);
     }
 
     public void setPresenter() {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        this.presenter = new MeasurementPresenter(this, repository);
+        this.presenter = new ScoresTaskPresenter(this, repository);
     }
 
 
@@ -114,6 +115,13 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
         endDateIcon.setOnClickListener(endDateListener);
 
         box.setOnCheckedChangeListener(boxListener);
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onSubmitButtonClicked();
+            }
+        });
     }
 
     private CompoundButton.OnCheckedChangeListener radioListener
@@ -121,10 +129,10 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if (b && compoundButton == temperatureButton) {
-                setUnit(MeasurementContract.MeasurementView.UNIT_C);
+                setUnit(ScoresTaskContract.ScoresTaskView.UNIT_C);
 
             } else if (b && compoundButton == pressureButton) {
-                setUnit(MeasurementContract.MeasurementView.UNIT_mmHg);
+                setUnit(ScoresTaskContract.ScoresTaskView.UNIT_mmHg);
             }
         }
     };
@@ -195,23 +203,6 @@ public class MeasurementFragment extends Fragment implements MeasurementContract
                 expandableDateLayout.collapse();
         }
     };
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_add_task, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_submit) {
-            if (presenter != null) {
-                presenter.onSubmitButtonClicked();
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public String getType() {

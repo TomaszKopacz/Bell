@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.chart;
+package com.example.adam.myapplication.ui.scores.scores_stats_tab;
 
 import android.arch.lifecycle.LiveData;
 
@@ -6,13 +6,13 @@ import com.example.adam.myapplication.data.Task;
 
 import java.util.List;
 
-public interface ChartContract {
+public interface ScoresStatsContract {
 
-    interface ChartView {
+    interface ScoresStatsView {
         void drawChart(LiveData<List<Task>> tasks);
     }
 
-    interface ChartPresenter {
+    interface ScoresStatsPresenter {
         void onViewAttached();
     }
 }

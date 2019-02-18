@@ -1,10 +1,10 @@
-package com.example.adam.myapplication.ui.newtask.measurement;
+package com.example.adam.myapplication.ui.scores.scores_task_tab;
 
 import android.support.annotation.NonNull;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.ui.newtask.exceptions.TaskException;
+import com.example.adam.myapplication.exceptions.TaskException;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import java.text.ParseException;
@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MeasurementPresenter implements MeasurementContract.MeasurementPresenter {
+public class ScoresTaskPresenter implements ScoresTaskContract.ScoresTaskPresenter {
 
-    private MeasurementContract.MeasurementView view;
+    private ScoresTaskContract.ScoresTaskView view;
     private TaskRepository repository;
 
     private static final String EMPTY_TASK_TIME = "Wprowadź godzinę!";
@@ -22,7 +22,7 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
     private static final String EMPTY_TASK_END_DATE = "Wprowadź datę zakończnia cyklu!";
     private static final String DATES_INCORRECT_ORDER = "Data końca cyklu musi być późniejsza niż jego start!";
 
-    MeasurementPresenter(MeasurementContract.MeasurementView view, TaskRepository repository) {
+    ScoresTaskPresenter(ScoresTaskContract.ScoresTaskView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
     }
@@ -69,7 +69,7 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
 
     private void insertSingleTask() throws ParseException {
         Task task = getTaskFromLayout();
-        view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+        view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
         repository.insert(task);
     }
 
@@ -77,7 +77,7 @@ public class MeasurementPresenter implements MeasurementContract.MeasurementPres
         List<Task> tasks = getCyclicTasks();
 
         for (Task task : tasks)
-            view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+            view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
 
         repository.insert(tasks);
     }

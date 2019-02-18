@@ -2,8 +2,8 @@ package com.example.adam.myapplication.ui.drugs.drugs_task_tab;
 
 import com.example.adam.myapplication.data.Task;
 import com.example.adam.myapplication.data.TaskRepository;
-import com.example.adam.myapplication.ui.newtask.exceptions.TaskException;
-import com.example.adam.myapplication.ui.newtask.measurement.MeasurementContract;
+import com.example.adam.myapplication.exceptions.TaskException;
+import com.example.adam.myapplication.ui.scores.scores_task_tab.ScoresTaskContract;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import java.text.ParseException;
@@ -76,7 +76,7 @@ public class DrugTaskPresenter implements DrugTaskContract.DrugTaskPresenter {
 
     private void insertSingleTask() throws ParseException {
         Task task = getTaskFromLayout();
-        view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+        view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
         repository.insert(task);
     }
 
@@ -84,7 +84,7 @@ public class DrugTaskPresenter implements DrugTaskContract.DrugTaskPresenter {
         List<Task> tasks = getCyclicTasks();
 
         for (Task task : tasks)
-            view.onTaskCreated(MeasurementContract.MeasurementView.SUCCESS, task);
+            view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
 
         repository.insert(tasks);
     }

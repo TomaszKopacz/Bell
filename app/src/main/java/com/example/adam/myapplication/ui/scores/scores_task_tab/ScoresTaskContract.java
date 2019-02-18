@@ -1,12 +1,12 @@
-package com.example.adam.myapplication.ui.newtask.measurement;
+package com.example.adam.myapplication.ui.scores.scores_task_tab;
 
 import android.support.annotation.Nullable;
 
 import com.example.adam.myapplication.data.Task;
 
-public interface MeasurementContract {
+public interface ScoresTaskContract {
 
-    interface MeasurementView {
+    interface ScoresTaskView {
         String SUCCESS = "success";
         String FAILURE = "failure";
 
@@ -44,7 +44,7 @@ public interface MeasurementContract {
         void navigateToParentView();
     }
 
-    interface MeasurementPresenter {
+    interface ScoresTaskPresenter {
         void onSubmitButtonClicked();
     }
 }

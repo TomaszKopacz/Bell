@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.chart;
+package com.example.adam.myapplication.ui.scores.scores_stats_tab;
 
 import android.arch.lifecycle.LiveData;
 
@@ -7,12 +7,12 @@ import com.example.adam.myapplication.data.TaskRepository;
 
 import java.util.List;
 
-public class ChartPresenter implements ChartContract.ChartPresenter {
+public class ScoresStatsPresenter implements ScoresStatsContract.ScoresStatsPresenter {
 
-    private ChartContract.ChartView view;
+    private ScoresStatsContract.ScoresStatsView view;
     private TaskRepository repository;
 
-    ChartPresenter(ChartContract.ChartView view, TaskRepository repository){
+    ScoresStatsPresenter(ScoresStatsContract.ScoresStatsView view, TaskRepository repository){
         this.view = view;
         this.repository = repository;
     }

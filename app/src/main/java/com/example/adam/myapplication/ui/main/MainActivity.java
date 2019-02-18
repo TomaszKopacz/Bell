@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
                         break;
 
                     case R.id.action_measurement:
-                        presenter.onMeasurementSelected();
+                        presenter.onScoresSelected();
                         break;
                 }
                 return false;

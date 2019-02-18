@@ -1,8 +1,7 @@
-package com.example.adam.myapplication.ui.chart;
+package com.example.adam.myapplication.ui.scores.scores_stats_tab;
 
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -11,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ChartFragment extends Fragment implements ChartContract.ChartView {
+public class ScoresStatsFragment extends Fragment implements ScoresStatsContract.ScoresStatsView {
 
     private static final String TEMPERATURE_STATE = "TEMPERATURE";
     private static final String PRESSURE_STATE = "PRESSURE";
@@ -43,7 +43,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     private GraphView temperatureGraphView;
     private GraphView pressureGraphView;
 
-    private ChartPresenter presenter;
+    private ScoresStatsPresenter presenter;
 
     private LineGraphSeries<DataPoint> temperatureLineSeries = new LineGraphSeries<>();
     private PointsGraphSeries<DataPoint> temperaturePointSeries = new PointsGraphSeries<>();
@@ -54,7 +54,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
     private LineGraphSeries<DataPoint> pressureDiastolicLineSeries = new LineGraphSeries<>();
     private PointsGraphSeries<DataPoint> pressureDiastolicPointSeries = new PointsGraphSeries<>();
 
-    public ChartFragment() {
+    public ScoresStatsFragment() {
 
     }
 
@@ -149,7 +149,7 @@ public class ChartFragment extends Fragment implements ChartContract.ChartView {
 
     private void setPresenter() {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        presenter = new ChartPresenter(this, repository);
+        presenter = new ScoresStatsPresenter(this, repository);
     }
 
     @Override

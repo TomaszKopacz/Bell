@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.newtask.exceptions;
+package com.example.adam.myapplication.exceptions;
 
 public class TaskException extends Exception {
 

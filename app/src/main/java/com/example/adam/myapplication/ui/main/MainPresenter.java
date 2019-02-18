@@ -3,6 +3,7 @@ package com.example.adam.myapplication.ui.main;
 import com.example.adam.myapplication.ui.board.BoardFragment;
 import com.example.adam.myapplication.ui.doctor.doctor_tabs.DoctorTabsFragment;
 import com.example.adam.myapplication.ui.drugs.drugs_tabs.DrugsTabsFragment;
+import com.example.adam.myapplication.ui.scores.scores_tabs.ScoresTabsFragment;
 
 public class MainPresenter implements MainContract.MainPresenter {
 
@@ -33,7 +34,7 @@ public class MainPresenter implements MainContract.MainPresenter {
     }
 
     @Override
-    public void onMeasurementSelected() {
-        view.changeContentView(new BoardFragment());
+    public void onScoresSelected() {
+        view.changeContentView(new ScoresTabsFragment());
     }
 }

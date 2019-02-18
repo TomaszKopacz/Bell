@@ -12,6 +12,6 @@ public interface MainContract {
         void onBoardSelected();
         void onDoctorSelected();
         void onPillsSelected();
-        void onMeasurementSelected();
+        void onScoresSelected();
     }
 }
