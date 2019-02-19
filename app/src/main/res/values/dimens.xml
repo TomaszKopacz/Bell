@@ -5,7 +5,7 @@
     <dimen name="group_margin">16dp</dimen>
     <dimen name="label_margin">8dp</dimen>
     <dimen name="radio_margin">8dp</dimen>
-    <dimen name="box_margin">8dp</dimen>
+    <dimen name="box_margin">12dp</dimen>
     <dimen name="icon_margin">8dp</dimen>
     <dimen name="input_margin">8dp</dimen>
     <dimen name="input_little_margin">0dp</dimen>
@@ -26,4 +26,5 @@
     <!-- DIMENSIONS -->
     <dimen name="input_width">160dp</dimen>
     <dimen name="button_margin">16dp</dimen>
+    <dimen name="switch_padding">100dp</dimen>
 </resources>

@@ -8,21 +8,19 @@
     <string name="pills_title">DRUGS</string>
     <string name="measurement_title">SCORES</string>
 
-    <!-- MENU -->
-    <string name="button_submit">SUBMIT</string>
-
     <!-- BOARD -->
     <string name="empty_list">NO TASKS</string>
     <string name="empty_list_icon_desc">empty_list_icon</string>
 
     <!-- TASK FRAGMENTS - GENERAL -->
-    <string name="add_task_icon_description">Add task icon</string>
-    <string name="date_description">Data</string>
-    <string name="timer_description">Zegar</string>
-    <string name="task_hour_label">Godzina:</string>
-    <string name="task_date_label">Data:</string>
-    <string name="task_date_end_label">Data zakończenia:</string>
-    <string name="task_cycle_label">ustaw zadanie cykliczne</string>
+    <string name="not_chosen_text">not chosen</string>
+    <string name="calendar_description">Calendar</string>
+    <string name="clock_description">Clock</string>
+    <string name="task_hour_label">hour</string>
+    <string name="task_date_label">date</string>
+    <string name="task_date_end_label">end date</string>
+    <string name="task_cycle_label">repeat</string>
+    <string name="button_submit">SUBMIT</string>
 
     <!-- MEASUREMENT FRAGMENT -->
     <string name="task_type_label">Wybierz rodzaj zadania:</string>
@@ -38,9 +36,7 @@
     <string name="unit_description">unit_icon_description</string>
 
     <!-- DOCTOR FRAGMENT -->
-    <string name="doctor_name_label">Podaj imię i nazwisko lekarza:</string>
-    <string name="doctor_location_label">Lokalizacja:</string>
-    <string name="examination_info_label">Dodatkowe informacje:</string>
+    <string name="doctor_name_label">doctor</string>
 
     <!-- TASK NOTIFICATION -->
     <string name="score_reminder">Pamiętaj o pomiarze!</string>

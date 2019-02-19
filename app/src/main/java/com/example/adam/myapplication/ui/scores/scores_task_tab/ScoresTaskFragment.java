@@ -85,16 +85,16 @@ public class ScoresTaskFragment extends Fragment implements ScoresTaskContract.S
         unitText = view.findViewById(R.id.unit_value_label);
 
         hourIcon = view.findViewById(R.id.time_icon);
-        hourText = view.findViewById(R.id.time);
+        hourText = view.findViewById(R.id.time_text);
 
         dateIcon = view.findViewById(R.id.date_icon);
-        dateText = view.findViewById(R.id.date);
+        dateText = view.findViewById(R.id.date_text);
 
         endDateIcon = view.findViewById(R.id.date_end_icon);
-        endDateText = view.findViewById(R.id.date_end);
+        endDateText = view.findViewById(R.id.date_end_text);
 
         expandableDateLayout = view.findViewById(R.id.date_expandable);
-        box = view.findViewById(R.id.cycle_check_box);
+        box = view.findViewById(R.id.switch_repeat);
 
         submitButton = view.findViewById(R.id.submit_button);
     }

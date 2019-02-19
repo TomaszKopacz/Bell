@@ -6,5 +6,6 @@
     <color name="colorAccent">#9E9E9E</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
+    <color name="colorDivider">#BDBDBD</color>
     <color name="colorError">#D32F2F</color>
 </resources>

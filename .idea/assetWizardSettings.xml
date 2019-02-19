@@ -34,7 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/T:/programy/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_healing_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/T:/programy/AndroidStudio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_person_pin_circle_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -44,9 +44,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_pills" />
-                                      <entry key="theme" value="HOLO_DARK" />
-                                      <entry key="themeColor" value="ffffff" />
+                                      <entry key="outputName" value="ic_doctors" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="009688" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -128,6 +128,11 @@
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>

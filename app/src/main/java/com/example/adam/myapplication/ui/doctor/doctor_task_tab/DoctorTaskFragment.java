@@ -11,11 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -37,20 +35,12 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
 
     private DoctorTaskContract.DoctorTaskPresenter presenter;
 
-    private EditText doctorText;
-
-    private ImageView timeIcon;
+    private TextView doctorText;
     private TextView timeText;
-
-    private ImageView dateIcon;
     private TextView dateText;
-
+    private Switch repeatSwitch;
     private ExpandableLayout expandableDateLayout;
-    private ImageView endDateIcon;
     private TextView endDateText;
-
-    private CheckBox isCycleCheckBox;
-
     private Button submitButton;
 
     public DoctorTaskFragment() {
@@ -70,33 +60,27 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     }
 
     private void getComponents(View view) {
-        doctorText = view.findViewById(R.id.name);
-
-        timeIcon = view.findViewById(R.id.time_icon);
-        timeText = view.findViewById(R.id.time);
-
-        dateIcon = view.findViewById(R.id.date_icon);
-        dateText = view.findViewById(R.id.date);
-
+        doctorText = view.findViewById(R.id.name_text);
+        timeText = view.findViewById(R.id.time_text);
+        dateText = view.findViewById(R.id.date_text);
         expandableDateLayout = view.findViewById(R.id.date_expandable);
-        endDateIcon = view.findViewById(R.id.date_end_icon);
-        endDateText = view.findViewById(R.id.date_end);
-
-        isCycleCheckBox = view.findViewById(R.id.cycle_check_box);
-
+        endDateText = view.findViewById(R.id.date_end_text);
+        repeatSwitch = view.findViewById(R.id.switch_repeat);
         submitButton = view.findViewById(R.id.submit_button);
     }
 
     public void setPresenter() {
         TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
         this.presenter = new DoctorTaskPresenter(this, repository);
+        presenter.onViewAttached();
     }
 
     private void setListeners() {
-        timeIcon.setOnClickListener(timeListener);
-        dateIcon.setOnClickListener(dateListener);
-        endDateIcon.setOnClickListener(endDateListener);
-        isCycleCheckBox.setOnCheckedChangeListener(boxListener);
+        timeText.setOnClickListener(timeListener);
+        dateText.setOnClickListener(dateListener);
+        endDateText.setOnClickListener(endDateListener);
+        repeatSwitch.setOnCheckedChangeListener(switchListener);
+
         submitButton.setOnClickListener(submitListener);
     }
 
@@ -132,6 +116,16 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
         }
     };
 
+    private CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (b)
+                expandableDateLayout.expand();
+            else
+                expandableDateLayout.collapse();
+        }
+    };
+
     private View.OnClickListener endDateListener
             = new View.OnClickListener() {
         @Override
@@ -145,16 +139,6 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
             endDateText.setText(DatetimeFormatter.getDateFormatted(day, month, year));
-        }
-    };
-
-    private CompoundButton.OnCheckedChangeListener boxListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (b)
-                expandableDateLayout.expand();
-            else
-                expandableDateLayout.collapse();
         }
     };
 
@@ -187,7 +171,7 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
 
     @Override
     public boolean isCycle() {
-        return isCycleCheckBox.isChecked();
+        return repeatSwitch.isChecked();
     }
 
     @Override

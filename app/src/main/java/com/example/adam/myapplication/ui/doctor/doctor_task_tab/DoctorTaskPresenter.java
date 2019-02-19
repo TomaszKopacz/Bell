@@ -8,6 +8,7 @@ import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +26,24 @@ public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresent
     DoctorTaskPresenter(DoctorTaskContract.DoctorTaskView view, TaskRepository repository) {
         this.view = view;
         this.repository = repository;
+    }
+
+    @Override
+    public void onViewAttached() {
+        Calendar calendar = Calendar.getInstance();
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String time = DatetimeFormatter.getTimeFormatted(hour, minute);
+        String date = DatetimeFormatter.getDateFormatted(day, month, year);
+
+        view.setTime(time);
+        view.setDate(date);
+        view.setEndDate(date);
     }
 
     @Override

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center">
@@ -9,7 +7,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin">
+        android:layout_margin="@dimen/card_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,150 +15,147 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/name_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/input_margin"
-                android:layout_marginBottom="@dimen/input_little_margin"
+                android:layout_gravity="start"
+                android:layout_margin="@dimen/label_margin"
+                android:drawableStart="@drawable/ic_doctors"
+                android:drawableLeft="@drawable/ic_doctors"
+                android:drawablePadding="@dimen/text_padding"
+                android:textSize="@dimen/text_size_medium"
                 android:text="@string/doctor_name_label" />
 
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="@dimen/input_width"
+            <TextView
+                android:id="@+id/name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_margin"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginBottom="@dimen/text_margin"
+                android:layout_gravity="center"
+                android:text="@string/not_chosen_text"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_size_large" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider" />
+
+            <TextView
+                android:id="@+id/time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/label_margin"
+                android:drawableStart="@drawable/ic_clock"
+                android:drawableLeft="@drawable/ic_clock"
+                android:drawablePadding="@dimen/text_padding"
+                android:textSize="@dimen/text_size_medium"
+                android:text="@string/task_hour_label" />
+
+            <TextView
+                android:id="@+id/time_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/input_little_margin"
-                android:layout_marginBottom="@dimen/input_margin"
-                android:importantForAutofill="no"
-                android:inputType="textCapWords"
-                tools:ignore="LabelFor"
-                tools:targetApi="o" />
+                android:textSize="@dimen/text_size_large"
+                android:layout_marginLeft="@dimen/text_margin"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginBottom="@dimen/text_margin"
+                android:textColor="@color/colorPrimaryText" />
 
-            <LinearLayout
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider" />
+
+            <TextView
+                android:id="@+id/date_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/group_margin"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="horizontal"
-                tools:ignore="UseCompoundDrawables">
+                android:layout_margin="@dimen/label_margin"
+                android:drawableStart="@drawable/ic_calendar"
+                android:drawableLeft="@drawable/ic_calendar"
+                android:drawablePadding="@dimen/text_padding"
+                android:textSize="@dimen/text_size_medium"
+                android:text="@string/task_date_label" />
 
-                <ImageView
-                    android:id="@+id/time_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/icon_margin"
-                    android:clickable="true"
-                    android:contentDescription="@string/timer_description"
-                    android:focusable="true"
-                    android:src="@drawable/ic_clock" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/label_margin"
-                    android:text="@string/task_hour_label" />
-
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/label_margin" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/date_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/group_margin"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_large"
+                android:layout_marginLeft="@dimen/text_margin"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginBottom="@dimen/text_margin"
+                android:textColor="@color/colorPrimaryText"/>
 
-                <ImageView
-                    android:id="@+id/date_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/icon_margin"
-                    android:clickable="true"
-                    android:contentDescription="@string/date_description"
-                    android:focusable="true"
-                    android:src="@drawable/ic_calendar" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/label_margin"
-                    android:text="@string/task_date_label" />
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/label_margin" />
-
-            </LinearLayout>
-
-            <net.cachapa.expandablelayout.ExpandableLayout
-                android:id="@+id/date_expandable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <ImageView
-                        android:id="@+id/date_end_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/icon_margin"
-                        android:clickable="true"
-                        android:contentDescription="@string/date_description"
-                        android:focusable="true"
-                        android:src="@drawable/ic_calendar" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/label_margin"
-                        android:text="@string/task_date_end_label" />
-
-                    <TextView
-                        android:id="@+id/date_end"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/label_margin" />
-
-                </LinearLayout>
-
-            </net.cachapa.expandablelayout.ExpandableLayout>
-
-            <CheckBox
-                android:id="@+id/cycle_check_box"
+            <Switch
+                android:id="@+id/switch_repeat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/box_margin"
-                android:text="@string/task_cycle_label" />
+                android:text="@string/task_cycle_label"
+                android:switchPadding="@dimen/switch_padding"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/colorSecondaryText"/>
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/date_expandable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/date_end_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/label_margin"
+                        android:text="@string/task_date_end_label"
+                        android:drawableLeft="@drawable/ic_calendar"
+                        android:drawableStart="@drawable/ic_calendar"
+                        android:drawablePadding="@dimen/text_padding"
+                        android:textSize="@dimen/text_size_medium"/>
+
+                    <TextView
+                        android:id="@+id/date_end_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/text_size_large"
+                        android:textColor="@color/colorPrimaryText"
+                        android:layout_marginLeft="@dimen/text_margin"
+                        android:layout_marginStart="@dimen/text_margin"
+                        android:layout_marginBottom="@dimen/text_margin"/>
+                </LinearLayout>
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorDivider"/>
 
             <Button
                 android:id="@+id/submit_button"
+                style="?android:borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
                 android:layout_margin="@dimen/button_margin"
                 android:text="@string/button_submit"
-                style="?android:borderlessButtonStyle"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_medium"/>
+                android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
-
-
 </ScrollView>

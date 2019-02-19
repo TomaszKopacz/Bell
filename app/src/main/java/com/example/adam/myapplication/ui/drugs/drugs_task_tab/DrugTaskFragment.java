@@ -80,16 +80,16 @@ public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugT
         unitIcon = view.findViewById(R.id.unit_icon);
 
         timeIcon = view.findViewById(R.id.time_icon);
-        timeText = view.findViewById(R.id.time);
+        timeText = view.findViewById(R.id.time_text);
 
         dateIcon = view.findViewById(R.id.date_icon);
-        dateText = view.findViewById(R.id.date);
+        dateText = view.findViewById(R.id.date_text);
 
         expandableDateLayout = view.findViewById(R.id.date_expandable);
         endDateIcon = view.findViewById(R.id.date_end_icon);
-        endDateText = view.findViewById(R.id.date_end);
+        endDateText = view.findViewById(R.id.date_end_text);
 
-        isCycleCheckBox = view.findViewById(R.id.cycle_check_box);
+        isCycleCheckBox = view.findViewById(R.id.switch_repeat);
 
         submitButton = view.findViewById(R.id.submit_button);
     }

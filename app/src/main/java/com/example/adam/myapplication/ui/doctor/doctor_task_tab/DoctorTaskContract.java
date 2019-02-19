@@ -35,6 +35,7 @@ public interface DoctorTaskContract {
     }
 
     interface DoctorTaskPresenter {
+        void onViewAttached();
         void onSubmitButtonClicked();
     }
 }
