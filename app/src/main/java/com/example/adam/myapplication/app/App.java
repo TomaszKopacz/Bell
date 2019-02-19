@@ -2,9 +2,9 @@ package com.example.adam.myapplication.app;
 
 import android.app.Application;
 
-import com.example.adam.myapplication.data.TaskDao;
-import com.example.adam.myapplication.data.TaskDatabase;
-import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.data.db.TaskDao;
+import com.example.adam.myapplication.data.db.TaskDatabase;
+import com.example.adam.myapplication.data.db.TaskRepository;
 
 public class App extends Application {
 

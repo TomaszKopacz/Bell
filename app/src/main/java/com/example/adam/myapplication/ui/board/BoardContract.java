@@ -3,7 +3,7 @@ package com.example.adam.myapplication.ui.board;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.LiveData;
 
-import com.example.adam.myapplication.data.Task;
+import com.example.adam.myapplication.data.objects.Task;
 
 import java.util.Calendar;
 import java.util.List;

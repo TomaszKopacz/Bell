@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.data;
+package com.example.adam.myapplication.data.db;
 
 import android.arch.persistence.room.TypeConverter;
 

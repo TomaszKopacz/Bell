@@ -57,7 +57,7 @@ Register to memory mapping:
 RAX=0x0000000000000000 is an unknown value
 RBX=0x00000000e555a638 is an oop
 
-[error occurred during error reporting (printing register info), id 0xc0000005]
+[error occurred during error reporting (printing register note), id 0xc0000005]
 
 Stack: [0x0000000012ab0000,0x0000000012bb0000],  sp=0x0000000012baf5c8,  free space=1021k
 Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)

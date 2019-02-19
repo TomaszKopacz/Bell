@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.data.Task;
+import com.example.adam.myapplication.data.objects.Task;
 
 import java.util.List;
 
@@ -33,9 +33,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Task task = tasks.get(position);
 
         holder.setHour(task.getTimestamp().toString().substring(11, 16));
-        holder.setLabel(task.getType());
-        holder.setResult(task.getResult());
         holder.setInfo(task.getInfo());
+        holder.setStatus(task.getStatus());
+        holder.setType(task.getType());
     }
 
     @Override
@@ -46,42 +46,36 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     class TaskViewHolder extends RecyclerView.ViewHolder {
 
         private TextView hour;
-        private TextView label;
-        private TextView result;
         private TextView info;
+        private TextView status;
+        private TextView type;
 
         TaskViewHolder(View itemView) {
             super(itemView);
 
             hour = itemView.findViewById(R.id.task_time);
-            label = itemView.findViewById(R.id.task_name);
-            result = itemView.findViewById(R.id.task_result);
             info = itemView.findViewById(R.id.task_info);
+            type = itemView.findViewById(R.id.task_type);
+            status = itemView.findViewById(R.id.task_status);
         }
 
         void setHour(String hour) {
             this.hour.setText(hour);
         }
 
-        void setLabel(String text) {
-            this.label.setText(text);
-        }
-
-        void setResult(double result) {
-            if (result == 0.0d)
-                this.result.setText(R.string.no_result_text);
-            else
-                this.result.setText(String.valueOf(result));
-        }
-
         void setInfo(String text) {
-            if (text == null || text.isEmpty())
-                this.info.setVisibility(View.INVISIBLE);
+            this.info.setText(text);
+        }
 
-            else {
-                this.info.setVisibility(View.VISIBLE);
-                this.info.setText(text);
-            }
+        void setType(String text) {
+            this.type.setText(text);
+        }
+
+        void setStatus(boolean status) {
+            if (!status)
+                this.status.setText(R.string.status_not_done);
+            else
+                this.status.setText(R.string.status_done);
         }
     }
 }

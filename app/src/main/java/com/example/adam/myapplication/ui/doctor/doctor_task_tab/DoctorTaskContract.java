@@ -1,6 +1,6 @@
 package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
-import com.example.adam.myapplication.data.Task;
+import com.example.adam.myapplication.data.objects.Task;
 
 public interface DoctorTaskContract {
 
@@ -11,10 +11,6 @@ public interface DoctorTaskContract {
 
         String getDoctor();
 
-        String getLocation();
-
-        String getInfo();
-
         String getTime();
 
         String getDate();
@@ -24,10 +20,6 @@ public interface DoctorTaskContract {
         boolean isCycle();
 
         void setDoctor(String doctor);
-
-        void setLocation(String location);
-
-        void setInfo(String info);
 
         void setTime(String time);
 

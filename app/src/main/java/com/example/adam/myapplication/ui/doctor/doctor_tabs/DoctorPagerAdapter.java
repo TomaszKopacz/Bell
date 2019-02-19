@@ -8,7 +8,7 @@ import com.example.adam.myapplication.ui.doctor.doctor_task_tab.DoctorTaskFragme
 
 public class DoctorPagerAdapter extends FragmentPagerAdapter {
 
-    private final String[] TAB_TITLES = {"EXAMINATION", "DOCTORS", "HISTORY"};
+    private final String[] TAB_TITLES = {"DOCTOR", "DOCTORS", "HISTORY"};
 
     DoctorPagerAdapter(FragmentManager fm) {
         super(fm);

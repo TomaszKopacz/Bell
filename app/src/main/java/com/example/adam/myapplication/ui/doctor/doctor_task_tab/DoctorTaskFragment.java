@@ -22,8 +22,8 @@ import android.widget.Toast;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.data.db.TaskRepository;
 import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.ui.main.MainActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
@@ -38,8 +38,6 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     private DoctorTaskContract.DoctorTaskPresenter presenter;
 
     private EditText doctorText;
-    private EditText locationText;
-    private EditText infoText;
 
     private ImageView timeIcon;
     private TextView timeText;
@@ -72,9 +70,7 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     }
 
     private void getComponents(View view) {
-        doctorText = view.findViewById(R.id.doctor);
-        locationText = view.findViewById(R.id.location);
-        infoText = view.findViewById(R.id.info);
+        doctorText = view.findViewById(R.id.name);
 
         timeIcon = view.findViewById(R.id.time_icon);
         timeText = view.findViewById(R.id.time);
@@ -175,16 +171,6 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     }
 
     @Override
-    public String getLocation() {
-        return locationText.getText().toString();
-    }
-
-    @Override
-    public String getInfo() {
-        return infoText.getText().toString();
-    }
-
-    @Override
     public String getTime() {
         return timeText.getText().toString();
     }
@@ -207,16 +193,6 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     @Override
     public void setDoctor(String doctor) {
         doctorText.setText(doctor);
-    }
-
-    @Override
-    public void setLocation(String location) {
-        locationText.setText(location);
-    }
-
-    @Override
-    public void setInfo(String info) {
-        infoText.setText(info);
     }
 
     @Override

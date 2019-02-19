@@ -2,8 +2,8 @@ package com.example.adam.myapplication.ui.scores.scores_task_tab;
 
 import android.support.annotation.NonNull;
 
-import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.data.db.TaskRepository;
 import com.example.adam.myapplication.exceptions.TaskException;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
@@ -87,14 +87,10 @@ public class ScoresTaskPresenter implements ScoresTaskContract.ScoresTaskPresent
         String type = view.getType();
         String time = view.getTime();
         String date = view.getDate();
-        String unit = view.getUnit();
 
         Date timestamp = DatetimeFormatter.getTimestamp(date, time);
 
-        Task task = new Task(type, timestamp);
-        task.setUnit(unit);
-
-        return task;
+        return new Task(type, timestamp);
     }
 
     private List<Task> getCyclicTasks() throws ParseException {

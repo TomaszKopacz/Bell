@@ -21,8 +21,8 @@ import android.widget.Toast;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.data.db.TaskRepository;
 import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
@@ -206,14 +206,7 @@ public class ScoresTaskFragment extends Fragment implements ScoresTaskContract.S
 
     @Override
     public String getType() {
-        if (temperatureButton.isChecked())
-            return Task.MEASUREMENT_TEMPERATURE;
-
-        else if (pressureButton.isChecked())
-            return Task.MEASUREMENT_PRESSURE;
-
-        else
-            return null;
+        return Task.SCORE;
     }
 
     @Override
@@ -243,15 +236,7 @@ public class ScoresTaskFragment extends Fragment implements ScoresTaskContract.S
 
     @Override
     public void setType(String type) {
-        switch (type) {
-            case Task.MEASUREMENT_TEMPERATURE:
-                temperatureButton.setChecked(true);
-                break;
 
-            case Task.MEASUREMENT_PRESSURE:
-                pressureButton.setChecked(true);
-                break;
-        }
     }
 
     @Override

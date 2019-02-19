@@ -17,9 +17,9 @@ import android.view.ViewGroup;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.AnatomyLimits;
-import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.utils.AnatomyLimits;
+import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.data.db.TaskRepository;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -191,24 +191,24 @@ public class ScoresStatsFragment extends Fragment implements ScoresStatsContract
 
     private void appendPoints(List<Task> tasks) {
 
-        for (Task task : tasks) {
-
-            if (task.getResult() == 0.0f)
-                continue;
-
-            switch (task.getType()) {
-                case TEMPERATURE_STATE:
-                    DataPoint point = new DataPoint(task.getTimestamp(), task.getResult());
-                    appendTemperaturePoint(point);
-                    break;
-
-                case PRESSURE_STATE:
-                    DataPoint pointSystolic = new DataPoint(task.getTimestamp(), task.getResult());
-                    DataPoint pointDiastolic = new DataPoint(task.getTimestamp(), task.getResult2());
-                    appendPressurePoint(pointSystolic, pointDiastolic);
-                    break;
-            }
-        }
+//        for (Task task : tasks) {
+//
+//            if (task.getResult() == 0.0f)
+//                continue;
+//
+//            switch (task.getType()) {
+//                case TEMPERATURE_STATE:
+//                    DataPoint point = new DataPoint(task.getTimestamp(), task.getResult());
+//                    appendTemperaturePoint(point);
+//                    break;
+//
+//                case PRESSURE_STATE:
+//                    DataPoint pointSystolic = new DataPoint(task.getTimestamp(), task.getResult());
+//                    DataPoint pointDiastolic = new DataPoint(task.getTimestamp(), task.getResult2());
+//                    appendPressurePoint(pointSystolic, pointDiastolic);
+//                    break;
+//            }
+//        }
     }
 
     private void appendTemperaturePoint(DataPoint point) {

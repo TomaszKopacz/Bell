@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.data.Task;
+import com.example.adam.myapplication.data.objects.Task;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
@@ -38,14 +38,9 @@ public class TaskAlarm {
         receiverIntent.putExtra(TaskAlarmReceiver.TITLE, task.getType());
 
         switch (task.getType()) {
-            case Task.MEASUREMENT_PRESSURE:
+            case Task.SCORE:
                 receiverIntent.putExtra(TaskAlarmReceiver.MESSAGE,
-                        context.getString(R.string.pressure_reminder));
-                break;
-
-            case Task.MEASUREMENT_TEMPERATURE:
-                receiverIntent.putExtra(TaskAlarmReceiver.MESSAGE,
-                        context.getString(R.string.temperature_reminder));
+                        context.getString(R.string.score_reminder));
                 break;
 
             case Task.DRUG:
@@ -53,7 +48,7 @@ public class TaskAlarm {
                         context.getString(R.string.drug_reminder));
                 break;
 
-            case Task.EXAMINATION:
+            case Task.DOCTOR:
                 receiverIntent.putExtra(TaskAlarmReceiver.MESSAGE,
                         context.getString(R.string.examination_reminder));
                 break;

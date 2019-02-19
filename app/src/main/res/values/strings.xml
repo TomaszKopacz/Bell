@@ -37,14 +37,13 @@
     <string name="unit_mg">mg</string>
     <string name="unit_description">unit_icon_description</string>
 
-    <!-- EXAMINATION FRAGMENT -->
+    <!-- DOCTOR FRAGMENT -->
     <string name="doctor_name_label">Podaj imię i nazwisko lekarza:</string>
     <string name="doctor_location_label">Lokalizacja:</string>
     <string name="examination_info_label">Dodatkowe informacje:</string>
 
     <!-- TASK NOTIFICATION -->
-    <string name="temperature_reminder">Pamiętaj o pomiarze temperatury!</string>
-    <string name="pressure_reminder">Pamiętaj o pomiarze ciśnienia!</string>
+    <string name="score_reminder">Pamiętaj o pomiarze!</string>
     <string name="drug_reminder">Pamiętaj o leku!</string>
     <string name="examination_reminder">Pamiętaj o wizycie u lekarza!</string>
     <string name="action_calendar">menu_icon_calendar</string>
@@ -52,8 +51,7 @@
     <!-- GRAPH FRAGMENT -->
     <string name="temperature_label">TEMPERATURA CIAŁA</string>
     <string name="pressure_label">CIŚNIENIE KRWI</string>
-    <string name="no_result_text">not done</string>
+    <string name="status_not_done">not done</string>
+    <string name="status_done">done</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

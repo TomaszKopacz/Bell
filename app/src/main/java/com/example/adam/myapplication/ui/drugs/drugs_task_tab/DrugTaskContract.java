@@ -1,6 +1,6 @@
 package com.example.adam.myapplication.ui.drugs.drugs_task_tab;
 
-import com.example.adam.myapplication.data.Task;
+import com.example.adam.myapplication.data.objects.Task;
 
 public interface DrugTaskContract {
 

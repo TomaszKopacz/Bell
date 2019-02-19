@@ -1,7 +1,7 @@
 package com.example.adam.myapplication.ui.drugs.drugs_task_tab;
 
-import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.data.db.TaskRepository;
 import com.example.adam.myapplication.exceptions.TaskException;
 import com.example.adam.myapplication.ui.scores.scores_task_tab.ScoresTaskContract;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
@@ -94,13 +94,11 @@ public class DrugTaskPresenter implements DrugTaskContract.DrugTaskPresenter {
         String time = view.getTime();
         String date = view.getDate();
         String drug = view.getDrug();
-        String dose = view.getDose();
 
         Date timestamp = DatetimeFormatter.getTimestamp(date, time);
 
         Task task = new Task(type, timestamp);
-        task.setDrugName(drug);
-        task.setDose(Double.parseDouble(dose));
+        task.setInfo(drug);
 
         return task;
     }

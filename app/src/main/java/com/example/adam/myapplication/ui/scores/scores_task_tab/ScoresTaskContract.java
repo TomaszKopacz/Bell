@@ -2,7 +2,7 @@ package com.example.adam.myapplication.ui.scores.scores_task_tab;
 
 import android.support.annotation.Nullable;
 
-import com.example.adam.myapplication.data.Task;
+import com.example.adam.myapplication.data.objects.Task;
 
 public interface ScoresTaskContract {
 

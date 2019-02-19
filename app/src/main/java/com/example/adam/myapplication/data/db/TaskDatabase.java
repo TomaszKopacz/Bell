@@ -1,10 +1,12 @@
-package com.example.adam.myapplication.data;
+package com.example.adam.myapplication.data.db;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
+
+import com.example.adam.myapplication.data.objects.Task;
 
 @Database(entities = Task.class, version = 1)
 @TypeConverters(Converters.class)

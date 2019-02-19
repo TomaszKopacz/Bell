@@ -17,6 +17,7 @@
             android:id="@+id/year_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fontFamily="@font/medibell_font"
             android:layout_marginTop="@dimen/text_margin"
             android:textSize="@dimen/text_size_large"/>
 
@@ -24,6 +25,7 @@
             android:id="@+id/day_month_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fontFamily="@font/medibell_font"
             android:layout_marginTop="@dimen/text_margin"
             android:textSize="@dimen/text_size_large" />
 

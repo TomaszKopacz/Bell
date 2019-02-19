@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.data.db.TaskRepository;
 import com.example.adam.myapplication.utils.DatetimePicker;
 
 import java.text.DateFormat;

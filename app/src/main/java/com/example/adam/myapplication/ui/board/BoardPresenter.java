@@ -4,8 +4,8 @@ import android.app.DatePickerDialog;
 import android.arch.lifecycle.LiveData;
 import android.widget.DatePicker;
 
-import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.data.db.TaskRepository;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -95,7 +95,7 @@ public class BoardPresenter implements BoardContract.BoardPresenter {
 //            new InputDialog(getActivity()).errorTemperatureDialog().show();
 //
 //        } else {
-//            task.setResult(result);
+//            task.setStatus(result);
 //            task.setStatus(true);
 //
 //            TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
@@ -114,7 +114,7 @@ public class BoardPresenter implements BoardContract.BoardPresenter {
 //            new InputDialog(getActivity()).errorPressureDialog().show();
 //
 //        } else {
-//            task.setResult(result1);
+//            task.setStatus(result1);
 //            task.setResult2(result2);
 //            task.setStatus(true);
 //

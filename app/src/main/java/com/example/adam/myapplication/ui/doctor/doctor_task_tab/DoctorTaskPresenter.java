@@ -1,7 +1,7 @@
 package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
-import com.example.adam.myapplication.data.Task;
-import com.example.adam.myapplication.data.TaskRepository;
+import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.data.db.TaskRepository;
 import com.example.adam.myapplication.exceptions.TaskException;
 import com.example.adam.myapplication.ui.scores.scores_task_tab.ScoresTaskContract;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
@@ -72,32 +72,28 @@ public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresent
 
     private void insertSingleTask() throws ParseException {
         Task task = getTaskFromLayout();
-        view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
+//        view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
         repository.insert(task);
     }
 
     private void insertManyTasks() throws ParseException {
         List<Task> tasks = getCyclicTasks();
 
-        for (Task task : tasks)
-            view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
+//        for (Task task : tasks)
+//            view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
 
         repository.insert(tasks);
     }
 
     private Task getTaskFromLayout() throws ParseException {
-        String type = Task.EXAMINATION;
+        String type = Task.DOCTOR;
         String time = view.getTime();
         String date = view.getDate();
-        String doctor = view.getDoctor();
-        String location = view.getLocation();
-        String info = view.getInfo();
+        String info = view.getDoctor();
 
         Date timestamp = DatetimeFormatter.getTimestamp(date, time);
 
         Task task = new Task(type, timestamp);
-        task.setDoctor(doctor);
-        task.setLocation(location);
         task.setInfo(info);
 
         return task;
