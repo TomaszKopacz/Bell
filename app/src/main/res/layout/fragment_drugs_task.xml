@@ -105,7 +105,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/icon_margin"
-                        android:contentDescription="@string/clock_description"
                         android:src="@drawable/ic_clock" />
 
                     <TextView
@@ -136,7 +135,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/icon_margin"
-                        android:contentDescription="@string/calendar_description"
                         android:src="@drawable/ic_calendar" />
 
                     <TextView
@@ -169,7 +167,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/icon_margin"
-                            android:contentDescription="@string/calendar_description"
                             android:src="@drawable/ic_calendar" />
 
                         <TextView
@@ -201,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     android:layout_margin="@dimen/button_margin"
-                    android:text="@string/button_submit"
+                    android:text="@string/button_add"
                     style="?android:borderlessButtonStyle"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_medium"/>

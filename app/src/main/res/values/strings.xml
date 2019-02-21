@@ -11,16 +11,28 @@
     <!-- BOARD -->
     <string name="empty_list">NO TASKS</string>
     <string name="empty_list_icon_desc">empty_list_icon</string>
+    <string name="status_not_done">not done</string>
+    <string name="status_done">done</string>
 
     <!-- TASK FRAGMENTS - GENERAL -->
     <string name="not_chosen_text">not chosen</string>
-    <string name="calendar_description">Calendar</string>
-    <string name="clock_description">Clock</string>
-    <string name="task_hour_label">time</string>
     <string name="task_date_label">date</string>
-    <string name="task_date_end_label">end date</string>
+    <string name="task_hour_label">time</string>
+
     <string name="repeat_label">repeat</string>
-    <string name="button_submit">SUBMIT</string>
+    <string name="cycle_time_label">cycle time</string>
+    <string name="repeat_text_part_one">every</string>
+    <string name="repeat_text_part_two">days</string>
+    <string name="repeat_text_default_days">7</string>
+    <string name="task_date_end_label">until</string>
+
+    <string name="more_label">more…</string>
+    <string name="note_label">note</string>
+
+    <string name="button_add">ADD</string>
+
+    <!-- DOCTOR FRAGMENT -->
+    <string name="doctor_name_label">doctor</string>
 
     <!-- MEASUREMENT FRAGMENT -->
     <string name="task_type_label">Wybierz rodzaj zadania:</string>
@@ -35,8 +47,10 @@
     <string name="unit_mg">mg</string>
     <string name="unit_description">unit_icon_description</string>
 
-    <!-- DOCTOR FRAGMENT -->
-    <string name="doctor_name_label">doctor</string>
+    <!-- NEW DOCTOR DIALOG -->
+    <string name="specialization_hint">specialization</string>
+    <string name="full_name_hint">full name</string>
+    <string name="location_hint">location</string>
 
     <!-- TASK NOTIFICATION -->
     <string name="score_reminder">Pamiętaj o pomiarze!</string>
@@ -47,13 +61,10 @@
     <!-- GRAPH FRAGMENT -->
     <string name="temperature_label">TEMPERATURA CIAŁA</string>
     <string name="pressure_label">CIŚNIENIE KRWI</string>
-    <string name="status_not_done">not done</string>
-    <string name="status_done">done</string>
-    <string name="more_label">more…</string>
-    <string name="note_label">note</string>
-    <string name="repeat_text_part_one">every</string>
-    <string name="repeat_text_part_two">days</string>
-    <string name="repeat_text_default_days">7</string>
-    <string name="cycle_time_label">cycle time</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

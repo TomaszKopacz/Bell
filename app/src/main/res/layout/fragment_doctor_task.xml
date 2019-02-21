@@ -302,7 +302,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:layout_margin="@dimen/button_margin"
-            android:text="@string/button_submit"
+            android:text="@string/button_add"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_size_medium" />
     </LinearLayout>

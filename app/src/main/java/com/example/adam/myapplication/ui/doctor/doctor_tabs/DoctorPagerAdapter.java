@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.adam.myapplication.ui.doctor.doctor_task_tab.DoctorTaskFragment;
+import com.example.adam.myapplication.ui.doctor.doctors_list_tab.DoctorsFragment;
 
 public class DoctorPagerAdapter extends FragmentPagerAdapter {
 
@@ -21,7 +22,7 @@ public class DoctorPagerAdapter extends FragmentPagerAdapter {
                 return new DoctorTaskFragment();
 
             case 1:
-                return new DoctorTaskFragment();
+                return new DoctorsFragment();
 
             case 2:
                 return new DoctorTaskFragment();
