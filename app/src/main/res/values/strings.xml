@@ -16,10 +16,10 @@
     <string name="not_chosen_text">not chosen</string>
     <string name="calendar_description">Calendar</string>
     <string name="clock_description">Clock</string>
-    <string name="task_hour_label">hour</string>
+    <string name="task_hour_label">time</string>
     <string name="task_date_label">date</string>
     <string name="task_date_end_label">end date</string>
-    <string name="task_cycle_label">repeat</string>
+    <string name="repeat_label">repeat</string>
     <string name="button_submit">SUBMIT</string>
 
     <!-- MEASUREMENT FRAGMENT -->
@@ -49,5 +49,11 @@
     <string name="pressure_label">CIŚNIENIE KRWI</string>
     <string name="status_not_done">not done</string>
     <string name="status_done">done</string>
+    <string name="more_label">more…</string>
+    <string name="note_label">note</string>
+    <string name="repeat_text_part_one">every</string>
+    <string name="repeat_text_part_two">days</string>
+    <string name="repeat_text_default_days">7</string>
+    <string name="cycle_time_label">cycle time</string>
 
 </resources>

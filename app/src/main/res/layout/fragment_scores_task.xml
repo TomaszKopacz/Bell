@@ -184,7 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/box_margin"
-                    android:text="@string/task_cycle_label" />
+                    android:text="@string/repeat_label" />
 
                 <Button
                     android:id="@+id/submit_button"

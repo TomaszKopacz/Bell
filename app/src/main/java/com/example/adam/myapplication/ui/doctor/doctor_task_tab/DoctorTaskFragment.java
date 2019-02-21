@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.data.db.TaskRepository;
+import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.ui.main.MainActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
@@ -41,6 +41,8 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     private Switch repeatSwitch;
     private ExpandableLayout expandableDateLayout;
     private TextView endDateText;
+    private TextView moreLabel;
+    private ExpandableLayout moreExpandable;
     private Button submitButton;
 
     public DoctorTaskFragment() {
@@ -63,9 +65,11 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
         doctorText = view.findViewById(R.id.name_text);
         timeText = view.findViewById(R.id.time_text);
         dateText = view.findViewById(R.id.date_text);
+        repeatSwitch = view.findViewById(R.id.switch_repeat);
         expandableDateLayout = view.findViewById(R.id.date_expandable);
         endDateText = view.findViewById(R.id.date_end_text);
-        repeatSwitch = view.findViewById(R.id.switch_repeat);
+        moreLabel = view.findViewById(R.id.more_label);
+        moreExpandable = view.findViewById(R.id.more_expandable);
         submitButton = view.findViewById(R.id.submit_button);
     }
 
@@ -80,6 +84,7 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
         dateText.setOnClickListener(dateListener);
         endDateText.setOnClickListener(endDateListener);
         repeatSwitch.setOnCheckedChangeListener(switchListener);
+        moreLabel.setOnClickListener(moreListener);
 
         submitButton.setOnClickListener(submitListener);
     }
@@ -139,6 +144,20 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
             endDateText.setText(DatetimeFormatter.getDateFormatted(day, month, year));
+        }
+    };
+
+    private View.OnClickListener moreListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            toggleMoreExpandable();
+        }
+
+        private void toggleMoreExpandable() {
+            if (moreExpandable.isExpanded())
+                moreExpandable.collapse();
+            else
+                moreExpandable.expand();
         }
     };
 
