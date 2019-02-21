@@ -1,9 +1,8 @@
 package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
 import com.example.adam.myapplication.data.objects.Task;
-import com.example.adam.myapplication.data.db.TaskRepository;
+import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.example.adam.myapplication.exceptions.TaskException;
-import com.example.adam.myapplication.ui.scores.scores_task_tab.ScoresTaskContract;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 
 import java.text.ParseException;

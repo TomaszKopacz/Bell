@@ -3,7 +3,7 @@ package com.example.adam.myapplication.ui.scores.scores_task_tab;
 import android.support.annotation.NonNull;
 
 import com.example.adam.myapplication.data.objects.Task;
-import com.example.adam.myapplication.data.db.TaskRepository;
+import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.example.adam.myapplication.exceptions.TaskException;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 

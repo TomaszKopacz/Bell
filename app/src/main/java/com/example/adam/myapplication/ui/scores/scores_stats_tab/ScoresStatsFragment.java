@@ -19,7 +19,7 @@ import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.utils.AnatomyLimits;
 import com.example.adam.myapplication.data.objects.Task;
-import com.example.adam.myapplication.data.db.TaskRepository;
+import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;

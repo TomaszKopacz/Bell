@@ -1,13 +1,34 @@
 package com.example.adam.myapplication.data.objects;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class Doctor {
 
+    private static final String SPECIALIZATION = "specialization";
+    private static final String NAME = "name";
+    private static final String LOCATION = "location";
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @ColumnInfo(name = SPECIALIZATION)
     private String specialization;
+
+    @ColumnInfo(name = NAME)
     private String name;
+
+    @ColumnInfo(name = LOCATION)
     private String location;
 
-    public Doctor(String name) {
-        this.name = name;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSpecialization() {

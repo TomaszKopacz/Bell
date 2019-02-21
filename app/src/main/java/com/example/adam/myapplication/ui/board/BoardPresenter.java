@@ -5,7 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.widget.DatePicker;
 
 import com.example.adam.myapplication.data.objects.Task;
-import com.example.adam.myapplication.data.db.TaskRepository;
+import com.example.adam.myapplication.data.db.task.TaskRepository;
 
 import java.util.Calendar;
 import java.util.Date;

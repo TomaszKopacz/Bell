@@ -2,16 +2,26 @@ package com.example.adam.myapplication.ui.doctor.doctors_list_tab;
 
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.ui.doctor.NewDoctorDialog;
+import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.db.doctor.DoctorRepository;
+import com.example.adam.myapplication.data.objects.Doctor;
+import com.example.adam.myapplication.ui.doctor.dialogs.NewDoctorDialog;
+
+import java.util.List;
 
 public class DoctorsFragment extends Fragment implements DoctorsContract.DoctorsView {
 
@@ -40,7 +50,9 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.Doctors
     }
 
     private void setPresenter() {
-        this.presenter = new DoctorsPresenter(this);
+        DoctorRepository repository = ((App) getActivity().getApplication()).getDoctorRepository();
+
+        this.presenter = new DoctorsPresenter(this, repository);
         presenter.onViewAttached();
     }
 
@@ -56,8 +68,28 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.Doctors
     };
 
     @Override
+    public void showDoctorsList(LiveData<List<Doctor>> list) {
+        list.observe(this, new Observer<List<Doctor>>() {
+            @Override
+            public void onChanged(@Nullable List<Doctor> doctors) {
+
+                if (doctors != null && !doctors.isEmpty())
+                    for (Doctor d : doctors)
+                        Log.i("MEDIBELL", d.getSpecialization());
+            }
+        });
+    }
+
+    @Override
     public void showNewDoctorDialog() {
-        AlertDialog dialog = new NewDoctorDialog(getActivity()).create();
+        AlertDialog dialog = new NewDoctorDialog(getActivity(), doctorCreatedListener).create();
         dialog.show();
     }
+
+    private NewDoctorDialog.OnDoctorCreatedListener doctorCreatedListener = new NewDoctorDialog.OnDoctorCreatedListener() {
+        @Override
+        public void onDoctorCreated(Doctor doctor) {
+            presenter.onDoctorCreated(doctor);
+        }
+    };
 }

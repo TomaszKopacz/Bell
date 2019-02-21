@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.objects.Task;
-import com.example.adam.myapplication.data.db.TaskRepository;
+import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;

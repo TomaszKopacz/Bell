@@ -3,7 +3,7 @@ package com.example.adam.myapplication.ui.scores.scores_stats_tab;
 import android.arch.lifecycle.LiveData;
 
 import com.example.adam.myapplication.data.objects.Task;
-import com.example.adam.myapplication.data.db.TaskRepository;
+import com.example.adam.myapplication.data.db.task.TaskRepository;
 
 import java.util.List;
 

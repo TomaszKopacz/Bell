@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.data.db;
+package com.example.adam.myapplication.data.db.task;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
