@@ -68,16 +68,8 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.Doctors
     };
 
     @Override
-    public void showDoctorsList(LiveData<List<Doctor>> list) {
-        list.observe(this, new Observer<List<Doctor>>() {
-            @Override
-            public void onChanged(@Nullable List<Doctor> doctors) {
+    public void showDoctorsList(List<Doctor> list) {
 
-                if (doctors != null && !doctors.isEmpty())
-                    for (Doctor d : doctors)
-                        Log.i("MEDIBELL", d.getSpecialization());
-            }
-        });
     }
 
     @Override

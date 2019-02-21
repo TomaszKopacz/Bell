@@ -1,6 +1,11 @@
 package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
+import android.arch.lifecycle.LiveData;
+
+import com.example.adam.myapplication.data.objects.Doctor;
 import com.example.adam.myapplication.data.objects.Task;
+
+import java.util.List;
 
 public interface DoctorTaskContract {
 
@@ -27,6 +32,8 @@ public interface DoctorTaskContract {
 
         void setEndDate(String endDate);
 
+        void showChooseDoctorDialog(List<Doctor> list);
+
         void onTaskCreated(String status, Task task);
 
         void showError(String error);
@@ -36,6 +43,7 @@ public interface DoctorTaskContract {
 
     interface DoctorTaskPresenter {
         void onViewAttached();
+        void onDoctorViewClicked();
         void onSubmitButtonClicked();
     }
 }

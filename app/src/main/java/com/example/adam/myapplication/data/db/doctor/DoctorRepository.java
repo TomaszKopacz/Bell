@@ -1,6 +1,6 @@
 package com.example.adam.myapplication.data.db.doctor;
 
-import android.arch.lifecycle.LiveData;
+import android.os.AsyncTask;
 
 import com.example.adam.myapplication.data.objects.Doctor;
 
@@ -14,32 +14,51 @@ public class DoctorRepository {
         this.dao = dao;
     }
 
-    public LiveData<List<Doctor>> getAll() {
-        return dao.getAll();
+    public List<Doctor> getAll() {
+        List<Doctor> list;
+        try {
+            list = new GetAllTask(dao).execute().get();
+
+        } catch (Exception e) {
+            list = null;
+        }
+
+        return list;
     }
 
     public void insert(Doctor doctor) {
-        InsertThread thread = new InsertThread(doctor, dao);
-        thread.start();
+        InsertTask task = new InsertTask(doctor);
+        task.start();
     }
 
     public void update(Doctor doctor) {
-        UpdateThread thread = new UpdateThread(doctor, dao);
-        thread.start();
+        UpdateTask task = new UpdateTask(doctor);
+        task.start();
     }
 
     public void delete(Doctor doctor) {
-        DeleteThread thread = new DeleteThread(doctor, dao);
-        thread.start();
+        DeleteTask task = new DeleteTask(doctor);
+        task.start();
     }
 
-    private class InsertThread extends Thread {
-        private Doctor doctor;
+    private static class GetAllTask extends AsyncTask<Void, Void, List<Doctor>> {
         private DoctorDao dao;
 
-        InsertThread(Doctor doctor, DoctorDao dao) {
-            this.doctor = doctor;
+        GetAllTask(DoctorDao dao) {
             this.dao = dao;
+        }
+
+        @Override
+        protected List<Doctor> doInBackground(Void... voids) {
+            return dao.getAll();
+        }
+    }
+
+    private class InsertTask extends Thread {
+        private Doctor doctor;
+
+        InsertTask(Doctor doctor) {
+            this.doctor = doctor;
         }
 
         @Override
@@ -49,13 +68,11 @@ public class DoctorRepository {
         }
     }
 
-    private class UpdateThread extends Thread {
+    private class UpdateTask extends Thread {
         private Doctor doctor;
-        private DoctorDao dao;
 
-        UpdateThread(Doctor doctor, DoctorDao dao) {
+        UpdateTask(Doctor doctor) {
             this.doctor = doctor;
-            this.dao = dao;
         }
 
         @Override
@@ -65,13 +82,11 @@ public class DoctorRepository {
         }
     }
 
-    private class DeleteThread extends Thread {
+    private class DeleteTask extends Thread {
         private Doctor doctor;
-        private DoctorDao dao;
 
-        DeleteThread(Doctor doctor, DoctorDao dao) {
+        DeleteTask(Doctor doctor) {
             this.doctor = doctor;
-            this.dao = dao;
         }
 
         @Override

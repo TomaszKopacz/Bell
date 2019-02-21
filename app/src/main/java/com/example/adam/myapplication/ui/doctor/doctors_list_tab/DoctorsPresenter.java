@@ -1,7 +1,6 @@
 package com.example.adam.myapplication.ui.doctor.doctors_list_tab;
 
 import android.arch.lifecycle.LiveData;
-import android.util.Log;
 
 import com.example.adam.myapplication.data.db.doctor.DoctorRepository;
 import com.example.adam.myapplication.data.objects.Doctor;
@@ -20,8 +19,7 @@ public class DoctorsPresenter implements DoctorsContract.DoctorsPresenter {
 
     @Override
     public void onViewAttached() {
-        Log.i("MEDIBELL", "onViewAttached");
-        LiveData<List<Doctor>> doctors = repository.getAll();
+        List<Doctor> doctors = repository.getAll();
         view.showDoctorsList(doctors);
     }
 

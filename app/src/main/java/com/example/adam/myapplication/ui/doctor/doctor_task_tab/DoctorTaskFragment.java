@@ -1,8 +1,11 @@
 package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,9 +23,12 @@ import android.widget.Toast;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.app.App;
+import com.example.adam.myapplication.data.db.doctor.DoctorRepository;
 import com.example.adam.myapplication.data.db.task.TaskRepository;
+import com.example.adam.myapplication.data.objects.Doctor;
 import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.notification.TaskAlarm;
+import com.example.adam.myapplication.ui.doctor.dialogs.ChooseDoctorDialog;
 import com.example.adam.myapplication.ui.main.MainActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
@@ -30,6 +36,7 @@ import com.example.adam.myapplication.utils.DatetimePicker;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.Date;
+import java.util.List;
 
 public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.DoctorTaskView {
 
@@ -74,20 +81,28 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     }
 
     public void setPresenter() {
-        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
-        this.presenter = new DoctorTaskPresenter(this, repository);
+        TaskRepository taskRepository = ((App) getActivity().getApplication()).getTaskRepository();
+        DoctorRepository doctorRepository = ((App) getActivity().getApplication()).getDoctorRepository();
+        this.presenter = new DoctorTaskPresenter(this, taskRepository, doctorRepository);
         presenter.onViewAttached();
     }
 
     private void setListeners() {
+        doctorText.setOnClickListener(doctorListener);
         timeText.setOnClickListener(timeListener);
         dateText.setOnClickListener(dateListener);
         endDateText.setOnClickListener(endDateListener);
         repeatSwitch.setOnCheckedChangeListener(switchListener);
         moreLabel.setOnClickListener(moreListener);
-
         submitButton.setOnClickListener(submitListener);
     }
+
+    private View.OnClickListener doctorListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            presenter.onDoctorViewClicked();
+        }
+    };
 
     private View.OnClickListener timeListener
             = new View.OnClickListener() {
@@ -211,6 +226,12 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     @Override
     public void setEndDate(String endDate) {
         endDateText.setText(endDate);
+    }
+
+    @Override
+    public void showChooseDoctorDialog(List<Doctor> list) {
+        AlertDialog dialog = new ChooseDoctorDialog(getActivity()).setItems(list).create();
+        dialog.show();
     }
 
     @Override

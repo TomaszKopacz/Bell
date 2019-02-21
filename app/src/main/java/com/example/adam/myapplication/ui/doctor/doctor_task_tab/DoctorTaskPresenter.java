@@ -1,5 +1,9 @@
 package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
+import android.arch.lifecycle.LiveData;
+
+import com.example.adam.myapplication.data.db.doctor.DoctorRepository;
+import com.example.adam.myapplication.data.objects.Doctor;
 import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.example.adam.myapplication.exceptions.TaskException;
@@ -14,7 +18,8 @@ import java.util.List;
 public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresenter {
 
     private DoctorTaskContract.DoctorTaskView view;
-    private TaskRepository repository;
+    private TaskRepository taskRepository;
+    private DoctorRepository doctorRepository;
 
     private static final String EMPTY_DOCTOR_NAME = "Wprowadź nazwisko lekarza!";
     private static final String EMPTY_TASK_TIME = "Wprowadź godzinę!";
@@ -22,9 +27,12 @@ public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresent
     private static final String EMPTY_TASK_END_DATE = "Wprowadź datę zakończnia cyklu!";
     private static final String DATES_INCORRECT_ORDER = "Data końca cyklu musi być późniejsza niż jego start!";
 
-    DoctorTaskPresenter(DoctorTaskContract.DoctorTaskView view, TaskRepository repository) {
+    DoctorTaskPresenter(DoctorTaskContract.DoctorTaskView view,
+                        TaskRepository taskRepository,
+                        DoctorRepository doctorRepository) {
         this.view = view;
-        this.repository = repository;
+        this.taskRepository = taskRepository;
+        this.doctorRepository = doctorRepository;
     }
 
     @Override
@@ -43,6 +51,12 @@ public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresent
         view.setTime(time);
         view.setDate(date);
         view.setEndDate(date);
+    }
+
+    @Override
+    public void onDoctorViewClicked() {
+        List<Doctor> doctors = doctorRepository.getAll();
+        view.showChooseDoctorDialog(doctors);
     }
 
     @Override
@@ -91,7 +105,7 @@ public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresent
     private void insertSingleTask() throws ParseException {
         Task task = getTaskFromLayout();
 //        view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
-        repository.insert(task);
+        taskRepository.insert(task);
     }
 
     private void insertManyTasks() throws ParseException {
@@ -100,7 +114,7 @@ public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresent
 //        for (Task task : tasks)
 //            view.onTaskCreated(ScoresTaskContract.ScoresTaskView.SUCCESS, task);
 
-        repository.insert(tasks);
+        taskRepository.insert(tasks);
     }
 
     private Task getTaskFromLayout() throws ParseException {

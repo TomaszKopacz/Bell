@@ -16,7 +16,7 @@ import java.util.List;
 public interface DoctorDao {
 
     @Query("SELECT * FROM Doctor")
-    LiveData<List<Doctor>> getAll();
+    List<Doctor> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Doctor doctor);
