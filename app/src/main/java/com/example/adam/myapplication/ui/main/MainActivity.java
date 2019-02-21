@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
     private void getComponents() {
         bottomNavigation = findViewById(R.id.bottom_navigation);
+        bottomNavigation.setSelectedItemId(0);
     }
 
     private void setPresenter() {
