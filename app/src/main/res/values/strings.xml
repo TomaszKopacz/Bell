@@ -52,6 +52,10 @@
     <string name="full_name_hint">full name</string>
     <string name="location_hint">location</string>
 
+    <!-- CHOOSE DOCTOR DIALOG -->
+    <string name="avatar_description">avatar</string>
+    <string name="add_new_doctor_label">add new doctor…</string>
+
     <!-- TASK NOTIFICATION -->
     <string name="score_reminder">Pamiętaj o pomiarze!</string>
     <string name="drug_reminder">Pamiętaj o leku!</string>
@@ -65,6 +69,4 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
 </resources>

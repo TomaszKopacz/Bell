@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.ui.OnItemClickListener;
 import com.example.adam.myapplication.ui.doctor.dialogs.ChooseDoctorDialog;
+import com.example.adam.myapplication.ui.doctor.dialogs.NewDoctorDialog;
 import com.example.adam.myapplication.ui.main.MainActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
 import com.example.adam.myapplication.utils.DatetimePicker;
@@ -246,13 +248,11 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
 
     @Override
     public void showChooseDoctorDialog() {
-        ChooseDoctorDialog dialog = new ChooseDoctorDialog(getActivity(), doctorsList, itemListener);
-        dialog.show();
-    }
-
-    @Override
-    public void onDoctorSelected(Doctor doctor) {
-        doctorText.setText(doctor.getSpecialization() + ", " + doctor.getName());
+        new ChooseDoctorDialog.Builder(getActivity())
+                .setItems(doctorsList, itemListener)
+                .showNewDoctorButton(newDoctorButtonListener)
+                .create()
+                .show();
     }
 
     private OnItemClickListener<Doctor> itemListener = new OnItemClickListener<Doctor>() {
@@ -261,6 +261,23 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
             presenter.onDoctorSelected(doctor);
         }
     };
+
+    private View.OnClickListener newDoctorButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            new NewDoctorDialog(getActivity(), new NewDoctorDialog.OnDoctorCreatedListener() {
+                @Override
+                public void onDoctorCreated(Doctor doctor) {
+                    Log.i("MEDIBELL", "Doctor created");
+                }
+            }).create().show();
+        }
+    };
+
+    @Override
+    public void onDoctorSelected(Doctor doctor) {
+        doctorText.setText(doctor.getSpecialization() + ", " + doctor.getName());
+    }
 
     @Override
     public void onTaskCreated(String status, @Nullable Task task) {
