@@ -9,20 +9,17 @@ import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.data.objects.Doctor;
+import com.example.adam.myapplication.ui.OnItemClickListener;
 
 import java.util.List;
 
 public class ChooseDoctorAdapter extends RecyclerView.Adapter<ChooseDoctorAdapter.DoctorViewHolder> {
     private List<Doctor> list;
-    private OnItemClickedListener listener;
+    private OnItemClickListener<Doctor> listener;
 
-    ChooseDoctorAdapter(List<Doctor> list, OnItemClickedListener listener) {
+    ChooseDoctorAdapter(List<Doctor> list, OnItemClickListener<Doctor> listener) {
         this.list = list;
         this.listener = listener;
-    }
-
-    interface OnItemClickedListener {
-        void itemClicked(View view, Doctor doctor);
     }
 
     @NonNull
@@ -45,7 +42,7 @@ public class ChooseDoctorAdapter extends RecyclerView.Adapter<ChooseDoctorAdapte
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.itemClicked(v, doctor);
+                listener.onItemClick(v, doctor);
             }
         });
     }

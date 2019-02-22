@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/label_margin"
+                    android:layout_margin="@dimen/label_margin_medium"
                     android:text="@string/not_chosen_text"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_size_large" />
@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/label_margin"
+                    android:layout_margin="@dimen/label_margin_medium"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_size_large" />
 
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/label_margin"
+                    android:layout_margin="@dimen/label_margin_medium"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/text_size_large" />
 
@@ -149,7 +149,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-
                         <TextView
                             android:id="@+id/cycle_time_label"
                             android:layout_width="match_parent"
@@ -166,7 +165,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/label_margin"
+                            android:layout_margin="@dimen/label_margin_medium"
                             android:gravity="center"
                             android:orientation="horizontal">
 
@@ -215,7 +214,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="@dimen/label_margin"
+                            android:layout_margin="@dimen/label_margin_medium"
                             android:textColor="@color/colorPrimaryText"
                             android:textSize="@dimen/text_size_large" />
                     </LinearLayout>
@@ -279,7 +278,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:layout_margin="@dimen/text_margin"
+                            android:layout_margin="@dimen/label_margin_medium"
                             android:importantForAutofill="no"
                             android:inputType="text"
                             android:textSize="@dimen/text_size_medium"

@@ -32,7 +32,11 @@ public interface DoctorTaskContract {
 
         void setEndDate(String endDate);
 
-        void showChooseDoctorDialog(List<Doctor> list);
+        void updateDoctorsList(LiveData<List<Doctor>> list);
+
+        void showChooseDoctorDialog();
+
+        void onDoctorSelected(Doctor doctor);
 
         void onTaskCreated(String status, Task task);
 
@@ -44,6 +48,7 @@ public interface DoctorTaskContract {
     interface DoctorTaskPresenter {
         void onViewAttached();
         void onDoctorViewClicked();
+        void onDoctorSelected(Doctor doctor);
         void onSubmitButtonClicked();
     }
 }

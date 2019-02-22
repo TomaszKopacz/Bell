@@ -68,7 +68,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.Doctors
     };
 
     @Override
-    public void showDoctorsList(List<Doctor> list) {
+    public void updateDoctorsList(LiveData<List<Doctor>> list) {
 
     }
 

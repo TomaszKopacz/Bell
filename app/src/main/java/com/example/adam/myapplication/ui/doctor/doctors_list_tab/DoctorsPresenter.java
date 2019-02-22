@@ -19,8 +19,8 @@ public class DoctorsPresenter implements DoctorsContract.DoctorsPresenter {
 
     @Override
     public void onViewAttached() {
-        List<Doctor> doctors = repository.getAll();
-        view.showDoctorsList(doctors);
+        LiveData<List<Doctor>> doctors = repository.getAll();
+        view.updateDoctorsList(doctors);
     }
 
     @Override

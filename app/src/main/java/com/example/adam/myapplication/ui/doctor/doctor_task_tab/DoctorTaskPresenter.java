@@ -37,6 +37,11 @@ public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresent
 
     @Override
     public void onViewAttached() {
+        setDefaultValues();
+        makeDoctorsList();
+    }
+
+    private void setDefaultValues() {
         Calendar calendar = Calendar.getInstance();
 
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -53,10 +58,19 @@ public class DoctorTaskPresenter implements DoctorTaskContract.DoctorTaskPresent
         view.setEndDate(date);
     }
 
+    private void makeDoctorsList() {
+        LiveData<List<Doctor>> doctors = doctorRepository.getAll();
+        view.updateDoctorsList(doctors);
+    }
+
     @Override
     public void onDoctorViewClicked() {
-        List<Doctor> doctors = doctorRepository.getAll();
-        view.showChooseDoctorDialog(doctors);
+        view.showChooseDoctorDialog();
+    }
+
+    @Override
+    public void onDoctorSelected(Doctor doctor) {
+        view.onDoctorSelected(doctor);
     }
 
     @Override

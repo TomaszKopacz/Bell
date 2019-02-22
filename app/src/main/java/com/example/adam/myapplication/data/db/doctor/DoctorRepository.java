@@ -1,5 +1,6 @@
 package com.example.adam.myapplication.data.db.doctor;
 
+import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import com.example.adam.myapplication.data.objects.Doctor;
@@ -14,16 +15,8 @@ public class DoctorRepository {
         this.dao = dao;
     }
 
-    public List<Doctor> getAll() {
-        List<Doctor> list;
-        try {
-            list = new GetAllTask(dao).execute().get();
-
-        } catch (Exception e) {
-            list = null;
-        }
-
-        return list;
+    public LiveData<List<Doctor>> getAll() {
+        return dao.getAll();
     }
 
     public void insert(Doctor doctor) {
@@ -39,19 +32,6 @@ public class DoctorRepository {
     public void delete(Doctor doctor) {
         DeleteTask task = new DeleteTask(doctor);
         task.start();
-    }
-
-    private static class GetAllTask extends AsyncTask<Void, Void, List<Doctor>> {
-        private DoctorDao dao;
-
-        GetAllTask(DoctorDao dao) {
-            this.dao = dao;
-        }
-
-        @Override
-        protected List<Doctor> doInBackground(Void... voids) {
-            return dao.getAll();
-        }
     }
 
     private class InsertTask extends Thread {

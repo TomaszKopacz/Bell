@@ -1,7 +1,6 @@
 package com.example.adam.myapplication.ui.doctor.doctor_task_tab;
 
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.LiveData;
@@ -28,6 +27,7 @@ import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.example.adam.myapplication.data.objects.Doctor;
 import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.notification.TaskAlarm;
+import com.example.adam.myapplication.ui.OnItemClickListener;
 import com.example.adam.myapplication.ui.doctor.dialogs.ChooseDoctorDialog;
 import com.example.adam.myapplication.ui.main.MainActivity;
 import com.example.adam.myapplication.utils.DatetimeFormatter;
@@ -35,6 +35,7 @@ import com.example.adam.myapplication.utils.DatetimePicker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +52,8 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     private TextView moreLabel;
     private ExpandableLayout moreExpandable;
     private Button submitButton;
+
+    private List<Doctor> doctorsList;
 
     public DoctorTaskFragment() {
 
@@ -229,10 +232,35 @@ public class DoctorTaskFragment extends Fragment implements DoctorTaskContract.D
     }
 
     @Override
-    public void showChooseDoctorDialog(List<Doctor> list) {
-        AlertDialog dialog = new ChooseDoctorDialog(getActivity()).setItems(list).create();
+    public void updateDoctorsList(LiveData<List<Doctor>> list) {
+        list.observe(this, new Observer<List<Doctor>>() {
+            @Override
+            public void onChanged(@Nullable List<Doctor> list) {
+                if (doctorsList == null)
+                    doctorsList = new ArrayList<>();
+
+                doctorsList = list;
+            }
+        });
+    }
+
+    @Override
+    public void showChooseDoctorDialog() {
+        ChooseDoctorDialog dialog = new ChooseDoctorDialog(getActivity(), doctorsList, itemListener);
         dialog.show();
     }
+
+    @Override
+    public void onDoctorSelected(Doctor doctor) {
+        doctorText.setText(doctor.getSpecialization() + ", " + doctor.getName());
+    }
+
+    private OnItemClickListener<Doctor> itemListener = new OnItemClickListener<Doctor>() {
+        @Override
+        public void onItemClick(View view, Doctor doctor) {
+            presenter.onDoctorSelected(doctor);
+        }
+    };
 
     @Override
     public void onTaskCreated(String status, @Nullable Task task) {
