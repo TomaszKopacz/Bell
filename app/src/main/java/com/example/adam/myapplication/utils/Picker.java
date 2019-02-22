@@ -6,7 +6,7 @@ import android.content.Context;
 
 import java.util.Calendar;
 
-public class DatetimePicker {
+public class Picker {
 
     public static void showDatePicker(Context context, DatePickerDialog.OnDateSetListener listener) {
         Calendar calendar = Calendar.getInstance();

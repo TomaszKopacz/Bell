@@ -1,6 +1,7 @@
 package com.example.adam.myapplication.data.db.task;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 
 import com.example.adam.myapplication.data.objects.Task;
 
@@ -11,8 +12,8 @@ public class TaskRepository {
 
     private TaskDao dao;
 
-    public TaskRepository(TaskDao dao) {
-        this.dao = dao;
+    public TaskRepository(Context context) {
+        this.dao = TaskDatabase.getInstance(context).getTaskDao();
     }
 
     public LiveData<List<Task>> getAll() {

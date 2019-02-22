@@ -50,7 +50,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.Doctors
     }
 
     private void setPresenter() {
-        DoctorRepository repository = ((App) getActivity().getApplication()).getDoctorRepository();
+        DoctorRepository repository = new DoctorRepository(getActivity().getApplication());
 
         this.presenter = new DoctorsPresenter(this, repository);
         presenter.onViewAttached();

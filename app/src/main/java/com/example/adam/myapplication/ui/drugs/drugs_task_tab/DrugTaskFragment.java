@@ -21,13 +21,12 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.ui.main.MainActivity;
-import com.example.adam.myapplication.utils.DatetimeFormatter;
-import com.example.adam.myapplication.utils.DatetimePicker;
+import com.example.adam.myapplication.utils.Formatter;
+import com.example.adam.myapplication.utils.Picker;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -95,7 +94,7 @@ public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugT
     }
 
     public void setPresenter() {
-        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+        TaskRepository repository = new TaskRepository(getActivity().getApplication());
         this.presenter = new DrugTaskPresenter(this, repository);
     }
 
@@ -120,7 +119,7 @@ public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugT
             = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            DatetimePicker.showTimePicker(getActivity(), timeSetListener);
+            Picker.showTimePicker(getActivity(), timeSetListener);
         }
     };
 
@@ -128,7 +127,7 @@ public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugT
             = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-            setTime(DatetimeFormatter.getTimeFormatted(hour, minute));
+            setTime(Formatter.getTimeString(hour, minute));
         }
     };
 
@@ -136,7 +135,7 @@ public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugT
             = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            DatetimePicker.showDatePicker(getActivity(), dateSetListener);
+            Picker.showDatePicker(getActivity(), dateSetListener);
         }
     };
 
@@ -144,7 +143,7 @@ public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugT
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            setDate(DatetimeFormatter.getDateFormatted(day, month, year));
+            setDate(Formatter.getDateString(day, month, year));
         }
     };
 
@@ -152,7 +151,7 @@ public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugT
             = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            DatetimePicker.showDatePicker(getActivity(), endDateSetListener);
+            Picker.showDatePicker(getActivity(), endDateSetListener);
         }
     };
 
@@ -160,7 +159,7 @@ public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugT
             = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            setEndDate(DatetimeFormatter.getDateFormatted(day, month, year));
+            setEndDate(Formatter.getDateString(day, month, year));
         }
     };
 

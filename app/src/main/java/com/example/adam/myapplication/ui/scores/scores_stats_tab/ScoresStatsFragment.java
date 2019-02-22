@@ -148,7 +148,7 @@ public class ScoresStatsFragment extends Fragment implements ScoresStatsContract
     }
 
     private void setPresenter() {
-        TaskRepository repository = ((App) getActivity().getApplication()).getTaskRepository();
+        TaskRepository repository = new TaskRepository(getActivity().getApplication());
         presenter = new ScoresStatsPresenter(this, repository);
     }
 

@@ -4,7 +4,7 @@ import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.example.adam.myapplication.exceptions.TaskException;
 import com.example.adam.myapplication.ui.scores.scores_task_tab.ScoresTaskContract;
-import com.example.adam.myapplication.utils.DatetimeFormatter;
+import com.example.adam.myapplication.utils.Formatter;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -66,8 +66,8 @@ public class DrugTaskPresenter implements DrugTaskContract.DrugTaskPresenter {
             if (view.getEndDate().isEmpty())
                 throw new TaskException(EMPTY_TASK_END_DATE);
 
-            Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
-            Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
+            Date currentDate = Formatter.getTimestamp(view.getDate(), view.getTime());
+            Date endDate = Formatter.getTimestamp(view.getEndDate(), view.getTime());
 
             if (currentDate.after(endDate))
                 throw new TaskException(DATES_INCORRECT_ORDER);
@@ -95,7 +95,7 @@ public class DrugTaskPresenter implements DrugTaskContract.DrugTaskPresenter {
         String date = view.getDate();
         String drug = view.getDrug();
 
-        Date timestamp = DatetimeFormatter.getTimestamp(date, time);
+        Date timestamp = Formatter.getTimestamp(date, time);
 
         Task task = new Task(type, timestamp);
         task.setInfo(drug);
@@ -104,8 +104,8 @@ public class DrugTaskPresenter implements DrugTaskContract.DrugTaskPresenter {
     }
 
     private List<Task> getCyclicTasks() throws ParseException {
-        Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
-        Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
+        Date currentDate = Formatter.getTimestamp(view.getDate(), view.getTime());
+        Date endDate = Formatter.getTimestamp(view.getEndDate(), view.getTime());
 
         List<Task> tasks = new ArrayList<>();
 

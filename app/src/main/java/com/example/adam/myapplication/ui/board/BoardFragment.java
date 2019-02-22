@@ -18,10 +18,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.app.App;
-import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.data.db.task.TaskRepository;
-import com.example.adam.myapplication.utils.DatetimePicker;
+import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.utils.Picker;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -88,7 +87,7 @@ public class BoardFragment extends Fragment implements BoardContract.BoardView {
         Activity parent = getActivity();
 
         if (parent != null) {
-            TaskRepository repository = ((App) parent.getApplication()).getTaskRepository();
+            TaskRepository repository = new TaskRepository(getActivity().getApplication());
             this.presenter = new BoardPresenter(this, repository);
 
             setListeners();
@@ -143,7 +142,7 @@ public class BoardFragment extends Fragment implements BoardContract.BoardView {
 
     @Override
     public void showCalendarView(DatePickerDialog.OnDateSetListener listener) {
-        DatetimePicker.showDatePicker(getActivity(), listener);
+        Picker.showDatePicker(getActivity(), listener);
     }
 
     private void updateTasksList(List<Task> tasks) {

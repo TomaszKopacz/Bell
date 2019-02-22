@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
@@ -32,10 +34,15 @@ dependencies {
     def expandableVersion = "2.9.2"
     implementation "net.cachapa.expandablelayout:expandablelayout:$expandableVersion"
 
-    //room
+    // room
     def roomVersion = "1.1.1"
     implementation "android.arch.persistence.room:runtime:$roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
+
+    // view model
+    def viewModelVersion = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$viewModelVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$viewModelVersion"
 
     //calendar
     def calendarVersion = "1.0.1"
@@ -49,4 +56,8 @@ dependencies {
     //graph
     def graphVersion = "4.2.2"
     implementation "com.jjoe64:graphview:$graphVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

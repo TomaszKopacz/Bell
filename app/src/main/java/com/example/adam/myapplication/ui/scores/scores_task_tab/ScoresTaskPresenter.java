@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.example.adam.myapplication.exceptions.TaskException;
-import com.example.adam.myapplication.utils.DatetimeFormatter;
+import com.example.adam.myapplication.utils.Formatter;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -59,8 +59,8 @@ public class ScoresTaskPresenter implements ScoresTaskContract.ScoresTaskPresent
             if (view.getEndDate().isEmpty())
                 throw new TaskException(EMPTY_TASK_END_DATE);
 
-            Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
-            Date endDate = DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
+            Date currentDate = Formatter.getTimestamp(view.getDate(), view.getTime());
+            Date endDate = Formatter.getTimestamp(view.getEndDate(), view.getTime());
 
             if (currentDate.after(endDate))
                 throw new TaskException(DATES_INCORRECT_ORDER);
@@ -88,14 +88,14 @@ public class ScoresTaskPresenter implements ScoresTaskContract.ScoresTaskPresent
         String time = view.getTime();
         String date = view.getDate();
 
-        Date timestamp = DatetimeFormatter.getTimestamp(date, time);
+        Date timestamp = Formatter.getTimestamp(date, time);
 
         return new Task(type, timestamp);
     }
 
     private List<Task> getCyclicTasks() throws ParseException {
-        Date currentDate = DatetimeFormatter.getTimestamp(view.getDate(), view.getTime());
-        Date endDate =  DatetimeFormatter.getTimestamp(view.getEndDate(), view.getTime());
+        Date currentDate = Formatter.getTimestamp(view.getDate(), view.getTime());
+        Date endDate =  Formatter.getTimestamp(view.getEndDate(), view.getTime());
 
         List<Task> tasks = new ArrayList<>();
 
