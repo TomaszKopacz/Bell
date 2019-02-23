@@ -69,14 +69,13 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.Doctors
 
     @Override
     public void showNewDoctorDialog() {
-        AlertDialog dialog = new NewDoctorDialog(getActivity(), doctorCreatedListener).create();
-        dialog.show();
+        new NewDoctorDialog.Builder(this).setResultListener(resultListener).create().show();
     }
 
-    private NewDoctorDialog.OnDoctorCreatedListener doctorCreatedListener = new NewDoctorDialog.OnDoctorCreatedListener() {
+    private NewDoctorDialog.OnResultListener resultListener = new NewDoctorDialog.OnResultListener() {
         @Override
-        public void onDoctorCreated(Doctor doctor) {
-            presenter.onDoctorCreated(doctor);
+        public void onResult(int status, Doctor doctor, AlertDialog dialog, String error) {
+
         }
     };
 }

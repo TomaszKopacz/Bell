@@ -16,6 +16,7 @@ class DoctorTaskViewModel(application: Application) : AndroidViewModel(applicati
 
     val doctor: MutableLiveData<Doctor> = MutableLiveData()
     val date: MutableLiveData<Calendar> = MutableLiveData()
+    var isCyclic: Boolean = false
     val endDate: MutableLiveData<Calendar> = MutableLiveData()
     val note: MutableLiveData<String> = MutableLiveData()
 
@@ -66,6 +67,10 @@ class DoctorTaskViewModel(application: Application) : AndroidViewModel(applicati
         date.value = newDate
     }
 
+    fun isCyclic(isCyclic: Boolean) {
+        this.isCyclic = isCyclic
+    }
+
     fun endDateSet(year: Int, month: Int, day: Int) {
         val newDate = endDate.value!!.clone() as Calendar
 
@@ -82,7 +87,7 @@ class DoctorTaskViewModel(application: Application) : AndroidViewModel(applicati
 
     fun submitTask() {
         try {
-            validateFields()
+            validateInput()
             insertTask(newTask())
 
         } catch (e: Exception) {
@@ -90,7 +95,7 @@ class DoctorTaskViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    private fun validateFields() {
+    private fun validateInput() {
         validateDoctor()
         validateDates()
     }
@@ -101,7 +106,7 @@ class DoctorTaskViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     private fun validateDates() {
-        if (endDate.value!!.before(date.value))
+        if (isCyclic && endDate.value!!.before(date.value))
             throw Exception(DATES_ORDER_ERROR)
     }
 

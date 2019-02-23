@@ -1,5 +1,6 @@
 package com.example.adam.myapplication.ui.doctor.create
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.adam.myapplication.R
 import com.example.adam.myapplication.data.objects.Doctor
+import com.example.adam.myapplication.ui.OnItemClickListener
 import com.example.adam.myapplication.ui.doctor.dialogs.ChooseDoctorDialog
 import com.example.adam.myapplication.ui.doctor.dialogs.NewDoctorDialog
 import com.example.adam.myapplication.ui.main.MainActivity
@@ -44,7 +46,7 @@ class DoctorTaskFragment : Fragment() {
         setEndDateObserver()
         setNoteObserver()
         setErrorObserver()
-        setTaskObserver()
+        setTaskCreatedObserver()
     }
 
     private fun setDoctorObserver() {
@@ -75,12 +77,15 @@ class DoctorTaskFragment : Fragment() {
 
     private fun setErrorObserver() {
         viewModel.error.observe(this, Observer { error ->
-            if (error != null)
-                Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+            showError(error!!)
         })
     }
 
-    private fun setTaskObserver() {
+    private fun showError(error: String) {
+        Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+    }
+
+    private fun setTaskCreatedObserver() {
         viewModel.task.observe(this, Observer { task ->
             if (task != null)
                 (activity as MainActivity).goToBoard()
@@ -121,6 +126,8 @@ class DoctorTaskFragment : Fragment() {
 
     private fun setSwitchListener() {
         switch_repeat.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.isCyclic(isChecked)
+
             if (isChecked)
                 date_expandable.expand()
             else
@@ -157,22 +164,30 @@ class DoctorTaskFragment : Fragment() {
     }
 
     private fun showChooseDoctorDialog() {
-        val builder = ChooseDoctorDialog.Builder(this)
-
-        builder.setItemClickListener { _, doctor ->
-            viewModel.doctorChosen(doctor)
-        }
-
-        builder.showNewDoctorButton {
-            showCreateDoctorDialog()
-        }
-
-        builder.create().show()
+        ChooseDoctorDialog.Builder(this)
+                .setItemClickListener(OnItemClickListener { _, doctor ->
+                    viewModel.doctorChosen(doctor)
+                })
+                .showNewDoctorButton(View.OnClickListener {
+                    showCreateDoctorDialog()
+                })
+                .create()
+                .show()
     }
 
     private fun showCreateDoctorDialog() {
-        NewDoctorDialog(activity) { doctor ->
-            viewModel.doctorChosen(doctor)
-        }.create().show()
+        NewDoctorDialog.Builder(this)
+                .setResultListener(newDoctorListener)
+                .create()
+                .show()
+    }
+
+    private val newDoctorListener = object : NewDoctorDialog.OnResultListener {
+        override fun onResult(status: Int, doctor: Doctor?, dialog: AlertDialog?, error: String?) {
+            when (status) {
+                NewDoctorDialog.SUCCESS -> viewModel.doctorChosen(doctor!!)
+                NewDoctorDialog.FAILURE -> showError(error!!)
+            }
+        }
     }
 }
