@@ -72,7 +72,7 @@ public class DoctorsFragment extends Fragment implements DoctorsContract.Doctors
         new NewDoctorDialog.Builder(this).setResultListener(resultListener).create().show();
     }
 
-    private NewDoctorDialog.Builder.OnResultListener resultListener = new NewDoctorDialog.Builder.OnResultListener() {
+    private NewDoctorDialog.OnResultListener resultListener = new NewDoctorDialog.OnResultListener() {
         @Override
         public void onResult(int status, Doctor doctor, AlertDialog dialog, String error) {
 

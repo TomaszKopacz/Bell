@@ -1,5 +1,6 @@
 package com.example.adam.myapplication.ui.doctor.create
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.adam.myapplication.R
 import com.example.adam.myapplication.data.objects.Doctor
+import com.example.adam.myapplication.ui.OnItemClickListener
 import com.example.adam.myapplication.ui.doctor.dialogs.ChooseDoctorDialog
 import com.example.adam.myapplication.ui.doctor.dialogs.NewDoctorDialog
 import com.example.adam.myapplication.ui.main.MainActivity
@@ -162,17 +164,15 @@ class DoctorTaskFragment : Fragment() {
     }
 
     private fun showChooseDoctorDialog() {
-        val builder = ChooseDoctorDialog.Builder(this)
-
-        builder.setItemClickListener { _, doctor ->
-            viewModel.doctorChosen(doctor)
-        }
-
-        builder.showNewDoctorButton {
-            showCreateDoctorDialog()
-        }
-
-        builder.create().show()
+        ChooseDoctorDialog.Builder(this)
+                .setItemClickListener(OnItemClickListener { _, doctor ->
+                    viewModel.doctorChosen(doctor)
+                })
+                .showNewDoctorButton(View.OnClickListener {
+                    showCreateDoctorDialog()
+                })
+                .create()
+                .show()
     }
 
     private fun showCreateDoctorDialog() {
@@ -182,12 +182,12 @@ class DoctorTaskFragment : Fragment() {
                 .show()
     }
 
-    private val newDoctorListener = NewDoctorDialog.Builder.OnResultListener {
-        status, doctor, _, error ->
-
-        when (status) {
-            NewDoctorDialog.SUCCESS -> viewModel.doctorChosen(doctor)
-            NewDoctorDialog.FAILURE -> showError(error)
+    private val newDoctorListener = object : NewDoctorDialog.OnResultListener {
+        override fun onResult(status: Int, doctor: Doctor?, dialog: AlertDialog?, error: String?) {
+            when (status) {
+                NewDoctorDialog.SUCCESS -> viewModel.doctorChosen(doctor!!)
+                NewDoctorDialog.FAILURE -> showError(error!!)
+            }
         }
     }
 }
