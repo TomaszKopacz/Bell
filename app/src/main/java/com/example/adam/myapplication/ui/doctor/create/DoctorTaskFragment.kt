@@ -44,7 +44,7 @@ class DoctorTaskFragment : Fragment() {
         setEndDateObserver()
         setNoteObserver()
         setErrorObserver()
-        setTaskObserver()
+        setTaskCreatedObserver()
     }
 
     private fun setDoctorObserver() {
@@ -75,12 +75,15 @@ class DoctorTaskFragment : Fragment() {
 
     private fun setErrorObserver() {
         viewModel.error.observe(this, Observer { error ->
-            if (error != null)
-                Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+            showError(error!!)
         })
     }
 
-    private fun setTaskObserver() {
+    private fun showError(error: String) {
+        Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+    }
+
+    private fun setTaskCreatedObserver() {
         viewModel.task.observe(this, Observer { task ->
             if (task != null)
                 (activity as MainActivity).goToBoard()
@@ -121,6 +124,8 @@ class DoctorTaskFragment : Fragment() {
 
     private fun setSwitchListener() {
         switch_repeat.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.isCyclic(isChecked)
+
             if (isChecked)
                 date_expandable.expand()
             else
@@ -171,8 +176,18 @@ class DoctorTaskFragment : Fragment() {
     }
 
     private fun showCreateDoctorDialog() {
-        NewDoctorDialog(activity) { doctor ->
-            viewModel.doctorChosen(doctor)
-        }.create().show()
+        NewDoctorDialog.Builder(this)
+                .setResultListener(newDoctorListener)
+                .create()
+                .show()
+    }
+
+    private val newDoctorListener = NewDoctorDialog.Builder.OnResultListener {
+        status, doctor, _, error ->
+
+        when (status) {
+            NewDoctorDialog.SUCCESS -> viewModel.doctorChosen(doctor)
+            NewDoctorDialog.FAILURE -> showError(error)
+        }
     }
 }

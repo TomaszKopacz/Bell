@@ -30,6 +30,6 @@ public class DoctorsPresenter implements DoctorsContract.DoctorsPresenter {
 
     @Override
     public void onDoctorCreated(Doctor doctor) {
-        repository.insert(doctor);
+
     }
 }

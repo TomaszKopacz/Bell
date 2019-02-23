@@ -65,7 +65,8 @@ public class ChooseDoctorDialog {
         private OnItemClickListener<Doctor> itemListener = new OnItemClickListener<Doctor>() {
             @Override
             public void onItemClick(View view, Doctor object) {
-                dialog.dismiss();
+                if (dialog != null)
+                    dialog.dismiss();
 
                 if (listener != null)
                     listener.onItemClick(view, object);
