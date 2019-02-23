@@ -11,15 +11,21 @@ import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.data.objects.Doctor;
 import com.example.adam.myapplication.ui.OnItemClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseDoctorAdapter extends RecyclerView.Adapter<ChooseDoctorAdapter.DoctorViewHolder> {
-    private List<Doctor> list;
+
+    private List<Doctor> list = new ArrayList<>();
     private OnItemClickListener<Doctor> listener;
 
-    ChooseDoctorAdapter(List<Doctor> list, OnItemClickListener<Doctor> listener) {
-        this.list = list;
+    ChooseDoctorAdapter(OnItemClickListener<Doctor> listener) {
         this.listener = listener;
+    }
+
+    void loadDoctors(List<Doctor> list) {
+        this.list = list;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -33,24 +39,13 @@ public class ChooseDoctorAdapter extends RecyclerView.Adapter<ChooseDoctorAdapte
 
     @Override
     public void onBindViewHolder(@NonNull DoctorViewHolder holder, int position) {
-        final Doctor doctor = list.get(position);
-        setItemClickListener(holder, doctor);
-        setItemFields(holder, doctor);
-    }
+        Doctor doctor = list.get(position);
 
-    private void setItemClickListener(@NonNull DoctorViewHolder holder, final Doctor doctor) {
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(v, doctor);
-            }
-        });
-    }
-
-    private void setItemFields(@NonNull DoctorViewHolder holder, Doctor doctor) {
         holder.setSpecialization(doctor.getSpecialization());
         holder.setName(doctor.getName());
+        holder.setListener(listener);
     }
+
 
     @Override
     public int getItemCount() {
@@ -59,20 +54,23 @@ public class ChooseDoctorAdapter extends RecyclerView.Adapter<ChooseDoctorAdapte
 
     class DoctorViewHolder extends RecyclerView.ViewHolder {
 
-        private View view;
         private TextView specialization;
         private TextView name;
 
         DoctorViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.view = itemView;
 
             specialization = itemView.findViewById(R.id.specialization_text);
             name = itemView.findViewById(R.id.name_text);
         }
 
-        public View getView() {
-            return view;
+        void setListener(final OnItemClickListener<Doctor> listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(itemView, list.get(getAdapterPosition()));
+                }
+            });
         }
 
         void setSpecialization(String specialization) {

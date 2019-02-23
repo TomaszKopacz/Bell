@@ -2,7 +2,10 @@ package com.example.adam.myapplication.ui.doctor.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,34 +32,48 @@ public class ChooseDoctorDialog {
     public static class Builder {
         private static final String TITLE = "Choose doctor";
 
-        private Context context;
+        private Fragment fragment;
         private View view;
+        private ChooseDoctorViewModel viewModel;
+
+        private ChooseDoctorAdapter adapter;
+        private OnItemClickListener<Doctor> listener;
+
         private AlertDialog dialog;
 
         @SuppressLint("InflateParams")
-        public Builder(Context context) {
-            this.context = context;
-            this.view = LayoutInflater.from(context).inflate(R.layout.dialog_choose_doctor, null);
+        public Builder(Fragment fragment) {
+            this.fragment = fragment;
+            this.view = LayoutInflater.from(fragment.getContext()).inflate(R.layout.dialog_choose_doctor, null);
 
-            createView();
-        }
+            viewModel = ViewModelProviders.of(fragment).get(ChooseDoctorViewModel.class);
 
-        private void createView() {
             RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        }
+            recyclerView.setLayoutManager(new LinearLayoutManager(fragment.getContext()));
 
-        public Builder setItems(List<Doctor> list, final OnItemClickListener<Doctor> listener) {
-            ChooseDoctorAdapter adapter = new ChooseDoctorAdapter(list, new OnItemClickListener<Doctor>() {
+            adapter = new ChooseDoctorAdapter(itemListener);
+            recyclerView.setAdapter(adapter);
+
+            viewModel.getAllDoctors().observe(fragment, new Observer<List<Doctor>>() {
                 @Override
-                public void onItemClick(View view, Doctor doctor) {
-                    dialog.dismiss();
-                    listener.onItemClick(view, doctor);
+                public void onChanged(@Nullable List<Doctor> list) {
+                    adapter.loadDoctors(list);
                 }
             });
+        }
 
-            RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-            recyclerView.setAdapter(adapter);
+        private OnItemClickListener<Doctor> itemListener = new OnItemClickListener<Doctor>() {
+            @Override
+            public void onItemClick(View view, Doctor object) {
+                dialog.dismiss();
+
+                if (listener != null)
+                    listener.onItemClick(view, object);
+            }
+        };
+
+        public Builder setItemClickListener(final OnItemClickListener<Doctor> listener) {
+            this.listener = listener;
 
             return this;
         }
@@ -64,6 +81,7 @@ public class ChooseDoctorDialog {
         public Builder showNewDoctorButton(final View.OnClickListener listener) {
             TextView newDoctorView = view.findViewById(R.id.add_new_doctor_view);
             newDoctorView.setVisibility(View.VISIBLE);
+
             newDoctorView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -76,7 +94,7 @@ public class ChooseDoctorDialog {
         }
 
         public ChooseDoctorDialog create() {
-            this.dialog = new AlertDialog.Builder(context)
+            this.dialog = new AlertDialog.Builder(fragment.getContext())
                     .setTitle(TITLE)
                     .setView(view)
                     .create();

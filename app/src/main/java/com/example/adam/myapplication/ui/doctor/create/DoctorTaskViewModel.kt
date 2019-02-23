@@ -10,7 +10,7 @@ import java.util.*
 
 class DoctorTaskViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var taskRepository: TaskRepository = TaskRepository(application)
+    private var repository: TaskRepository = TaskRepository(application)
 
     val doctor: MutableLiveData<Doctor> = MutableLiveData()
     val date: MutableLiveData<Calendar> = MutableLiveData()
@@ -34,8 +34,8 @@ class DoctorTaskViewModel(application: Application) : AndroidViewModel(applicati
         endDate.value = calendar
     }
 
-    fun doctorChosen(doctor: Doctor) {
-
+    fun doctorChosen(chosen: Doctor) {
+        doctor.value = chosen
     }
 
     fun dateSet(year: Int, month: Int, day: Int) {
@@ -72,6 +72,6 @@ class DoctorTaskViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun insertTask() {
-
+        TODO("Validate and insert")
     }
 }

@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.doctor.doctor_tabs;
+package com.example.adam.myapplication.ui.doctor.tabs;
 
 
 import android.os.Bundle;

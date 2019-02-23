@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.doctor.doctors_list_tab;
+package com.example.adam.myapplication.ui.doctor.list;
 
 import android.arch.lifecycle.LiveData;
 

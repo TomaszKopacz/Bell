@@ -1,11 +1,11 @@
-package com.example.adam.myapplication.ui.doctor.doctor_tabs;
+package com.example.adam.myapplication.ui.doctor.tabs;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.adam.myapplication.ui.doctor.create.DoctorTaskFragment;
-import com.example.adam.myapplication.ui.doctor.doctors_list_tab.DoctorsFragment;
+import com.example.adam.myapplication.ui.doctor.list.DoctorsFragment;
 
 public class DoctorPagerAdapter extends FragmentPagerAdapter {
 

@@ -1,22 +1,17 @@
-package com.example.adam.myapplication.ui.doctor.doctors_list_tab;
+package com.example.adam.myapplication.ui.doctor.list;
 
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.app.App;
 import com.example.adam.myapplication.data.db.doctor.DoctorRepository;
 import com.example.adam.myapplication.data.objects.Doctor;
 import com.example.adam.myapplication.ui.doctor.dialogs.NewDoctorDialog;
