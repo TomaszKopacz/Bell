@@ -7,10 +7,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.adam.myapplication.R
 import com.example.adam.myapplication.data.objects.Doctor
 import com.example.adam.myapplication.ui.doctor.dialogs.ChooseDoctorDialog
 import com.example.adam.myapplication.ui.doctor.dialogs.NewDoctorDialog
+import com.example.adam.myapplication.ui.main.MainActivity
 import com.example.adam.myapplication.utils.Formatter
 import com.example.adam.myapplication.utils.Picker
 import kotlinx.android.synthetic.main.fragment_doctor_task.*
@@ -40,6 +42,9 @@ class DoctorTaskFragment : Fragment() {
         setDoctorObserver()
         setDateObserver()
         setEndDateObserver()
+        setNoteObserver()
+        setErrorObserver()
+        setTaskObserver()
     }
 
     private fun setDoctorObserver() {
@@ -58,6 +63,27 @@ class DoctorTaskFragment : Fragment() {
     private fun setEndDateObserver() {
         viewModel.endDate.observe(this, Observer<Calendar> { calendar ->
             date_end_text.text = Formatter.getDateString(calendar)
+        })
+    }
+
+    private fun setNoteObserver() {
+        viewModel.note.observe(this, Observer { note ->
+            if (note != null)
+                note_input.setText(note)
+        })
+    }
+
+    private fun setErrorObserver() {
+        viewModel.error.observe(this, Observer { error ->
+            if (error != null)
+                Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+        })
+    }
+
+    private fun setTaskObserver() {
+        viewModel.task.observe(this, Observer { task ->
+            if (task != null)
+                (activity as MainActivity).goToBoard()
         })
     }
 
@@ -126,7 +152,7 @@ class DoctorTaskFragment : Fragment() {
     private fun setSubmitListener() {
         submit_button!!.setOnClickListener {
             viewModel.noteSet(note_input.text.toString())
-            viewModel.insertTask()
+            viewModel.submitTask()
         }
     }
 
