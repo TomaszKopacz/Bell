@@ -72,6 +72,6 @@ class DoctorTaskViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun insertTask() {
-        TODO("Validate and insert")
+
     }
 }
