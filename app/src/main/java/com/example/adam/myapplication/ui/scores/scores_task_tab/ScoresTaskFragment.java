@@ -20,8 +20,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.adam.myapplication.R;
-import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.data.db.task.TaskRepository;
+import com.example.adam.myapplication.data.objects.Task;
 import com.example.adam.myapplication.notification.TaskAlarm;
 import com.example.adam.myapplication.utils.Formatter;
 import com.example.adam.myapplication.utils.Picker;
@@ -205,7 +205,7 @@ public class ScoresTaskFragment extends Fragment implements ScoresTaskContract.S
 
     @Override
     public String getType() {
-        return Task.SCORE;
+        return "";
     }
 
     @Override

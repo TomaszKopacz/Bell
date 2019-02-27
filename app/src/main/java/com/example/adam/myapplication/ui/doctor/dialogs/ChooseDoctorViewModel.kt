@@ -8,5 +8,5 @@ import com.example.adam.myapplication.data.db.doctor.DoctorRepository
 class ChooseDoctorViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = DoctorRepository(application)
-    val allDoctors = repository.all!!
+    val allDoctors = repository.getAll()
 }

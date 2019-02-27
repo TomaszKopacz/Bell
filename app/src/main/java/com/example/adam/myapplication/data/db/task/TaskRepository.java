@@ -101,7 +101,7 @@ public class TaskRepository {
         @Override
         public void run() {
             for (Task task : tasks)
-                dao.insert(task);
+            dao.insert(task);
         }
     }
 

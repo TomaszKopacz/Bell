@@ -55,7 +55,7 @@ class ChooseDoctorDialog private constructor(private val dialog: AlertDialog) {
         }
 
         private fun setDoctorsObserver() {
-            viewModel.allDoctors.observe(fragment, Observer { list -> adapter.loadDoctors(list ?: ArrayList()) })
+            viewModel.allDoctors.observe(fragment, Observer<List<Doctor>> { list -> adapter.loadDoctors(list ?: ArrayList()) })
         }
 
         fun setItemClickListener(listener: OnItemClickListener<Doctor>): Builder {

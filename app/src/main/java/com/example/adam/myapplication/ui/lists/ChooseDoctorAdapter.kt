@@ -25,8 +25,8 @@ class ChooseDoctorAdapter internal constructor(private val listener: OnItemClick
     override fun onBindViewHolder(holder: DoctorViewHolder, position: Int) {
         val doctor = list[position]
 
-        holder.setSpecialization(doctor.specialization)
-        holder.setName(doctor.name)
+        holder.setSpecialization(doctor.specialization ?: "")
+        holder.setName(doctor.name ?: "")
         holder.setListener(listener)
     }
 
