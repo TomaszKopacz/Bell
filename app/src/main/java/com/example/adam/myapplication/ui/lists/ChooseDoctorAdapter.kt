@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.doctor.dialogs
+package com.example.adam.myapplication.ui.lists
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.widget.TextView
 
 import com.example.adam.myapplication.R
 import com.example.adam.myapplication.data.objects.Doctor
-import com.example.adam.myapplication.ui.OnItemClickListener
 
 import java.util.ArrayList
 

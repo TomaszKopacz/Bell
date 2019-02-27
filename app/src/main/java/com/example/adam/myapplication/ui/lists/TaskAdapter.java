@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui.board;
+package com.example.adam.myapplication.ui.lists;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,7 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private List<Task> tasks;
 
-    TaskAdapter(List<Task> tasks) {
+    public TaskAdapter(List<Task> tasks) {
         this.tasks = tasks;
     }
 

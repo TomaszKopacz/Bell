@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.data.db.task.TaskRepository;
 import com.example.adam.myapplication.data.objects.Task;
+import com.example.adam.myapplication.ui.lists.TaskAdapter;
 import com.example.adam.myapplication.utils.Picker;
 
 import java.text.DateFormat;
