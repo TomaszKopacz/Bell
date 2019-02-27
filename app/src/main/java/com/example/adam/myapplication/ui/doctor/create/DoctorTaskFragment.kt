@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.adam.myapplication.R
 import com.example.adam.myapplication.data.objects.Doctor
-import com.example.adam.myapplication.ui.OnItemClickListener
+import com.example.adam.myapplication.ui.lists.OnItemClickListener
 import com.example.adam.myapplication.ui.doctor.dialogs.ChooseDoctorDialog
 import com.example.adam.myapplication.ui.doctor.dialogs.NewDoctorDialog
 import com.example.adam.myapplication.ui.main.MainActivity

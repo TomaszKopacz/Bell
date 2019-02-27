@@ -1,4 +1,4 @@
-package com.example.adam.myapplication.ui;
+package com.example.adam.myapplication.ui.lists;
 
 import android.view.View;
 

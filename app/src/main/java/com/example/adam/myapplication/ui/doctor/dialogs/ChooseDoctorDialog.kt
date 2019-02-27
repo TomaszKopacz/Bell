@@ -11,7 +11,8 @@ import android.view.View
 import android.widget.TextView
 import com.example.adam.myapplication.R
 import com.example.adam.myapplication.data.objects.Doctor
-import com.example.adam.myapplication.ui.OnItemClickListener
+import com.example.adam.myapplication.ui.lists.ChooseDoctorAdapter
+import com.example.adam.myapplication.ui.lists.OnItemClickListener
 
 class ChooseDoctorDialog private constructor(private val dialog: AlertDialog) {
 

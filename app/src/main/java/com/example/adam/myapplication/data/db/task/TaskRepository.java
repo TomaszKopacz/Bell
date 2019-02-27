@@ -2,26 +2,39 @@ package com.example.adam.myapplication.data.db.task;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.example.adam.myapplication.data.objects.Task;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class TaskRepository {
 
-    private TaskDao dao;
+    private static TaskDao dao;
 
     public TaskRepository(Context context) {
-        this.dao = TaskDatabase.getInstance(context).getTaskDao();
+        dao = TaskDatabase.getInstance(context).getTaskDao();
     }
 
     public LiveData<List<Task>> getAll() {
         return dao.getAll();
     }
 
-    public LiveData<List<Task>> getAllFromDate(Date start, Date end) {
-        return dao.getAllFromTimeWindow(start, end);
+    public List<Task> getAllFromDate(Date start, Date end) {
+        GetTask task = new GetTask(start, end);
+
+        try {
+            return task.execute().get();
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public void insert(final Task task) {
@@ -42,6 +55,22 @@ public class TaskRepository {
     public void delete(Task task) {
         DeleteThread deleteThread = new DeleteThread(task, dao);
         deleteThread.start();
+    }
+
+    private static class GetTask extends AsyncTask<Void, Void, List<Task>> {
+
+        private Date start;
+        private Date end;
+
+        GetTask(Date start, Date end) {
+            this.start = start;
+            this.end = end;
+        }
+
+        @Override
+        protected List<Task> doInBackground(Void... voids) {
+            return dao.getAllFromTimeWindow(start, end);
+        }
     }
 
     private class InsertThread extends Thread {
