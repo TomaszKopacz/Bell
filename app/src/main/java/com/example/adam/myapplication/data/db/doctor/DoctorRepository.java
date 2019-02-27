@@ -2,7 +2,6 @@ package com.example.adam.myapplication.data.db.doctor;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
-import android.os.AsyncTask;
 
 import com.example.adam.myapplication.data.objects.Doctor;
 

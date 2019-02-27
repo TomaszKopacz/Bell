@@ -250,7 +250,7 @@ public class DrugTaskFragment extends Fragment implements DrugTaskContract.DrugT
     }
 
     private void setNotification(Task task) {
-        TaskAlarm.setAlarm(getActivity(), task);
+//        TaskAlarm.setAlarm(getActivity(), task);
     }
 
     @Override

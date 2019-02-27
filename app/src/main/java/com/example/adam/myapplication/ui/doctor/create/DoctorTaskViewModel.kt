@@ -112,7 +112,7 @@ class DoctorTaskViewModel(application: Application) : AndroidViewModel(applicati
 
     private fun insertTask(newTask: Task) {
         task.value = newTask
-        repository.insert(task.value)
+        repository.insert(task.value!!)
     }
 
     private fun newTask(): Task {

@@ -56,7 +56,7 @@ class NewDoctorViewModel(application: Application) : AndroidViewModel(applicatio
 
     private fun insertDoctor(newDoctor: Doctor) {
         doctor.value = newDoctor
-        repository.insert(doctor.value)
+        repository.insert(doctor.value!!)
     }
 
     private fun getDoctor(): Doctor {
