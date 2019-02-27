@@ -10,14 +10,11 @@ import android.widget.TextView;
 import com.example.adam.myapplication.R;
 import com.example.adam.myapplication.data.objects.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
-    private List<Task> tasks;
-
-    public TaskAdapter(List<Task> tasks) {
-        this.tasks = tasks;
-    }
+    private List<Task> tasks = new ArrayList<>();
 
     @NonNull
     @Override
@@ -41,6 +38,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public int getItemCount() {
         return tasks.size();
+    }
+
+    public void loadTasks(List<Task> tasks) {
+        this.tasks = tasks;
+        notifyDataSetChanged();
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
